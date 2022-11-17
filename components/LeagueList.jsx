@@ -15,7 +15,6 @@ function LeagueList({ leag }) {
         {item.map((item, index) => {
           <League title={item.name} key={index} />;
         })}
-        <League
       </div>
     </div>
   );
