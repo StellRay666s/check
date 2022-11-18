@@ -61,7 +61,7 @@ export default function Match() {
           params: { event_id: query.id },
           headers: {
             "X-RapidAPI-Key":
-              "5d6787e69bmsh00abb8e031c7a3ap173526jsnf0d37da2a877",
+              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
             "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
           },
         }
@@ -84,7 +84,7 @@ export default function Match() {
           },
           headers: {
             "X-RapidAPI-Key":
-              "5d6787e69bmsh00abb8e031c7a3ap173526jsnf0d37da2a877",
+              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
             "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
           },
         }
@@ -107,7 +107,7 @@ export default function Match() {
           },
           headers: {
             "X-RapidAPI-Key":
-              "5d6787e69bmsh00abb8e031c7a3ap173526jsnf0d37da2a877",
+              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
             "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
           },
         }
@@ -126,7 +126,7 @@ export default function Match() {
           params: { event_id: lastMatchesAway[0] },
           headers: {
             "X-RapidAPI-Key":
-              "5d6787e69bmsh00abb8e031c7a3ap173526jsnf0d37da2a877",
+              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
             "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
           },
         }

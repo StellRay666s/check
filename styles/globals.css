@@ -198,6 +198,7 @@ footer {
 
 .container-max {
   max-width: 1600px;
+
   padding: 0px 12px;
 }
 
@@ -3637,6 +3638,12 @@ label.checkbox #agree {
     width: 268px;
   }
 
+  @media screen and (max-width: 400px) {
+    .main-header {
+      position: fixed;
+    }
+  }
+
   .main-header-content .search_block {
     display: none;
   }
@@ -3994,6 +4001,10 @@ label.checkbox #agree {
 }
 
 @media (max-width: 380px) {
+  .main-slider-info {
+    margin-top: 210px;
+  }
+
   .main-slider-name {
     font-size: 40px;
   }
