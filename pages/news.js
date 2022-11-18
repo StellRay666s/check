@@ -11,7 +11,7 @@ export default function News() {
       <main>
         <div className={`main-content pages-content`}>
           <div className="page-header">
-            <Breadcrumbs />
+            <Breadcrumbs title={"Новости"} />
             <div className={`container mx-auto`}>
               <h1 className={`pages-title m-0`}>Новости</h1>
             </div>

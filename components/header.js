@@ -25,7 +25,7 @@ export default function Header() {
   const menuList = [
     {
       title: "КАК ЭТО РАБОТАЕТ?",
-      path: "/how-it-work",
+      path: "how-it-work",
     },
     {
       title: "ЛИГИ",
@@ -33,18 +33,18 @@ export default function Header() {
     },
     {
       title: "ТАРИФЫ",
-      path: "/tariffs",
+      path: "tariffs",
     },
     {
       title: "НОВОСТИ",
-      path: "/news",
+      path: "news",
     },
   ];
 
   console.log(active);
 
   const underMenu = [
-    { title: "Хоккейная лига НХЛ", path: "league" },
+    { title: "Хоккейная лига НХЛ", path: "hockey-league" },
     { title: "Футбольный лиги", path: "football-leagues" },
   ];
 

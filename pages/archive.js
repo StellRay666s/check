@@ -22,7 +22,7 @@ export default function FootballLeagues() {
           className={`main-content pages-content page-archive-content sidebar-translate`}
         >
           <div className="page-header">
-            <Breadcrumbs />
+            <Breadcrumbs title={"Архив"} />
             <div className={`container mx-auto`}>
               <h1 className={`pages-title m-0`}>Футбольные лиги</h1>
               <div className="archive-filter d-flex">

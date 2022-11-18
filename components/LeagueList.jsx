@@ -8,7 +8,6 @@ function LeagueList({ leag }) {
     { name: "Премьер лига", path: "/premier_league" },
   ]);
 
-  console.log(leag);
   return (
     <div>
       <div className={`leagues-list-column`}>
