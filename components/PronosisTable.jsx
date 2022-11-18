@@ -25,7 +25,11 @@ function PronosisTable({ titleTable, matches = [], title, underTitle, logo }) {
             .slice(0, 6)
             // .filter((item) => item.tournament.id === 1)
             .map((item, index) => (
-              <MatchPlate match={item} awayTeamId={item.awayTeam.id} />
+              <MatchPlate
+                key={index}
+                match={item}
+                awayTeamId={item.awayTeam.id}
+              />
             ))}
         </div>
       </div>

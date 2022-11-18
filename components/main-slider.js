@@ -56,7 +56,7 @@ export default function MainSlider() {
                 We strive <span>to be the best</span>
               </div>
             </div>
-            <Link href="/">
+            <Link href="/how-it-work">
               <a
                 className={`main-button main-slider-link d-flex align-items-center justify-content-between position-relative`}
               >

@@ -47,7 +47,7 @@ export default function FootballLeagues() {
                       <div className="league-icon">
                         <img src="../images/league.png" alt="" />
                       </div>
-                      <div className="league-name">Лига Чемпионов</div>
+                      <div className="league-name">Премьер лига</div>
                     </a>
                   </Link>
                 </div>

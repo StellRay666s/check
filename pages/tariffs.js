@@ -122,7 +122,7 @@ export default function Tariffs() {
                   <div
                     className={`tariff-item-bottom d-flex align-items-center justify-content-center`}
                   >
-                    <Link href="/">
+                    <Link href="/account">
                       <a className={`tariff-item-link`}>Подробнее о тарифе</a>
                     </Link>
                   </div>
