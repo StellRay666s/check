@@ -46,7 +46,7 @@ export default function ForecastBlock() {
           <div className={`forecast-tab-content`}>
             <div className={`forecast-table d-flex flex-column`}>
               {numbers.map((index) => (
-                <Link key={index} href={"/match"}>
+                <Link key={index} href={"/match/1"}>
                   <a className={`forecast-item d-flex align-items-center`}>
                     <div
                       className={`forecast-item-date d-flex align-items-center justify-content-center`}
