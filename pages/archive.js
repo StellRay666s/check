@@ -10,9 +10,14 @@ import "swiper/css";
 
 export default function FootballLeagues() {
   const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
+    { date: "21.11.2022", label: "21.11.2022" },
+    { date: "22.11.2022", label: "22.11.2022" },
+    { date: "23.11.2022", label: "23.11.2022" },
+  ];
+  const tariffs = [
+    { value: "Base", label: "Базовый" },
+    { value: "Premium", label: "Премиум" },
+    { value: "Partner", label: "Партнерский" },
   ];
 
   return (
@@ -27,7 +32,7 @@ export default function FootballLeagues() {
               <h1 className={`pages-title m-0`}>Футбольные лиги</h1>
               <div className="archive-filter d-flex">
                 <Select options={options} classNamePrefix="custom-select" />
-                <Select options={options} classNamePrefix="custom-select" />
+                <Select options={tariffs} classNamePrefix="custom-select" />
               </div>
             </div>
           </div>

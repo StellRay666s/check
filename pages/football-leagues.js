@@ -19,7 +19,7 @@ export default function FootballLeagues() {
         params: { category_id: "1" },
         headers: {
           "X-RapidAPI-Key":
-            "be050b25e5msh6c1665177826c1cp187ca3jsn813ff1055e41",
+            "5d6787e69bmsh00abb8e031c7a3ap173526jsnf0d37da2a877",
           "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
         },
       })
