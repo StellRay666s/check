@@ -10,23 +10,124 @@ import axios from "axios";
 import "swiper/css";
 
 export default function FootballLeagues() {
-  const leagues = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const [league, setLeague] = React.useState([]);
+  // const leagues = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const [countries, setCountries] = React.useState([]);
+  const [leagues, setLeagues] = React.useState([]);
 
-  React.useEffect(() => {
-    axios
-      .get("https://os-sports-perform.p.rapidapi.com/v1/tournaments", {
+  function join(t, a, s) {
+    function format(m) {
+      let f = new Intl.DateTimeFormat("en", m);
+      return f.format(t);
+    }
+    return a.map(format).join(s);
+  }
+  let a = [{ year: "numeric" }, { month: "numeric" }, { day: "numeric" }];
+  let dayToday = join(new Date(), a, "-");
+
+  async function getEnglandLeag() {
+    const response = await axios.get(
+      "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
+      {
         params: { category_id: "1" },
         headers: {
           "X-RapidAPI-Key":
-            "5d6787e69bmsh00abb8e031c7a3ap173526jsnf0d37da2a877",
+            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
           "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
         },
-      })
-      .then((res) => setLeague(res.data.data));
+      }
+    );
+    const engLeag = response.data.data.filter(
+      (item) => item.name === "Premier League" || item.name === "Championship"
+    );
+
+    const response2 = await axios.get(
+      "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
+      {
+        params: { category_id: "17" },
+        headers: {
+          "X-RapidAPI-Key":
+            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+        },
+      }
+    );
+    const austriaLeag = response2.data.data.filter(
+      (item) => item.name === "Bundesliga" || item.name === "2. Liga"
+    );
+
+    const response3 = await axios.get(
+      "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
+      {
+        params: { category_id: "48" },
+        headers: {
+          "X-RapidAPI-Key":
+            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+        },
+      }
+    );
+    const argentinaLeag = response3.data.data.filter(
+      (item) => item.name === "Liga Profesional de Fútbol"
+    );
+
+    const response4 = await axios.get(
+      "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
+      {
+        params: { category_id: "33" },
+        headers: {
+          "X-RapidAPI-Key":
+            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+        },
+      }
+    );
+    const belgiaLeag = response4.data.data.filter(
+      (item) => item.name === "Pro League"
+    );
+
+    // const response5 = await axios.get(
+    //   "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
+    //   {
+    //     params: { category_id: "13" },
+    //     headers: {
+    //       "X-RapidAPI-Key":
+    //         "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+    //       "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+    //     },
+    //   }
+    // );
+    // const brazillLeag = response5.data.data.filter(
+    //   (item) => item.name === "Brasileiro Série A" || "Brasileiro Série B"
+    // );
+
+    // console.log(brazillLeag);
+
+    // console.log(argentinaLeag.concat(engLeag, austriaLeag, belgiaLeag));
+  }
+
+  // async function getAustriaLeag() {
+  //   const response = await axios.get(
+  //     "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
+  //     {
+  //       params: { category_id: "17" },
+  //       headers: {
+  //         "X-RapidAPI-Key":
+  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //         "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+  //       },
+  //     }
+  //   );
+  //   const austriaLeag = response.data.data.filter(
+  //     (item) => item.name === "Bundesliga" || item.name === "2. Liga"
+  //   );
+  // }
+
+  React.useEffect(() => {
+    getEnglandLeag();
+    // getAustriaLeag();
   }, []);
 
-  console.log(league);
+  console.log(leagues);
 
   return (
     <MainLayout title={"Футбольные лиги"}>

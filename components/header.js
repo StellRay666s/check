@@ -22,6 +22,8 @@ import {
 
 export default function Header() {
   const [active, setActtive] = React.useState(true);
+  const [width, setWidth] = React.useState();
+
   const menuList = [
     {
       title: "КАК ЭТО РАБОТАЕТ?",
@@ -41,7 +43,26 @@ export default function Header() {
     },
   ];
 
-  console.log(active);
+  const menuList2 = [
+    {
+      title: "КАК ЭТО РАБОТАЕТ?",
+      path: "how-it-work",
+    },
+    {
+      title: "ЛИГИ",
+      path: "",
+    },
+    {
+      title: "ТАРИФЫ",
+      path: "tariffs",
+    },
+    {
+      title: "НОВОСТИ",
+      path: "news",
+    },
+    { title: "Telagram", path: "" },
+  ];
+  const telegram = [{ title: "Telagram", path: "" }];
 
   const underMenu = [
     { title: "Хоккейная лига НХЛ", path: "hockey-league" },
@@ -55,14 +76,16 @@ export default function Header() {
   );
 
   React.useEffect(() => {
-    if (window.innerWidth < 1025) {
+    setWidth(window.innerWidth);
+    if (width < 1025) {
       setActtive(false);
     }
     window.addEventListener("resize", () => {
-      if (window.innerWidth < 1025) {
+      if (width < 1025) {
         setActtive(false);
+        menuList.concat(telegram);
       }
-      if (window.innerWidth > 1025) {
+      if (width > 1025) {
         setActtive(true);
       }
     });
@@ -91,7 +114,7 @@ export default function Header() {
                 <ul
                   className={`main-header-menu_list d-flex align-items-center list-none p-0 m-0`}
                 >
-                  {menuList.map((link, index) => (
+                  {menuList2.map((link, index) => (
                     <>
                       <li
                         className={`${

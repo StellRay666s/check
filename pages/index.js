@@ -7,8 +7,24 @@ import SeoBlock from "../components/seo_block";
 import MainTriggersBlock from "../components/main-triggers_block";
 import Sidebar from "../components/sidebar";
 import "swiper/css";
+import SidebarTariffs from "../components/sidebar/sidebar-tariffs";
 
 export default function Home() {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  console.log(isVisible);
+
+  React.useEffect(() => {
+    function resize() {
+      if (window.innerWidth <= 500) {
+        setIsVisible(true);
+      }
+      if (window.innerWidth > 500) {
+        setIsVisible(false);
+      }
+    }
+    window.addEventListener("resize", resize);
+  }, []);
   return (
     <MainLayout title={"Главная"}>
       <main>
@@ -18,6 +34,7 @@ export default function Home() {
           <div className={`container mx-auto d-grid`}>
             <div className={`main-column d-flex flex-column`}>
               <ForecastBlock />
+              {isVisible && <SidebarTariffs />}
               <ForecastBlock />
               <MainTriggersBlock />
               <SeoBlock />

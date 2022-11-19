@@ -712,7 +712,8 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 }
 
 .main-content {
-  background: url(/images/main_bg-left.png), url(/images/main_bg-right.png), #516072;
+  background: url(/images/main_bg-left.png), url(/images/main_bg-right.png),
+    #516072;
   background-repeat: no-repeat;
   background-position: 0 -390px, 100% -145px;
 }
@@ -780,7 +781,8 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
   background-repeat: no-repeat;
   background-position: 0 0;
   background-size: cover;
-  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05), inset 0px 0px 10px rgba(4, 10, 58, 0.1);
+  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05),
+    inset 0px 0px 10px rgba(4, 10, 58, 0.1);
 }
 
 .match-tab-content {
@@ -894,7 +896,8 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 .sidebar-link {
   height: 63px;
   padding: 0 43px 0 46px;
-  background: url(/images/sidebar-link_bg.png), linear-gradient(180deg, #406b8e 0%, #173c5a 79.63%);
+  background: url(/images/sidebar-link_bg.png),
+    linear-gradient(180deg, #406b8e 0%, #173c5a 79.63%);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
@@ -1126,7 +1129,8 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 
 .popular-leagues {
   background: #162f43;
-  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05), inset 0px 0px 10px rgba(4, 10, 58, 0.1);
+  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05),
+    inset 0px 0px 10px rgba(4, 10, 58, 0.1);
   padding: 36px 34px 32px;
   margin-bottom: 35px;
 }
@@ -1285,7 +1289,8 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 .seo_block {
   padding: 55px 65px 40px 55px;
   background-color: #273646;
-  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05), inset 0px 0px 10px rgba(4, 10, 58, 0.1);
+  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05),
+    inset 0px 0px 10px rgba(4, 10, 58, 0.1);
 }
 
 .seo-text h1,
@@ -1470,7 +1475,8 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 .leagues-lists {
   padding: 55px 60px;
   background-color: #273646;
-  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05), inset 0px 0px 10px rgba(4, 10, 58, 0.1);
+  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05),
+    inset 0px 0px 10px rgba(4, 10, 58, 0.1);
   grid-template-columns: 1fr 1fr;
   gap: 50px;
 }
@@ -1532,7 +1538,8 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 .tariff-item {
   padding: 30px 55px 50px;
   background-color: #273646;
-  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05), inset 0px 0px 10px rgba(4, 10, 58, 0.1);
+  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05),
+    inset 0px 0px 10px rgba(4, 10, 58, 0.1);
 }
 
 .tariff-item-head {
@@ -1601,7 +1608,8 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 
 .btn_tariff-buy {
   background: linear-gradient(121.48deg, #cf6b33 11.9%, #d5aa3a 85.99%);
-  box-shadow: 0px 0px 35px rgba(254, 236, 74, 0.25), inset 2px 1px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 35px rgba(254, 236, 74, 0.25),
+    inset 2px 1px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   font-weight: 600;
   font-size: 16px;
@@ -1748,7 +1756,8 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 
 .match-block {
   background: #273646;
-  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05), inset 0px 0px 10px rgba(4, 10, 58, 0.1);
+  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05),
+    inset 0px 0px 10px rgba(4, 10, 58, 0.1);
   padding: 40px 40px 45px;
 }
 
@@ -2101,7 +2110,11 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 
 .news-item:nth-child(1) .news-item-image:after,
 .news-item:nth-child(2) .news-item-image:after {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 36.96%, rgba(0, 0, 0, 0.8) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 36.96%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
 }
 
 .news-item:nth-child(1) .news-item-info,
@@ -2133,7 +2146,8 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
   background-image: url(/images/account_bg.png);
   background-repeat: no-repeat;
   background-position: 100% 12px;
-  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05), inset 0px 0px 10px rgba(4, 10, 58, 0.1);
+  box-shadow: 2px 4px 5px rgba(0, 3, 11, 0.05),
+    inset 0px 0px 10px rgba(4, 10, 58, 0.1);
   padding: 38px 38px 45px;
 }
 
@@ -3436,7 +3450,8 @@ label.checkbox #agree {
   .how-it-work-content {
     position: relative;
     padding: 60px 50px 40px;
-    background: url(/images/football_player_m.png), url(/images/hiw_bg.png), #000;
+    background: url(/images/football_player_m.png), url(/images/hiw_bg.png),
+      #000;
     background-repeat: no-repeat;
     background-size: auto, cover;
     background-position: 95% 90%, 50%;
@@ -3907,11 +3922,15 @@ label.checkbox #agree {
 @media (max-width: 500px) {
   .main-slider-info {
     width: 100%;
+    margin-top: 170px;
   }
 
   .main-slider-link {
     margin-left: 8px;
     width: calc(100% - 16px);
+  }
+  .main-button {
+    display: none;
   }
 
   .main-slider-link.main-button:after {
