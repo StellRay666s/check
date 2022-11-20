@@ -1,9 +1,23 @@
 import React from "react";
 import Link from "next/link";
 import MatchPlate from "./MatchPlate";
+import axios from "axios";
 
-function PronosisTable({ titleTable, matches = [], title, underTitle, logo }) {
-  React.useEffect(() => {}, []);
+function PronosisTable({ titleTable, matches = [], logo, id, sportTitle }) {
+  const [season, setSeason] = React.useState("");
+
+  // React.useEffect(() => {
+  //   axios
+  //     .get("https://os-sports-perform.p.rapidapi.com/v1/tournaments/seasons", {
+  //       params: { tournament_id: id },
+  //       headers: {
+  //         "X-RapidAPI-Key":
+  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //         "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+  //       },
+  //     })
+  //     .then((res) => setSeason(res.data.data.seasons[0]));
+  // }, [id]);
 
   return (
     <div className={`forecast-block`}>
@@ -16,14 +30,16 @@ function PronosisTable({ titleTable, matches = [], title, underTitle, logo }) {
             <img src={logo} alt="" />
           </div>
           <div className="forecast-head-info">
-            <div className="forecast-head-name">{title}</div>
-            <div className="forecast-head-text">{underTitle}</div>
+            <div className="forecast-head-name"></div>
+            <div className="forecast-head-text">
+              {sportTitle} / {season.name}
+            </div>
           </div>
         </div>
         <div className={`forecast-table d-flex flex-column`}>
           {matches
+            .filter((item) => item.tournament.id === Number(id))
             .slice(0, 6)
-            // .filter((item) => item.tournament.id === 1)
             .map((item, index) => (
               <MatchPlate
                 key={index}

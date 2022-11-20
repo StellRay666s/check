@@ -19,24 +19,12 @@ export default function Match() {
 
   const tariffs = useSelector((state) => state.user.user.tariffs);
   const [activeForecastTab, setActiveForecastTab] = useState("match");
-  const [matchCurrntLeagAway, setMatchCurrntLeagAway] = useState([]);
-  const [matchCurrntLeagHome, setMatchCurrntLeagHome] = useState([]);
+  const [currentMatch, setCurrentMatch] = useState();
+  const [listMatchHost, setListMatchHost] = useState();
 
-  const lastMatchesAway = matchCurrntLeagAway
-    .filter(
-      (item) =>
-        item.tournament.id === match.tournament.id &&
-        item.awayTeam.name === match.awayTeam.name
-    )
-    .reverse();
+  const [statsHome, setStatsHome] = React.useState();
 
-  const lastMatchesHome = matchCurrntLeagHome
-    .filter(
-      (item) =>
-        item.tournament.id === match.tournament.id &&
-        item.homeTeam.name === match.homeTeam.name
-    )
-    .reverse();
+  const { query } = useRouter();
 
   const handlematch = () => {
     setActiveForecastTab("match");
@@ -51,96 +39,52 @@ export default function Match() {
     setActiveForecastTab("time3");
   };
 
-  const { query } = useRouter();
-
   async function getCurrentMatch() {
-    try {
-      const response = await axios.get(
-        "https://os-sports-perform.p.rapidapi.com/v1/events/data",
-        {
-          params: { event_id: query.id },
-          headers: {
-            "X-RapidAPI-Key":
-              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-            "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-          },
-        }
-      );
-      setMatch(response.data.data);
-    } catch (err) {
-      console.log(err);
-    }
+    const response = await axios.get(
+      "https://os-sports-perform.p.rapidapi.com/v1/events/data",
+      {
+        params: { event_id: "10390263" },
+        headers: {
+          "X-RapidAPI-Key":
+            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+        },
+      }
+    );
+
+    setCurrentMatch(response.data.data);
   }
 
-  async function getMatchsAwayTeam() {
-    try {
-      const response = await axios.get(
-        "https://os-sports-perform.p.rapidapi.com/v1/teams/events",
-        {
-          params: {
-            team_id: match.awayTeam.id,
-            course_events: "last",
-            page: "0",
-          },
-          headers: {
-            "X-RapidAPI-Key":
-              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-            "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-          },
-        }
-      );
-      setMatchCurrntLeagAway(response.data.data.events);
-    } catch (err) {
-      console.log(err);
-    }
+  async function getMatchesHome() {
+    const response = await axios.get(
+      "https://os-sports-perform.p.rapidapi.com/v1/teams/events",
+      {
+        params: {
+          team_id: currentMatch.homeTeam.id,
+          course_events: "last",
+          page: "0",
+        },
+        headers: {
+          "X-RapidAPI-Key":
+            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+        },
+      }
+    );
+
+    setListMatchHost(
+      response.data.data.events.filter(
+        (item) =>
+          item.tournament.name === currentMatch.tournament.name &&
+          item.homeTeam.name === currentMatch.homeTeam.name
+      )
+    );
   }
 
-  async function getMatchesHomeTeam() {
-    try {
-      const response = await axios.get(
-        "https://os-sports-perform.p.rapidapi.com/v1/teams/events",
-        {
-          params: {
-            team_id: match.homeTeam.id,
-            course_events: "last",
-            page: "0",
-          },
-          headers: {
-            "X-RapidAPI-Key":
-              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-            "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-          },
-        }
-      );
-      setMatchCurrntLeagHome(response.data.data.events);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function getFirstMatchAway() {
-    try {
-      const response = await axios.get(
-        "https://os-sports-perform.p.rapidapi.com/v1/events/statistics",
-        {
-          params: { event_id: lastMatchesAway[0] },
-          headers: {
-            "X-RapidAPI-Key":
-              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-            "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-          },
-        }
-      );
-      console.log(response.data.data);
-    } catch (error) {}
-  }
-
-  const a = React.useEffect(() => {
-    // getCurrentMatch();
-    // getMatchsAwayTeam();
-    // getMatchesHomeTeam();
-    // getFirstMatchAway();
-  }, [query.id, match]);
+  React.useEffect(() => {
+    getCurrentMatch();
+    getMatchesHome();
+  }, []);
 
   return (
     <MainLayout title={"Футбольные лиги"}>
@@ -161,13 +105,13 @@ export default function Match() {
               >
                 <div className={`match-team`}>
                   <h2 className={`match-team-name text-center`}>
-                    {/* {match.homeTeam.name} */}
+                    {/* {currentMatch.homeTeam.name} */}
                   </h2>
                   <div className={`match-team-logo mx-auto`}>
                     <img src="../images/match-team.png" alt="" />
                   </div>
                   <h3 className={`match-team-league text-center m-0`}>
-                    {/* {match.tournament.name} */}
+                    {/* {currentMatch.tournament.name} */}
                   </h3>
                 </div>
                 <div className={`match-info text-center`}>
@@ -183,13 +127,13 @@ export default function Match() {
                 <div className={`match-team`}>
                   <h2 className={`match-team-name text-center`}>
                     {" "}
-                    {/* {match.awayTeam.name} */}
+                    {/* {currentMatch.awayTeam.name} */}
                   </h2>
                   <div className={`match-team-logo mx-auto`}>
                     <img src="../images/match-team.png" alt="" />
                   </div>
                   <h3 className={`match-team-league text-center m-0`}>
-                    {/* {match.tournament.name} */}
+                    {/* {currentMatch.tournament.name} */}
                   </h3>
                 </div>
               </div>

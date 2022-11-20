@@ -3,7 +3,6 @@ import Link from "next/link";
 import axios from "axios";
 
 function MatchPlate({ match, awayTeamId }) {
-  console.log(match.id);
   return (
     <Link href={`/match/${match.id}`}>
       <a className={`forecast-item d-flex align-items-center`}>
@@ -23,11 +22,7 @@ function MatchPlate({ match, awayTeamId }) {
               {match.homeTeam.name}
             </div>
             <div className={`forecast-item-team-logo`}>
-              <img
-                className={`w-100 h-100`}
-                src="../images/team-1.png"
-                alt=""
-              />
+              <img className={`w-100 h-100`} src=" " alt="" />
             </div>
           </div>
           <div className={`forecast-item-nums d-flex align-items-center`}>

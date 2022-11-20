@@ -10,124 +10,185 @@ import axios from "axios";
 import "swiper/css";
 
 export default function FootballLeagues() {
-  // const leagues = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const [countries, setCountries] = React.useState([]);
-  const [leagues, setLeagues] = React.useState([]);
-
-  function join(t, a, s) {
-    function format(m) {
-      let f = new Intl.DateTimeFormat("en", m);
-      return f.format(t);
-    }
-    return a.map(format).join(s);
-  }
-  let a = [{ year: "numeric" }, { month: "numeric" }, { day: "numeric" }];
-  let dayToday = join(new Date(), a, "-");
-
-  async function getEnglandLeag() {
-    const response = await axios.get(
-      "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
-      {
-        params: { category_id: "1" },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-        },
-      }
-    );
-    const engLeag = response.data.data.filter(
-      (item) => item.name === "Premier League" || item.name === "Championship"
-    );
-
-    const response2 = await axios.get(
-      "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
-      {
-        params: { category_id: "17" },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-        },
-      }
-    );
-    const austriaLeag = response2.data.data.filter(
-      (item) => item.name === "Bundesliga" || item.name === "2. Liga"
-    );
-
-    const response3 = await axios.get(
-      "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
-      {
-        params: { category_id: "48" },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-        },
-      }
-    );
-    const argentinaLeag = response3.data.data.filter(
-      (item) => item.name === "Liga Profesional de Fútbol"
-    );
-
-    const response4 = await axios.get(
-      "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
-      {
-        params: { category_id: "33" },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-        },
-      }
-    );
-    const belgiaLeag = response4.data.data.filter(
-      (item) => item.name === "Pro League"
-    );
-
-    // const response5 = await axios.get(
-    //   "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
-    //   {
-    //     params: { category_id: "13" },
-    //     headers: {
-    //       "X-RapidAPI-Key":
-    //         "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-    //       "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-    //     },
-    //   }
-    // );
-    // const brazillLeag = response5.data.data.filter(
-    //   (item) => item.name === "Brasileiro Série A" || "Brasileiro Série B"
-    // );
-
-    // console.log(brazillLeag);
-
-    // console.log(argentinaLeag.concat(engLeag, austriaLeag, belgiaLeag));
-  }
-
-  // async function getAustriaLeag() {
-  //   const response = await axios.get(
-  //     "https://os-sports-perform.p.rapidapi.com/v1/unique-tournaments",
-  //     {
-  //       params: { category_id: "17" },
-  //       headers: {
-  //         "X-RapidAPI-Key":
-  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //         "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-  //       },
-  //     }
-  //   );
-  //   const austriaLeag = response.data.data.filter(
-  //     (item) => item.name === "Bundesliga" || item.name === "2. Liga"
-  //   );
-  // }
-
-  React.useEffect(() => {
-    getEnglandLeag();
-    // getAustriaLeag();
-  }, []);
-
-  console.log(leagues);
+  const [leagues, setLeagues] = React.useState([
+    {
+      name: "A-League",
+      id: 105226,
+      uniqueId: 136,
+    },
+    {
+      name: "Bundesliga",
+      id: 71900,
+      uniqueId: 45,
+    },
+    {
+      name: "2. Liga",
+      id: 30,
+      uniqueId: 135,
+    },
+    {
+      name: "Premier League",
+      id: 1,
+      uniqueId: 17,
+    },
+    {
+      name: "Championship",
+      id: 2,
+    },
+    {
+      name: "Liga Profesional de Fútbol",
+      id: 21788,
+    },
+    {
+      name: "ProLeague",
+      id: 38,
+    },
+    {
+      name: "Чемпионат Бразилии",
+      id: 83,
+    },
+    {
+      name: "Чемпионат Бразилии B",
+      id: 1449,
+    },
+    {
+      name: "Бундеслига Германия",
+      id: 42,
+    },
+    {
+      name: "Бундеслига Германия 2",
+      id: 41,
+    },
+    {
+      name: "Супер лига греция",
+      id: 127,
+    },
+    {
+      name: "Супер лига дания",
+      id: 12,
+    },
+    {
+      name: "Примера",
+      id: 36,
+    },
+    {
+      name: "Сегунда",
+      id: 37,
+    },
+    {
+      name: "Серия А Италия",
+      id: 31,
+    },
+    {
+      name: "Серия В Италия",
+      id: 34,
+    },
+    {
+      name: "Суперлига Китай",
+      id: 652,
+    },
+    {
+      name: "Лига МХ",
+      id: 28,
+    },
+    {
+      name: "Высшая лига Нидерланды",
+      id: 39,
+    },
+    {
+      name: "Первый дивизион Нидерланды",
+      id: 40,
+    },
+    {
+      name: "Первый дивизион Нидерланды",
+      id: 40,
+    },
+    {
+      name: "Высшая лига Норвегия",
+      id: 796,
+    },
+    {
+      name: "Премьер лига Польша",
+      id: 64,
+    },
+    {
+      name: "Премьер лига Россия",
+      id: 53,
+    },
+    {
+      name: "Первая лига Словакия",
+      id: 92,
+    },
+    {
+      name: "Первая лига Словения",
+      id: 94,
+    },
+    {
+      name: "Первая лига Словения",
+      id: 94,
+    },
+    {
+      name: "МЛС",
+      id: 18,
+    },
+    {
+      name: "Суперлига турция",
+      id: 62,
+    },
+    {
+      name: "Первая лига франция",
+      id: 4,
+    },
+    {
+      name: "ХНЛ Хорватия",
+      id: 48,
+    },
+    {
+      name: "Первая лига Чехия",
+      id: 49,
+    },
+    {
+      name: "Второй дивизион Чехия",
+      id: 843,
+    },
+    {
+      name: "Второй дивизион Чехия",
+      id: 843,
+    },
+    {
+      name: "Суперлига Швейцария",
+      id: 1060,
+    },
+    {
+      name: "Первая лига Швейцария",
+      id: 25,
+    },
+    {
+      name: "Высшая лига Швеция",
+      id: 24,
+    },
+    {
+      name: "Первая лига Швеция",
+      id: 27,
+    },
+    {
+      name: "Премьер лига Шотландия",
+      id: 54,
+    },
+    {
+      name: "К-лига 1 Южная-Корея",
+      id: 39098,
+    },
+    {
+      name: "Лига джей-1 Япония",
+      id: 82,
+    },
+    {
+      name: "Высший дивизион",
+      id: 31977,
+    },
+  ]);
 
   return (
     <MainLayout title={"Футбольные лиги"}>
@@ -143,29 +204,28 @@ export default function FootballLeagues() {
             <div className={`main-column d-flex flex-column`}>
               <div className={`leagues-lists d-grid`}>
                 <div className={`leagues-list-column`}>
-                  <Link href="/league/1">
-                    <a className={`league-item d-flex align-items-center`}>
-                      <div className="league-icon">
-                        <img src="../images/league.png" alt="" />
-                      </div>
-                      <div className="league-name">Премьер лига</div>
-                    </a>
-                  </Link>
-                </div>
-                <div className={`leagues-list-column`}>
-                  {/* {league.map((item, index) => (
-                    <Link key={index} href={``}>
-                      <a
-                        onClick={() => console.log(item.category.id)}
-                        className={`league-item d-flex align-items-center`}
-                      >
+                  {leagues.slice(0, 23).map((item, index) => (
+                    <Link href={`/league/${item.id}`}>
+                      <a className={`league-item d-flex align-items-center`}>
                         <div className="league-icon">
                           <img src="../images/league.png" alt="" />
                         </div>
                         <div className="league-name">{item.name}</div>
                       </a>
                     </Link>
-                  ))} */}
+                  ))}
+                </div>
+                <div className={`leagues-list-column`}>
+                  {leagues.slice(24, 45).map((item, index) => (
+                    <Link href={`/league/${item.id}`}>
+                      <a className={`league-item d-flex align-items-center`}>
+                        <div className="league-icon">
+                          <img src="../images/league.png" alt="" />
+                        </div>
+                        <div className="league-name">{item.name}</div>
+                      </a>
+                    </Link>
+                  ))}
                 </div>
               </div>
               <MainTriggersBlock />

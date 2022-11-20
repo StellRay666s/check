@@ -20,12 +20,15 @@ function HockeyLeague() {
   let a = [{ year: "numeric" }, { month: "numeric" }, { day: "numeric" }];
   let dayToday = join(new Date(), a, "-");
 
+  var d = new Date(1669080600 * 1000);
+  console.log(d);
+
   async function getNhlMatch() {
     try {
       const response = await axios.get(
         "https://os-sports-perform.p.rapidapi.com/v1/events/schedule/category",
         {
-          params: { category_id: "37", date: dayToday },
+          params: { category_id: "37", date: "2022-11-21" },
           headers: {
             "X-RapidAPI-Key":
               "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
@@ -34,7 +37,11 @@ function HockeyLeague() {
         }
       );
 
-      setMatches(response.data.data);
+      setMatches(
+        response.data.data.filter(
+          (item) => item.tournament.id === 142 && item.tournament.name === "NHL"
+        )
+      );
     } catch (err) {}
   }
 
@@ -57,6 +64,7 @@ function HockeyLeague() {
           <div className={`container mx-auto d-grid`}>
             <div className={`main-column d-flex flex-column`}>
               <PronosisTable
+                sportTitle={"Хоккей"}
                 titleTable={"сегодня"}
                 logo={"../images/nhl.png"}
                 matches={matches}
