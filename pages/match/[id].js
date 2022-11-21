@@ -16,16 +16,12 @@ import { useRouter } from "next/router";
 export default function Match() {
   const numbers = [1, 2, 3, 4, 5, 6, 7];
   const [match, setMatch] = React.useState([]);
+  const [matchHomeTeam, setMatchHomeTeam] = React.useState([]);
+  const [matchAwayTeam, setMatchAwayTeam] = React.useState([]);
 
   const tariffs = useSelector((state) => state.user.user.tariffs);
   const [activeForecastTab, setActiveForecastTab] = useState("match");
-  const [currentMatch, setCurrentMatch] = useState();
-  const [listMatchHost, setListMatchHost] = useState();
-
-  const [statsHome, setStatsHome] = React.useState();
-
   const { query } = useRouter();
-
   const handlematch = () => {
     setActiveForecastTab("match");
   };
@@ -39,11 +35,11 @@ export default function Match() {
     setActiveForecastTab("time3");
   };
 
-  async function getCurrentMatch() {
+  async function getCurrentMatches() {
     const response = await axios.get(
       "https://os-sports-perform.p.rapidapi.com/v1/events/data",
       {
-        params: { event_id: "10390263" },
+        params: { event_id: query.id },
         headers: {
           "X-RapidAPI-Key":
             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
@@ -52,15 +48,15 @@ export default function Match() {
       }
     );
 
-    setCurrentMatch(response.data.data);
+    setMatch(response.data.data);
   }
 
-  async function getMatchesHome() {
+  async function matchesHomeTeam() {
     const response = await axios.get(
       "https://os-sports-perform.p.rapidapi.com/v1/teams/events",
       {
         params: {
-          team_id: currentMatch.homeTeam.id,
+          team_id: match.homeTeam.id,
           course_events: "last",
           page: "0",
         },
@@ -72,19 +68,52 @@ export default function Match() {
       }
     );
 
-    setListMatchHost(
-      response.data.data.events.filter(
-        (item) =>
-          item.tournament.name === currentMatch.tournament.name &&
-          item.homeTeam.name === currentMatch.homeTeam.name
-      )
+    setMatchHomeTeam(
+      response.data.data.events
+        .filter(
+          (item) =>
+            (item.tournament.id === match.tournament.id) &
+            (item.homeTeam.name === match.homeTeam.name)
+        )
+        .reverse()
+    );
+  }
+
+  async function matchesAwayTeam() {
+    const response = await axios.get(
+      "https://os-sports-perform.p.rapidapi.com/v1/teams/events",
+      {
+        params: {
+          team_id: match.awayTeam.id,
+          course_events: "last",
+          page: "0",
+        },
+        headers: {
+          "X-RapidAPI-Key":
+            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+        },
+      }
+    );
+
+    setMatchAwayTeam(
+      response.data.data.events
+        .filter(
+          (item) =>
+            (item.tournament.id === match.tournament.id) &
+            (item.awayTeam.name === match.awayTeam.name)
+        )
+        .reverse()
     );
   }
 
   React.useEffect(() => {
-    getCurrentMatch();
-    getMatchesHome();
-  }, []);
+    getCurrentMatches();
+    matchesHomeTeam();
+    matchesAwayTeam();
+  }, [query.id]);
+
+  console.log(matchHomeTeam);
 
   return (
     <MainLayout title={"Футбольные лиги"}>

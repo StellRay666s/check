@@ -15,44 +15,71 @@ import axios from "axios";
 export default function League() {
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const [todayMatches, setTodayMatches] = React.useState([]);
+  const [isLoad, setIsLoad] = React.useState(false);
   const [tomorrowMatches, setTomorrowMatches] = React.useState([]);
+
   const { query } = useRouter();
 
   function join(t, a, s) {
     function format(m) {
-      let f = new Intl.DateTimeFormat("en", m);
+      let f = new Intl.DateTimeFormat("ru-RU", m);
       return f.format(t);
     }
     return a.map(format).join(s);
   }
   let a = [{ year: "numeric" }, { month: "numeric" }, { day: "numeric" }];
-  let today = join(new Date(), a, "-");
 
   var tommorowDate = new Date(+new Date() + 86400000);
-  let tommorow = join(tommorowDate, a, "-");
+  let today = join(tommorowDate, a, "-");
 
-  React.useEffect(() => {
-    axios
-      .get("https://os-sports-perform.p.rapidapi.com/v1/events/schedule/date", {
+  var tommorowDate = new Date(+new Date() + (86400000 + 86400000));
+  let tomorrow = join(tommorowDate, a, "-");
+
+  async function getMatchOneLeag() {
+    const reponse = await axios.get(
+      "https://os-sports-perform.p.rapidapi.com/v1/events/schedule/date",
+      {
         params: { sport_id: "1", date: today },
         headers: {
           "X-RapidAPI-Key":
             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
           "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
         },
-      })
-      .then((res) => setTodayMatches(res.data.data));
-    axios
-      .get("https://os-sports-perform.p.rapidapi.com/v1/events/schedule/date", {
-        params: { sport_id: "1", date: tommorow },
+      }
+    );
+
+    setIsLoad(true);
+
+    const reponse2 = await axios.get(
+      "https://os-sports-perform.p.rapidapi.com/v1/events/schedule/date",
+      {
+        params: { sport_id: "1", date: tomorrow },
         headers: {
           "X-RapidAPI-Key":
             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
           "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
         },
-      })
-      .then((res) => setTomorrowMatches(res.data.data));
-  }, []);
+      }
+    );
+
+    setTomorrowMatches(
+      reponse2.data.data.filter(
+        (item) => item.tournament.id === Number(query.id)
+      )
+    );
+
+    setTodayMatches(
+      reponse.data.data.filter(
+        (item) => item.tournament.id === Number(query.id)
+      )
+    );
+
+    setIsLoad(true);
+  }
+
+  React.useEffect(() => {
+    getMatchOneLeag();
+  }, [query.id]);
 
   return (
     <MainLayout title={"Лига"}>
@@ -65,25 +92,28 @@ export default function League() {
           </div>
           <div className={`container mx-auto d-grid`}>
             <div className={`main-column d-flex flex-column`}>
-              <PronosisTable
-                sportTitle={"Футбол"}
-                id={query.id}
-                matches={todayMatches}
-                numbers={numbers}
-                logo={
-                  "https://f0.pngfuel.com/png/604/367/2017-18-premier-league-chelsea-f-c-burnley-f-c-manchester-united-f-c-2016-17-premier-league-premier-league-trophy-png-clip-art.png"
-                }
-                titleTable={"Сегодня"}
-              />
-              {/* <PronosisTable
-                id={query.id}
-                matches={tomorrowMatches}
-                numbers={numbers}
-                logo={
-                  "https://f0.pngfuel.com/png/604/367/2017-18-premier-league-chelsea-f-c-burnley-f-c-manchester-united-f-c-2016-17-premier-league-premier-league-trophy-png-clip-art.png"
-                }
-                titleTable={"Завтра"}
-              /> */}
+              {todayMatches.length === 0 ? (
+                "Нету матчей"
+              ) : (
+                <PronosisTable
+                  sportTitle={"Футбол"}
+                  id={query.id}
+                  isLoad={isLoad}
+                  matches={todayMatches}
+                  numbers={numbers}
+                  titleTable={"Сегодня"}
+                />
+              )}
+              {tomorrowMatches.length === 0 ? (
+                "Нету матчей"
+              ) : (
+                <PronosisTable
+                  id={query.id}
+                  matches={tomorrowMatches}
+                  numbers={numbers}
+                  titleTable={"Завтра"}
+                />
+              )}
 
               <MainTriggersBlock />
               <SeoBlock />

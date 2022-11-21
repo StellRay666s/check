@@ -16,6 +16,7 @@ export default function FootballLeagues() {
       name: "A-League",
       id: 105226,
       uniqueId: 136,
+      logo: "../assets/A-league.png",
     },
     {
       name: "Bundesliga",
@@ -208,7 +209,7 @@ export default function FootballLeagues() {
                     <Link href={`/league/${item.id}`}>
                       <a className={`league-item d-flex align-items-center`}>
                         <div className="league-icon">
-                          <img src="../images/league.png" alt="" />
+                          <img src={"../images/league.png"} alt="" />
                         </div>
                         <div className="league-name">{item.name}</div>
                       </a>
