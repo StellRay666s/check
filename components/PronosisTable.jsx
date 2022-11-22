@@ -56,7 +56,7 @@ function PronosisTable({
 
   React.useEffect(() => {
     setTimeout(() => {
-      getLogoLeag();
+      // getLogoLeag();
     });
   }, [uniqueID]);
 

@@ -29,17 +29,17 @@ export default function League() {
   }
   let a = [{ year: "numeric" }, { month: "numeric" }, { day: "numeric" }];
 
-  var tommorowDate = new Date(+new Date() + 86400000);
+  var tommorowDate = new Date(+new Date());
   let today = join(tommorowDate, a, "-");
 
-  var tommorowDate = new Date(+new Date() + (86400000 + 86400000));
+  var tommorowDate = new Date(+new Date() + 86400000);
   let tomorrow = join(tommorowDate, a, "-");
 
   async function getMatchOneLeag() {
     const reponse = await axios.get(
       "https://os-sports-perform.p.rapidapi.com/v1/events/schedule/date",
       {
-        params: { sport_id: "1", date: today },
+        params: { sport_id: "1", date: "2022-11-26" },
         headers: {
           "X-RapidAPI-Key":
             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
@@ -49,24 +49,6 @@ export default function League() {
     );
 
     setIsLoad(true);
-
-    const reponse2 = await axios.get(
-      "https://os-sports-perform.p.rapidapi.com/v1/events/schedule/date",
-      {
-        params: { sport_id: "1", date: tomorrow },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-        },
-      }
-    );
-
-    setTomorrowMatches(
-      reponse2.data.data.filter(
-        (item) => item.tournament.id === Number(query.id)
-      )
-    );
 
     setTodayMatches(
       reponse.data.data.filter(
@@ -74,12 +56,30 @@ export default function League() {
       )
     );
 
+    // const reponse2 = await axios.get(
+    //   "https://os-sports-perform.p.rapidapi.com/v1/events/schedule/date",
+    //   {
+    //     params: { sport_id: "1", date: tomorrow },
+    //     headers: {
+    //       "X-RapidAPI-Key":
+    //         "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+    //       "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+    //     },
+    //   }
+    // );
+
+    // setTomorrowMatches(
+    //   reponse2.data.data.filter(
+    //     (item) => item.tournament.id === Number(query.id)
+    //   )
+    // );
+
     setIsLoad(true);
   }
 
   React.useEffect(() => {
     getMatchOneLeag();
-  }, [query.id]);
+  }, []);
 
   return (
     <MainLayout title={"Лига"}>

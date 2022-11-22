@@ -1,10 +1,17 @@
 import React from "react";
 import Link from "next/link";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { fetchCurrentMatch } from "../redux/slices/currentMatchesSlice";
 
 function MatchPlate({ match, awayTeamId, homeTeamId }) {
   const [logoTeamAway, setLogoTeamAway] = React.useState("");
   const [logoTeamHome, setLogoTeamHome] = React.useState("");
+  const dispatch = useDispatch();
+
+  // function getCurrentMatch(id) {
+  //   dispatch(fetchCurrentMatch({ id }));
+  // }
 
   const timeStamp = match.startTimestamp;
   const milleSeconds = timeStamp * 1000;
@@ -64,7 +71,10 @@ function MatchPlate({ match, awayTeamId, homeTeamId }) {
 
   return (
     <Link href={`/match/${match.id}`}>
-      <a className={`forecast-item d-flex align-items-center`}>
+      <a
+        // onClick={() => getCurrentMatch(match.id)}
+        className={`forecast-item d-flex align-items-center`}
+      >
         <div
           className={`forecast-item-date d-flex align-items-center justify-content-center`}
         >
