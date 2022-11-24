@@ -8,7 +8,7 @@ export const fetchLeagues = createAsyncThunk("match/fetchLeagues", async () => {
     {
       params: { locale: "ru_RU", sport_id: "1" },
       headers: {
-        "X-RapidAPI-Key": "be050b25e5msh6c1665177826c1cp187ca3jsn813ff1055e41",
+        "X-RapidAPI-Key": "74c1c74161msh81b32b051c65e81p11159cjsn2deb295c0520",
         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
       },
     }
@@ -74,7 +74,9 @@ export const fetchLeagues = createAsyncThunk("match/fetchLeagues", async () => {
       (item.LEAGUE_NAME === "К-Лига 1") &
         (item.COUNTRY_NAME === "Южная Корея") ||
       (item.LEAGUE_NAME === "Лига Джей-1") & (item.COUNTRY_NAME === "Япония") ||
-      (item.LEAGUE_NAME === "Высший дивизион") & (item.COUNTRY_NAME === "Чили")
+      (item.LEAGUE_NAME === "Высший дивизион") &
+        (item.COUNTRY_NAME === "Чили") ||
+      (item.LEAGUE_NAME === "Высшая лига") & (item.COUNTRY_NAME === "Норвегия")
   );
 });
 
