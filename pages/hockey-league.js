@@ -8,44 +8,53 @@ import SeoBlock from "../components/seo_block";
 import Sidebar from "../components/sidebar";
 import axios from "axios";
 function HockeyLeague() {
-  const [matches, setMatches] = useState([]);
-  const options = { year: "numeric", month: "numeric", day: "numeric" };
-  function join(t, a, s) {
-    function format(m) {
-      let f = new Intl.DateTimeFormat("en", m);
-      return f.format(t);
-    }
-    return a.map(format).join(s);
-  }
-  let a = [{ year: "numeric" }, { month: "numeric" }, { day: "numeric" }];
-  let dayToday = join(new Date(), a, "-");
-
-  var d = new Date(1669080600 * 1000);
-  console.log(d);
-
+  const [tomorrowMatches, setTommorowMatches] = useState([]);
+  const [todayMatches, setTodayMatches] = useState([]);
+  console.log(todayMatches);
+  console.log(todayMatches);
   async function getNhlMatch() {
     try {
       const response = await axios.get(
-        "https://os-sports-perform.p.rapidapi.com/v1/events/schedule/category",
+        "https://flashlive-sports.p.rapidapi.com/v1/events/list",
         {
-          params: { category_id: "37", date: "2022-11-21" },
+          params: {
+            locale: "ru_RU",
+            sport_id: "4",
+            indent_days: "0",
+            timezone: "3",
+          },
           headers: {
             "X-RapidAPI-Key":
-              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-            "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+              "be050b25e5msh6c1665177826c1cp187ca3jsn813ff1055e41",
+            "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
           },
         }
       );
 
-      setMatches(
-        response.data.data.filter(
-          (item) => item.tournament.id === 142 && item.tournament.name === "NHL"
-        )
+      const response2 = await axios.get(
+        "https://flashlive-sports.p.rapidapi.com/v1/events/list",
+        {
+          params: {
+            locale: "ru_RU",
+            sport_id: "4",
+            indent_days: "1",
+            timezone: "3",
+          },
+          headers: {
+            "X-RapidAPI-Key":
+              "be050b25e5msh6c1665177826c1cp187ca3jsn813ff1055e41",
+            "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+          },
+        }
+      );
+      setTommorowMatches(
+        response2.data.DATA.filter((item) => item.NAME === "США: НХЛ")
+      );
+      setTodayMatches(
+        response.data.DATA.filter((item) => item.NAME === "США: НХЛ")
       );
     } catch (err) {}
   }
-
-  console.log(matches);
 
   React.useEffect(() => {
     getNhlMatch();
@@ -63,13 +72,36 @@ function HockeyLeague() {
           </div>
           <div className={`container mx-auto d-grid`}>
             <div className={`main-column d-flex flex-column`}>
-              <PronosisTable
-                sportTitle={"Хоккей"}
-                titleTable={"сегодня"}
-                logo={"../images/nhl.png"}
-                matches={matches}
-                title={"Национальная хоккейная лига"}
-              />
+              {todayMatches.length === 0 ? (
+                "Нету матчей"
+              ) : (
+                <PronosisTable
+                  seasonName={todayMatches[0]?.NAME}
+                  sportTitle={"Хоккей"}
+                  titleTable={"сегодня"}
+                  logo={todayMatches[0]?.TOURNAMENT_IMAGE.replace(
+                    "flashscore",
+                    "flashscorekz"
+                  )}
+                  matches={todayMatches}
+                  title={"Национальная хоккейная лига"}
+                />
+              )}
+              {tomorrowMatches.length === 0 ? (
+                "Нету матчей"
+              ) : (
+                <PronosisTable
+                  seasonName={tomorrowMatches[0]?.NAME}
+                  sportTitle={"Хоккей"}
+                  titleTable={"завтра"}
+                  logo={tomorrowMatches[0]?.TOURNAMENT_IMAGE.replace(
+                    "flashscore",
+                    "flashscorekz"
+                  )}
+                  matches={tomorrowMatches}
+                  title={"Национальная хоккейная лига"}
+                />
+              )}
               <MainTriggersBlock />
               <SeoBlock />
             </div>
@@ -82,3 +114,25 @@ function HockeyLeague() {
 }
 
 export default HockeyLeague;
+
+// Сегоднешние матчи хоккей
+// const options = {
+//   method: 'GET',
+//   url: 'https://flashlive-sports.p.rapidapi.com/v1/events/list',
+//   params: {locale: 'ru_RU', sport_id: '4', indent_days: '1', timezone: '-1'},
+//   headers: {
+//     'X-RapidAPI-Key': '5d6787e69bmsh00abb8e031c7a3ap173526jsnf0d37da2a877',
+//     'X-RapidAPI-Host': 'flashlive-sports.p.rapidapi.com'
+//   }
+// };
+
+// Завтрашние матчи хоккей
+// const options = {
+//   method: 'GET',
+//   url: 'https://flashlive-sports.p.rapidapi.com/v1/events/list',
+//   params: {locale: 'ru_RU', sport_id: '4', indent_days: '2', timezone: '-1'},
+//   headers: {
+//     'X-RapidAPI-Key': '5d6787e69bmsh00abb8e031c7a3ap173526jsnf0d37da2a877',
+//     'X-RapidAPI-Host': 'flashlive-sports.p.rapidapi.com'
+//   }
+// };

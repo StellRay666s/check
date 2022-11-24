@@ -1,5 +1,293 @@
 //Хозяева
 //Голы
+import React from "react";
+import axios from "axios";
+import { useState } from "react";
+import { useRouter } from "next/router";
+
+function useCalculateFormule() {
+  const { query } = useRouter();
+  const [currentMatch, setCurrentMatch] = React.useState();
+  const [previosMatchHome, setPreviosMatchHome] = React.useState([]);
+  const [previosMatchAway, setPreviosMatchAway] = React.useState([]);
+  const [tournament, setTournament] = React.useState();
+
+  const [statsForSixMatchesHome, setStatsForSixMatchesHome] = React.useState(
+    []
+  );
+
+  const time = currentMatch?.START_TIME;
+  const milleSeconds = time * 1000;
+  const datteObject = new Date(milleSeconds);
+  const hour = datteObject.toLocaleString("en-UK", { hour: "numeric" });
+  const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
+  const day = datteObject.toLocaleString("en-UK", { day: "numeric" });
+  const month = datteObject.toLocaleString("ru-RU", { month: "long" });
+
+  function getDateFromTimeStamp() {
+    const time = currentMatch?.START_TIME;
+    const milleSeconds = time * 1000;
+    const datteObject = new Date(milleSeconds);
+    const hour = datteObject.toLocaleString("en-UK", { hour: "numeric" });
+    const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
+    const day = datteObject.toLocaleString("en-UK", { day: "numeric" });
+    const month = datteObject.toLocaleString("ru-RU", { month: "long" });
+    const date = {
+      hour: hour,
+      minute: minute,
+      day: day,
+      month: month,
+    };
+    return date;
+  }
+
+  async function getCurrentMatch(id) {
+    const response = await axios.get(
+      "https://flashlive-sports.p.rapidapi.com/v1/events/data",
+      {
+        params: { event_id: id, locale: "ru_RU" },
+        headers: {
+          "X-RapidAPI-Key":
+            "be050b25e5msh6c1665177826c1cp187ca3jsn813ff1055e41",
+          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+        },
+      }
+    );
+    setCurrentMatch(response.data.DATA.EVENT);
+    setTournament(response.data.DATA.TOURNAMENT);
+  }
+  async function getPrevMatches(currentMatch) {
+    const response = await axios.get(
+      "https://flashlive-sports.p.rapidapi.com/v1/events/h2h",
+      {
+        params: { event_id: currentMatch?.EVENT_ID, locale: "ru_RU" },
+        headers: {
+          "X-RapidAPI-Key":
+            "be050b25e5msh6c1665177826c1cp187ca3jsn813ff1055e41",
+          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+        },
+      }
+    );
+    setPreviosMatchHome(response.data.DATA[1]?.GROUPS[0].ITEMS);
+    setPreviosMatchAway(response.data.DATA[2]?.GROUPS[0].ITEMS);
+  }
+
+  async function getStats(previosMatchHome) {
+    const response1 = await axios.get(
+      "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+      {
+        params: {
+          locale: "ru_RU",
+          event_id: previosMatchHome[0]?.EVENT_ID,
+        },
+        headers: {
+          "X-RapidAPI-Key":
+            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+        },
+      }
+    );
+    const firstMatch = response1.data.DATA;
+
+    if (firstMatch) {
+      const response2 = await axios.get(
+        "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+        {
+          params: {
+            locale: "ru_RU",
+            event_id: previosMatchHome[1]?.EVENT_ID,
+          },
+          headers: {
+            "X-RapidAPI-Key":
+              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+            "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+          },
+        }
+      );
+      const secondMatch = response2.data.DATA;
+
+      if (secondMatch) {
+        const response3 = await axios.get(
+          "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+          {
+            params: {
+              locale: "ru_RU",
+              event_id: previosMatchHome[2]?.EVENT_ID,
+            },
+            headers: {
+              "X-RapidAPI-Key":
+                "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+              "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+            },
+          }
+        );
+        const thirdMatch = response3.data.DATA;
+        if (thirdMatch) {
+          const response4 = await axios.get(
+            "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+            {
+              params: {
+                locale: "ru_RU",
+                event_id: previosMatchHome[3]?.EVENT_ID,
+              },
+              headers: {
+                "X-RapidAPI-Key":
+                  "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+                "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+              },
+            }
+          );
+          const fouthMatch = response4.data.DATA;
+          if (fouthMatch) {
+            const response5 = await axios.get(
+              "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+              {
+                params: {
+                  locale: "ru_RU",
+                  event_id: previosMatchHome[4]?.EVENT_ID,
+                },
+                headers: {
+                  "X-RapidAPI-Key":
+                    "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+                  "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+                },
+              }
+            );
+            const fifthMatch = response5.data.DATA;
+            if (fifthMatch) {
+              const response6 = await axios.get(
+                "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+                {
+                  params: {
+                    locale: "ru_RU",
+                    event_id: previosMatchHome[5]?.EVENT_ID,
+                  },
+                  headers: {
+                    "X-RapidAPI-Key":
+                      "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+                    "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+                  },
+                }
+              );
+              const sixMatch = response6.data.DATA;
+              const matches = firstMatch.concat(
+                secondMatch.concat(
+                  thirdMatch.concat(
+                    fouthMatch.concat(fifthMatch.concat(sixMatch))
+                  )
+                )
+              );
+              setStatsForSixMatchesHome(matches);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  //Хозяева
+  const allMatchInLeagHome = previosMatchHome.length;
+  const allGoalInLeagHome = previosMatchHome.reduce((sum, goals) => {
+    return sum + Number(goals.HOME_SCORE_FULL);
+  }, 0);
+
+  const allMissedInLeagHome = previosMatchHome.reduce((sum, missed) => {
+    return sum + Number(missed.AWAY_SCORE_FULL);
+  }, 0);
+
+  const missedForFourMatchHome = previosMatchHome
+    .slice(0, 4)
+    .reduce((sum, missed) => {
+      return sum + Number(missed.AWAY_SCORE_FULL);
+    }, 0);
+  const missedForSixMatchHome = previosMatchHome
+    .slice(0, 6)
+    .reduce((sum, missed) => {
+      return sum + Number(missed.AWAY_SCORE_FULL);
+    }, 0);
+
+  const goalsForSixMatchHome = previosMatchHome
+    .slice(0, 6)
+    .reduce((sum, goals) => {
+      return sum + Number(goals.HOME_SCORE_FULL);
+    }, 0);
+
+  const goalsForFourMatchHome = previosMatchHome
+    .slice(0, 4)
+    .reduce((sum, goals) => {
+      return sum + Number(goals.HOME_SCORE_FULL);
+    }, 0);
+
+  const middleForSixMAtchesHost = goalsForSixMatchHome / 6;
+  const middleForFourMAtchesHost = goalsForFourMatchHome / 4;
+  const middleMissedForFourMatchesHost = missedForFourMatchHome / 4;
+  const middleMissedForSixMatchesHost = missedForFourMatchHome / 6;
+  /////
+
+  //Гости
+  const allMatchInLeagAway = previosMatchAway.length;
+  const allGoalInLeagAway = previosMatchAway.reduce((sum, goals) => {
+    return sum + Number(goals.AWAY_SCORE_FULL);
+  }, 0);
+
+  const allMissedInLeagAway = previosMatchAway.reduce((sum, missed) => {
+    return sum + Number(missed.HOME_SCORE_FULL);
+  }, 0);
+
+  const missedForFourMatchAway = previosMatchAway
+    .slice(0, 4)
+    .reduce((sum, missed) => {
+      return sum + Number(missed.HOME_SCORE_FULL);
+    }, 0);
+
+  const missedForSixMatchAway = previosMatchAway
+    .slice(0, 6)
+    .reduce((sum, missed) => {
+      return sum + Number(missed.HOME_SCORE_FULL);
+    }, 0);
+
+  const goalsForSixMatchAway = previosMatchAway
+    .slice(0, 6)
+    .reduce((sum, goals) => {
+      return sum + Number(goals.AWAY_SCORE_FULL);
+    }, 0);
+
+  const goalsForFourMatchAway = previosMatchAway
+    .slice(0, 4)
+    .reduce((sum, goals) => {
+      return sum + Number(goals.AWAY_SCORE_FULL);
+    }, 0);
+
+  const middleForSixMAtchesAway = goalsForSixMatchAway / 6;
+  const middleForFourMAtchesAway = goalsForFourMatchAway / 4;
+  const middleMissedForFourMatchesAway = missedForFourMatchAway / 4;
+  const middleMissedForSixMatchesAway = missedForSixMatchAway / 6;
+  ///
+  React.useEffect(() => {
+    if (query.id && !currentMatch) {
+      getCurrentMatch(query.id);
+    }
+
+    // if (currentMatch) {
+    //   getPrevMatches(currentMatch);
+    //   getDateFromTimeStamp(previosMatchHome);
+    // }
+  }, [query.id, currentMatch]);
+
+  React.useEffect(() => {
+    // setTimeout(() => {
+    //   getStats(previosMatchHome);
+    // }, 2500);
+  }, [previosMatchHome]);
+
+  return { currentMatch, hour, minute, day, month, tournament };
+}
+
+export { useCalculateFormule };
+
+export function goalsForFourMatchesHost(first, second, third, fouth) {
+  return first + second + third + fouth;
+}
 const goalForFourMatchesHost = 12;
 const goalForSixMatchesHost = 17;
 const middleForFourMAtchesHost = 3;

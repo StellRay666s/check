@@ -37,13 +37,18 @@ export default function League() {
 
   async function getMatchOneLeag() {
     const reponse = await axios.get(
-      "https://os-sports-perform.p.rapidapi.com/v1/events/schedule/date",
+      "https://flashlive-sports.p.rapidapi.com/v1/events/list",
       {
-        params: { sport_id: "1", date: "2022-11-26" },
+        params: {
+          locale: "ru_RU",
+          sport_id: "1",
+          indent_days: "0",
+          timezone: "3",
+        },
         headers: {
           "X-RapidAPI-Key":
             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
+          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
         },
       }
     );
@@ -51,35 +56,38 @@ export default function League() {
     setIsLoad(true);
 
     setTodayMatches(
-      reponse.data.data.filter(
-        (item) => item.tournament.id === Number(query.id)
-      )
+      reponse.data.DATA.filter((item) => item.TOURNAMENT_ID === query.id)
     );
 
-    // const reponse2 = await axios.get(
-    //   "https://os-sports-perform.p.rapidapi.com/v1/events/schedule/date",
-    //   {
-    //     params: { sport_id: "1", date: tomorrow },
-    //     headers: {
-    //       "X-RapidAPI-Key":
-    //         "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-    //       "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-    //     },
-    //   }
-    // );
+    const reponse2 = await axios.get(
+      "https://flashlive-sports.p.rapidapi.com/v1/events/list",
+      {
+        params: {
+          locale: "ru_RU",
+          sport_id: "1",
+          indent_days: "1",
+          timezone: "3",
+        },
+        headers: {
+          "X-RapidAPI-Key":
+            "be050b25e5msh6c1665177826c1cp187ca3jsn813ff1055e41",
+          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+        },
+      }
+    );
 
-    // setTomorrowMatches(
-    //   reponse2.data.data.filter(
-    //     (item) => item.tournament.id === Number(query.id)
-    //   )
-    // );
+    setTomorrowMatches(
+      reponse2.data.DATA.filter((item) => item.TOURNAMENT_ID === query.id)
+    );
 
     setIsLoad(true);
   }
 
   React.useEffect(() => {
     getMatchOneLeag();
-  }, []);
+  }, [query]);
+
+  console.log(tomorrowMatches);
 
   return (
     <MainLayout title={"Лига"}>
@@ -96,6 +104,11 @@ export default function League() {
                 "Нету матчей"
               ) : (
                 <PronosisTable
+                  logo={todayMatches[0]?.TOURNAMENT_IMAGE.replace(
+                    "flashscore",
+                    "flashscorekz"
+                  )}
+                  seasonName={todayMatches[0]?.NAME}
                   sportTitle={"Футбол"}
                   id={query.id}
                   isLoad={isLoad}
@@ -108,6 +121,11 @@ export default function League() {
                 "Нету матчей"
               ) : (
                 <PronosisTable
+                  logo={tomorrowMatches[0]?.TOURNAMENT_IMAGE.replace(
+                    "flashscore",
+                    "flashscorekz"
+                  )}
+                  seasonName={tomorrowMatches[0]?.NAME}
                   id={query.id}
                   matches={tomorrowMatches}
                   numbers={numbers}

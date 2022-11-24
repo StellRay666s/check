@@ -5,7 +5,7 @@ import SidebarMatches from "./sidebar/sidebar-matches";
 import SidebarNews from "./sidebar/sidebar-news";
 import SidebarTariffs from "./sidebar/sidebar-tariffs";
 
-export default function Sidebar() {
+export default function Sidebar({ leagues }) {
   return (
     <div className={`sidebar w-100`}>
       <Link href="/">
@@ -27,7 +27,7 @@ export default function Sidebar() {
 
       <SidebarMatches />
       <SidebarTariffs />
-      <SidebarLeagues />
+      <SidebarLeagues leagues={leagues} />
       <SidebarNews />
     </div>
   );

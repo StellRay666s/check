@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import HowItWork from "../components/how-it-work";
+import { useDispatch, useSelector } from "react-redux";
 import MainSlider from "../components/main-slider";
 import { MainLayout } from "../layouts/MainLayout";
 import ForecastBlock from "../components/forecast_block";
@@ -8,12 +9,12 @@ import MainTriggersBlock from "../components/main-triggers_block";
 import Sidebar from "../components/sidebar";
 import "swiper/css";
 import SidebarTariffs from "../components/sidebar/sidebar-tariffs";
+import { fetchLeagues } from "../redux/slices/leagueSlice";
 
 export default function Home() {
   const [isVisible, setIsVisible] = React.useState(false);
-
-  console.log(isVisible);
-
+  const leag = useSelector((state) => state.league);
+  const dispatch = useDispatch();
   React.useEffect(() => {
     function resize() {
       if (window.innerWidth <= 500) {
@@ -24,6 +25,7 @@ export default function Home() {
       }
     }
     window.addEventListener("resize", resize);
+    dispatch(fetchLeagues());
   }, []);
   return (
     <MainLayout title={"Главная"}>
@@ -39,7 +41,7 @@ export default function Home() {
               <MainTriggersBlock />
               <SeoBlock />
             </div>
-            <Sidebar />
+            <Sidebar leagues={leag} />
           </div>
         </div>
       </main>

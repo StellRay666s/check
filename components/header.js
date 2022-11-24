@@ -18,7 +18,7 @@ import {
   stabilizerGuest,
   anchorIndicatorHost,
   anchorIndicatorGuest,
-} from "../utils/calculateFormula";
+} from "../utils/useCalculateFormula";
 
 export default function Header() {
   const [active, setActtive] = React.useState(true);

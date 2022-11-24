@@ -1,80 +1,24 @@
 import React from "react";
 import Link from "next/link";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { fetchCurrentMatch } from "../redux/slices/currentMatchesSlice";
 
-function MatchPlate({ match, awayTeamId, homeTeamId }) {
-  const [logoTeamAway, setLogoTeamAway] = React.useState("");
-  const [logoTeamHome, setLogoTeamHome] = React.useState("");
-  const dispatch = useDispatch();
-
-  // function getCurrentMatch(id) {
-  //   dispatch(fetchCurrentMatch({ id }));
-  // }
-
-  const timeStamp = match.startTimestamp;
-  const milleSeconds = timeStamp * 1000;
+function MatchPlate({
+  logoTeamHome,
+  logoTeamAway,
+  timeStamp,
+  nameAway,
+  nameHome,
+  eventId,
+}) {
+  const time = timeStamp;
+  const milleSeconds = time * 1000;
   const datteObject = new Date(milleSeconds);
   const hour = datteObject.toLocaleString("en-UK", { hour: "numeric" });
   const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
 
-  async function getLogoAwayTeam() {
-    const response = await axios.get(
-      "https://os-sports-perform.p.rapidapi.com/v1/teams/logo",
-
-      {
-        responseType: "blob",
-        params: { team_id: awayTeamId },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-          "content-type": "image/png",
-        },
-      }
-    );
-
-    let blob = new Blob([response.data], {
-      type: response.headers["content-type"],
-    });
-    let image = URL.createObjectURL(blob);
-    setLogoTeamAway(image);
-  }
-  async function getLogoHomeTeam() {
-    const response = await axios.get(
-      "https://os-sports-perform.p.rapidapi.com/v1/teams/logo",
-
-      {
-        responseType: "blob",
-        params: { team_id: homeTeamId },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "os-sports-perform.p.rapidapi.com",
-          "content-type": "image/png",
-        },
-      }
-    );
-
-    let blob = new Blob([response.data], {
-      type: response.headers["content-type"],
-    });
-    let image = URL.createObjectURL(blob);
-    setLogoTeamHome(image);
-  }
-
-  // React.useState(() => {
-  //   getLogoHomeTeam();
-  //   getLogoAwayTeam();
-  // }, []);
-
   return (
-    <Link href={`/match/${match.id}`}>
-      <a
-        // onClick={() => getCurrentMatch(match.id)}
-        className={`forecast-item d-flex align-items-center`}
-      >
+    <Link href={`/match/${eventId}`}>
+      <a className={`forecast-item d-flex align-items-center`}>
         <div
           className={`forecast-item-date d-flex align-items-center justify-content-center`}
         >
@@ -87,11 +31,13 @@ function MatchPlate({ match, awayTeamId, homeTeamId }) {
           <div
             className={`forecast-item-team d-flex align-items-center justify-content-between position-relative`}
           >
-            <div className={`forecast-item-name text-center`}>
-              {match.homeTeam.name}
-            </div>
+            <div className={`forecast-item-name text-center`}>{nameHome}</div>
             <div className={`forecast-item-team-logo`}>
-              <img className={`w-100 h-100`} src={logoTeamHome} alt="" />
+              <img
+                className={`w-100 h-100`}
+                src={logoTeamHome[0].replace("flashscore", "flashscorekz")}
+                alt=""
+              />
             </div>
           </div>
           <div className={`forecast-item-nums d-flex align-items-center`}>
@@ -110,10 +56,14 @@ function MatchPlate({ match, awayTeamId, homeTeamId }) {
             className={`forecast-item-team d-flex align-items-center position-relative`}
           >
             <div className={`forecast-item-team-logo`}>
-              <img className={`w-100 h-100`} src={logoTeamAway} alt="" />
+              <img
+                className={`w-100 h-100`}
+                src={logoTeamAway[0].replace("flashscore", "flashscorekz")}
+                alt=""
+              />
             </div>
             <div className={`forecast-item-name ms-auto text-center`}>
-              {match.awayTeam.name}
+              {nameAway}
             </div>
           </div>
         </div>
