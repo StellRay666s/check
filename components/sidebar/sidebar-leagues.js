@@ -21,7 +21,7 @@ export default function SidebarLeagues({ leagues }) {
   }
 
   React.useEffect(() => {
-    getPopularLeag();
+    // getPopularLeag();
   }, []);
   return (
     <div className={`popular-leagues`}>

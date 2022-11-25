@@ -15,8 +15,16 @@ import { useCalculateFormule } from "../../utils/useCalculateFormula";
 export default function Match() {
   const [activeForecastTab, setActiveForecastTab] = useState("match");
   const tariffs = useSelector((state) => state.user.user.tariffs);
-  const { currentMatch, hour, minute, day, month, tournament } =
-    useCalculateFormule();
+  const {
+    currentMatch,
+    previosMatchHome,
+    hour,
+    minute,
+    day,
+    month,
+    tournament,
+  } = useCalculateFormule();
+
   const handlematch = () => {
     setActiveForecastTab("match");
   };
@@ -67,7 +75,7 @@ export default function Match() {
                   <div className={`match-date`}>
                     {day}
                     <span>{month}</span>
-                    {hour}:{minute}
+                    {hour}:{minute < 9 && minute + "0"}
                   </div>
                   <div className={`match-total`}>
                     <span className={`match-total-label`}>итог</span>0 : 0
@@ -103,6 +111,7 @@ export default function Match() {
                     "flashscore",
                     "flashscorekz"
                   )}
+                  numbers={[1, 2, 3, 4, 5]}
                   handlematch={handlematch}
                   handletime1={handletime1}
                   handletime2={handletime2}

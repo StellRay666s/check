@@ -23,7 +23,7 @@ function MatchPlate({
           className={`forecast-item-date d-flex align-items-center justify-content-center`}
         >
           {" "}
-          {hour}:{minute}
+          {hour}:{minute < 9 ? minute + "0" : minute}
         </div>
         <div
           className={`forecast-item-content d-flex align-items-center justify-content-between`}

@@ -20,21 +20,6 @@ export default function League() {
 
   const { query } = useRouter();
 
-  function join(t, a, s) {
-    function format(m) {
-      let f = new Intl.DateTimeFormat("ru-RU", m);
-      return f.format(t);
-    }
-    return a.map(format).join(s);
-  }
-  let a = [{ year: "numeric" }, { month: "numeric" }, { day: "numeric" }];
-
-  var tommorowDate = new Date(+new Date());
-  let today = join(tommorowDate, a, "-");
-
-  var tommorowDate = new Date(+new Date() + 86400000);
-  let tomorrow = join(tommorowDate, a, "-");
-
   async function getMatchOneLeag() {
     const reponse = await axios.get(
       "https://flashlive-sports.p.rapidapi.com/v1/events/list",
