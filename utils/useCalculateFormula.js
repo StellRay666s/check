@@ -531,93 +531,93 @@ function useCalculateFormule() {
   console.log(previosMatchHome);
   const passRateHome = {
     firstMatch:
-      Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) /
-        Number(previosMatchHome[0]?.AWAY_SCORE_FULL) ===
+      Number(previosMatchHome[0]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) /
-          Number(previosMatchHome[0]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[0]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY),
     secondMatch:
-      Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) /
-        Number(previosMatchHome[1]?.AWAY_SCORE_FULL) ===
+      Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) /
-          Number(previosMatchHome[1]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY),
     thirdMatch:
-      Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) /
-        Number(previosMatchHome[2]?.AWAY_SCORE_FULL) ===
+      Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) /
-          Number(previosMatchHome[2]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY),
     fourMatch:
-      Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY) /
-        Number(previosMatchHome[3]?.AWAY_SCORE_FULL) ===
+      Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY) /
-          Number(previosMatchHome[3]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY),
     fifesMacth:
-      Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY) /
-        Number(previosMatchHome[4]?.AWAY_SCORE_FULL) ===
+      Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY) /
-          Number(previosMatchHome[4]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY),
     sixMacth:
-      Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_AWAY) /
-        Number(previosMatchHome[5]?.AWAY_SCORE_FULL) ===
+      Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_AWAY) /
-          Number(previosMatchHome[5]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME),
   };
 
   //Гости процент пропущенных
   const passRateAway = {
     firstMatch:
-      Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) /
-        Number(previosMatchAway[0]?.HOME_SCORE_FULL) ===
+      Number(previosMatchAway[0]?.HOME_SCORE_FULL) /
+        Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) /
-          Number(previosMatchAway[0]?.HOME_SCORE_FULL),
+        : Number(previosMatchAway[0]?.HOME_SCORE_FULL) /
+          Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME),
     secondMatch:
-      Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME) /
-        Number(previosMatchAway[1]?.HOME_SCORE_FULL) ===
+      Number(previosMatchAway[1]?.HOME_SCORE_FULL) /
+        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME) /
-          Number(previosMatchAway[1]?.HOME_SCORE_FULL),
+        : Number(previosMatchAway[1]?.HOME_SCORE_FULL) /
+          Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME),
     thirdMatch:
-      Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME) /
-        Number(previosMatchAway[2]?.HOME_SCORE_FULL) ===
+      Number(previosMatchAway[2]?.HOME_SCORE_FULL) /
+        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME) /
-          Number(previosMatchAway[2]?.HOME_SCORE_FULL),
+        : Number(previosMatchAway[2]?.HOME_SCORE_FULL) /
+          Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME),
     fourMatch:
-      Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME) /
-        Number(previosMatchAway[3]?.HOME_SCORE_FULL) ===
+      Number(previosMatchAway[3]?.HOME_SCORE_FULL) /
+        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME) /
-          Number(previosMatchAway[3]?.HOME_SCORE_FULL),
+        : Number(previosMatchAway[3]?.HOME_SCORE_FULL) /
+          Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME),
     fifesMacth:
-      Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_HOME) /
-        Number(previosMatchAway[4]?.HOME_SCORE_FULL) ===
+      Number(previosMatchAway[4]?.HOME_SCORE_FULL) /
+        Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_HOME) /
-          Number(previosMatchAway[4]?.HOME_SCORE_FULL),
+        : Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME),
     sixMacth:
-      Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_HOME) /
-        Number(previosMatchAway[5]?.HOME_SCORE_FULL) ===
+      Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_HOME) /
-          Number(previosMatchHome[5]?.HOME_SCORE_FULL),
+        : Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME),
   };
 
   //Средний процент отбития
@@ -645,44 +645,46 @@ function useCalculateFormule() {
         Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME) /
-          Number(previosMatchHome[0]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[0]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME),
     secondMatch:
-      Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) /
-        Number(previosMatchHome[1]?.AWAY_SCORE_FULL) ===
+      Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) /
-          Number(previosMatchHome[1]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME),
     thirdMatch:
-      Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) /
-        Number(previosMatchHome[2]?.AWAY_SCORE_FULL) ===
+      Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) /
-          Number(previosMatchHome[2]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME),
     fourMatch:
-      Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) /
-        Number(previosMatchHome[3]?.AWAY_SCORE_FULL) ===
+      Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) /
-          Number(previosMatchHome[3]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME),
     fifesMacth:
-      Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME) /
-        Number(previosMatchHome[4]?.AWAY_SCORE_FULL) ===
+      Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME) /
-          Number(previosMatchHome[4]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME),
     sixMacth:
-      Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME) /
-        Number(previosMatchHome[5]?.AWAY_SCORE_FULL) ===
+      Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
+        Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME) ===
       Infinity
         ? 0
-        : Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME) /
-          Number(previosMatchHome[5]?.AWAY_SCORE_FULL),
+        : Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
+          Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME),
   };
+
+  console.log(scoringPercentage);
 
   function getDateFromTimeStamp() {
     const time = currentMatch?.START_TIME;
