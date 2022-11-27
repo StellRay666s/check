@@ -32,7 +32,7 @@ export default function League() {
         },
         headers: {
           "X-RapidAPI-Key":
-            "74c1c74161msh81b32b051c65e81p11159cjsn2deb295c0520",
+            "3e63304450msh29388120546f2d0p15ce21jsnb4fdd7382d8f",
           "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
         },
       }

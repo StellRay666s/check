@@ -26,666 +26,1109 @@ function useCalculateFormule() {
   const day = datteObject.toLocaleString("en-UK", { day: "numeric" });
   const month = datteObject.toLocaleString("ru-RU", { month: "long" });
 
-  //Кол-во игр в лиге
-  const countGameHome = previosMatchHome.length;
-  const countGameAway = previosMatchAway.length;
-
-  //Забито в лиге
-  const goalsInTheLeagHome = previosMatchHome.reduce((sum, match) => {
-    return sum + Number(match.HOME_SCORE_FULL);
-  }, 0);
-  const goalsInTheLeagAway = previosMatchAway.reduce((sum, match) => {
-    return sum + Number(match.AWAY_SCORE_FULL);
-  }, 0);
-
-  const middleGoalInLeagHome = goalsInTheLeagHome / countGameHome;
-  const middleGoalInLeagAway = goalsInTheLeagAway / countGameAway;
-
-  //Пропущено в лиге
-  const missedInLeagHome = previosMatchHome.reduce((sum, match) => {
-    return sum + Number(match.AWAY_SCORE_FULL);
-  }, 0);
-  const missedInLeagAway = previosMatchAway.reduce((sum, match) => {
-    return sum + Number(match.HOME_SCORE_FULL);
-  }, 0);
-
-  const middleMissInLeagHome = missedInLeagHome / countGameHome;
-  const middleMissInLeagAway = missedInLeagAway / countGameAway;
-
-  //Забито за 4 матча
-  const goalsForFourMatchHome = previosMatchHome
-    .slice(0, 4)
-    .reduce((sum, match) => {
-      return sum + Number(match.HOME_SCORE_FULL);
-    }, 0);
-
-  const goalsForFourMatchAway = previosMatchAway
-    .slice(0, 4)
-    .reduce((sum, match) => {
-      return sum + Number(match.AWAY_SCORE_FULL);
-    }, 0);
-
-  const middleGoalForFourMatchesHome = goalsForFourMatchHome / 4;
-  const middleGoalForFourMatchesAway = goalsForFourMatchAway / 4;
-
-  //Забито за 6 матчей
-  const goalsForSixMatchHome = previosMatchHome
-    .slice(0, 6)
-    .reduce((sum, match) => {
-      return sum + Number(match.HOME_SCORE_FULL);
-    }, 0);
-
-  const goalsForSixMatchAway = previosMatchAway
-    .slice(0, 6)
-    .reduce((sum, match) => {
-      return sum + Number(match.AWAY_SCORE_FULL);
-    }, 0);
-
-  const middleGoalForSixMatchesHome = goalsForSixMatchHome / 6;
-  const middleGoalForSixMatchesAway = goalsForSixMatchAway / 6;
-
-  //Голы хозяев и гостей
-  const goalHome =
-    middleGoalForFourMatchesHome * 0.6 + middleGoalForSixMatchesHome * 0.4;
-
-  const goalAway =
-    middleGoalForFourMatchesAway * 0.6 + middleGoalForSixMatchesAway * 0.4;
-
-  //Пропущено за 4 матча
-  const misedForFourMatchHome = previosMatchHome
-    .slice(0, 4)
-    .reduce((sum, match) => {
-      return sum + Number(match.AWAY_SCORE_FULL);
-    }, 0);
-
-  const misedForFourMatchAway = previosMatchHome
-    .slice(0, 4)
-    .reduce((sum, match) => {
-      return sum + Number(match.HOME_SCORE_FULL);
-    }, 0);
-
-  const middleMissedForFourMatcesHome = misedForFourMatchHome / 4;
-  const middleMissedForFourMatcesAway = misedForFourMatchAway / 4;
-
-  //Пропущено за 6 матчей
-  const misedForSixMatchHome = previosMatchHome
-    .slice(0, 6)
-    .reduce((sum, match) => {
-      return sum + Number(match.AWAY_SCORE_FULL);
-    }, 0);
-
-  const misedForSixMatchAway = previosMatchHome
-    .slice(0, 6)
-    .reduce((sum, match) => {
-      return sum + Number(match.HOME_SCORE_FULL);
-    }, 0);
-
-  const middleMissedForSixMatcesHome = misedForSixMatchHome / 6;
-  const middleMissedForSixMatcesAway = misedForSixMatchAway / 6;
-
-  //Пропущенные хозяев и гостей
-  const missedHome =
-    middleMissedForFourMatcesHome * 0.6 + middleMissedForSixMatcesHome * 0.4;
-  const missedAway =
-    middleMissedForFourMatcesAway * 0.6 + middleMissedForSixMatcesAway * 0.4;
-
-  //Голы тотал
-  //Без травм
-  const totalMatchWithoutInjuriesHome = goalHome + missedHome;
-  const totalMatchWithoutInjuriesGuest = goalAway + missedAway;
-  const finallyTotalGoal =
-    (totalMatchWithoutInjuriesHome + totalMatchWithoutInjuriesGuest) / 2;
-
-  //Результативность лиги
-  const efficiencyLeagHome = goalsForSixMatchHome / misedForSixMatchHome;
-  const efficiencyLeagAway = goalsForSixMatchAway / misedForSixMatchAway;
-  const middleEfficiencyLeagHome = efficiencyLeagHome / 2;
-  const middleEfficiencyLeagAway = efficiencyLeagAway / 2;
-
-  //Ценность  забитого
-  const scoringValueHome = middleEfficiencyLeagHome / middleGoalInLeagHome;
-  const scoringValueAway = middleEfficiencyLeagAway / middleGoalInLeagAway;
-
-  //Ценность пропущенного
-  const valueOfMissingHome = middleEfficiencyLeagHome / middleMissInLeagHome;
-  const valueOfMissingAway = middleEfficiencyLeagAway / middleMissInLeagAway;
-
-  //За все периоды
-  const allPeriod = statsForSixMatchesHome.filter(
-    (stats) => stats.STAGE_NAME === "Матч"
-  );
-
-  const allPeriodAway = statsForSixMatchesAway.filter(
-    (stats) => stats.STAGE_NAME === "Матч"
-  );
-
-  // Удары в створ хозяева + соперники хозяев
-  const shotsOnTargetHome = {
-    fistMatch: allPeriod[0]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-    secondMatch: allPeriod[1]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-    thirdMatch: allPeriod[2]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-    fouthMatch: allPeriod[3]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-    fifesMatch: allPeriod[4]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-    sixMatch: allPeriod[5]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-  };
-
-  //Удары в створ за 4 матча хозяева
-  const shotsOnTargetHomeForFourMatches =
-    Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME);
-
-  //Всего ударов в створ хозяев
-  const sumShotsOnTargetHome =
-    Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME);
-
-  //Пропущенные удары в створ хозяева
-  const missedShotsOnTargetHome =
-    Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_AWAY);
-
-  const missedShotsForFourMatchesHome =
-    Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY);
-
-  //Средние пропущенные удары в створ
-  const middleMissedShotsOnTargetForSixMatches = missedShotsOnTargetHome / 6;
-  const middleMissedShotsOnTargetForFourMatches =
-    missedShotsForFourMatchesHome / 4;
-  //Средние удары в створ хозяева
-  const middleShotsOnTargetForFourMatchesHome =
-    shotsOnTargetHomeForFourMatches / 4;
-  const middleShotsOnTargetForSixMatchesHome =
-    shotsOnTargetHomeForFourMatches / 6;
-
-  const shotOnTargetHome =
-    middleShotsOnTargetForFourMatchesHome * 0.6 +
-    middleShotsOnTargetForSixMatchesHome * 0.4;
-
-  const miisedShotOnTarget =
-    middleMissedShotsOnTargetForFourMatches * 0.6 +
-    middleMissedShotsOnTargetForSixMatches * 0.4;
-
-  //Блокированные голы хозяев + соперики хозяев
-  const blockedShotsHome = {
-    fistMatch: allPeriod[0]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-    secondMatch: allPeriod[1]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-    thirdMatch: allPeriod[2]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-    fouthMatch: allPeriod[3]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-    fifesMatch: allPeriod[4]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-    sixMatch: allPeriod[5]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-  };
-
-  //Голы хозяев + соперники хозяев
-  const goalsHome = {
-    fistMatch: Number(previosMatchHome[0]?.HOME_SCORE_FULL),
-    secondMatch: Number(previosMatchHome[1]?.HOME_SCORE_FULL),
-    thirdMatch: Number(previosMatchHome[2]?.HOME_SCORE_FULL),
-    fouthMatch: Number(previosMatchHome[3]?.HOME_SCORE_FULL),
-    fifesMatch: Number(previosMatchHome[4]?.HOME_SCORE_FULL),
-    sixMatch: Number(previosMatchHome[5]?.HOME_SCORE_FULL),
-  };
-  const goalsHomeEnemy = {
-    fistMatch: Number(previosMatchHome[0]?.AWAY_SCORE_FULL),
-    secondMatch: Number(previosMatchHome[1]?.AWAY_SCORE_FULL),
-    thirdMatch: Number(previosMatchHome[2]?.AWAY_SCORE_FULL),
-    fouthMatch: Number(previosMatchHome[3]?.AWAY_SCORE_FULL),
-    fifesMatch: Number(previosMatchHome[4]?.AWAY_SCORE_FULL),
-    sixMatch: Number(previosMatchHome[5]?.AWAY_SCORE_FULL),
-  };
-
-  //Удары в створ гости + соперники гостей
-  const shotsOnTargetAway = {
-    fistMatch: allPeriodAway[0]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-    secondMatch: allPeriodAway[1]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-    thirdMatch: allPeriodAway[2]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-    fouthMatch: allPeriodAway[3]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-    fifesMatch: allPeriodAway[4]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-    sixMatch: allPeriodAway[5]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Удары в створ"
-    ),
-  };
-  //Блокированные удары гостей + соперники
-  const blockedShotsAway = {
-    fistMatch: allPeriodAway[0]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-    secondMatch: allPeriodAway[1]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-    thirdMatch: allPeriodAway[2]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-    fouthMatch: allPeriodAway[3]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-    fifesMatch: allPeriodAway[4]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-    sixMatch: allPeriodAway[5]?.GROUPS?.[0].ITEMS.filter(
-      (item) => item.INCIDENT_NAME === "Блок-но ударов"
-    ),
-  };
-  // Всего ударов в створ гости
-  const sumShotsTargetAway =
-    Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_AWAY);
-
-  const shotsOnTargetAwayForFourMatches =
-    Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY);
-
-  //Пропущенные удары в створ гости
-  const missedShotsOnTargetAwayForFourMatches =
-    Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME);
-
-  const missedSumShotsTargetAway =
-    Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_HOME);
-
-  //Пропущенные удары в створ
-  const middleMissedShotsOnTargetAwayForSixMAtches =
-    missedSumShotsTargetAway / 6;
-  const middleMissedShotsOnTargetAwayForFourMAtches =
-    missedShotsOnTargetAwayForFourMatches / 4;
-
-  //Средние удары в створ гости
-  const middleShotsOnTargetForFourMatchesAway =
-    shotsOnTargetAwayForFourMatches / 4;
-  const middleShotsOnTargetForSixMatchesAway = sumShotsTargetAway / 6;
-
-  //Пропущенные удары в створ гости
-  const missedShotOnTargetAway =
-    middleMissedShotsOnTargetAwayForFourMAtches * 0.6 +
-    middleMissedShotsOnTargetAwayForSixMAtches * 0.4;
-
-  //Удары в створ гости
-  const shotOnTargetAway =
-    middleShotsOnTargetForFourMatchesAway * 0.6 +
-    middleShotsOnTargetForSixMatchesAway * 0.4;
-
-  //Индивидуальный тотал голы
-  const individTotalHomeGoal = (goalHome + missedAway) / 2;
-  const individTotalAwayGoal = (goalAway + missedHome) / 2;
-
-  //Голы гостей + соперников гостей
-  const goalsAway = {
-    fistMatch: Number(previosMatchAway[0]?.AWAY_SCORE_FULL),
-    secondMatch: Number(previosMatchAway[1]?.AWAY_SCORE_FULL),
-    thirdMatch: Number(previosMatchAway[2]?.AWAY_SCORE_FULL),
-    fouthMatch: Number(previosMatchAway[3]?.AWAY_SCORE_FULL),
-    fifesMatch: Number(previosMatchAway[4]?.AWAY_SCORE_FULL),
-    sixMatch: Number(previosMatchAway[5]?.AWAY_SCORE_FULL),
-  };
-  const goalsAwayEnemy = {
-    fistMatch: Number(previosMatchAway[0]?.HOME_SCORE_FULL),
-    secondMatch: Number(previosMatchAway[1]?.HOME_SCORE_FULL),
-    thirdMatch: Number(previosMatchAway[2]?.HOME_SCORE_FULL),
-    fouthMatch: Number(previosMatchAway[3]?.HOME_SCORE_FULL),
-    fifesMatch: Number(previosMatchAway[4]?.HOME_SCORE_FULL),
-    sixMatch: Number(previosMatchAway[5]?.HOME_SCORE_FULL),
-  };
-
-  //Тотал без травм удары в створ
-  const shotsOnTargetInjuriesHome = shotOnTargetHome + miisedShotOnTarget;
-  const shotsOnTargetInjuriesAway = shotOnTargetAway + missedShotOnTargetAway;
-  const finallyTotalShotsOnTarget =
-    (shotsOnTargetInjuriesHome + shotsOnTargetInjuriesAway) / 2;
-
-  //Индивидуальный тотал
-  const individTotalHome = (shotOnTargetHome + missedShotOnTargetAway) / 2;
-  const individTotalAway = (shotOnTargetAway + miisedShotOnTarget) / 2;
-
-  //Броски хозяева(удары в створ + блокированные удары)
-  const throwsHomeForFourMatches =
-    Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsHome?.fistMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsHome?.secondMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsHome?.thirdMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsHome?.fouthMatch[0]?.VALUE_HOME);
-
-  const throwsHomeForSixMatches =
-    Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsHome?.fistMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsHome?.secondMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsHome?.thirdMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsHome?.fouthMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsHome?.fifesMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsHome?.sixMatch[0]?.VALUE_HOME);
-
-  const middleThrowsHomeForFourMatches = throwsHomeForFourMatches / 4;
-  const middleThrowsHomeForSixMatches = throwsHomeForSixMatches / 6;
-
-  // Пропущенные броски хозяева(удары в створ + блокированные удары)
-  const missedThrowsHomeForFourMatches =
-    Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsHome?.fistMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsHome?.secondMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsHome?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsHome?.fouthMatch[0]?.VALUE_AWAY);
-
-  const missedThrowsHomeForSixMatches =
-    Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsHome?.fistMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsHome?.secondMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsHome?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsHome?.fouthMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsHome?.fifesMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsHome?.sixMatch[0]?.VALUE_AWAY);
-
-  const middleMissedThrowForSixMatchHome = missedThrowsHomeForSixMatches / 6;
-  const middleMissedThrowForFourMatchHome = missedThrowsHomeForFourMatches / 4;
-
-  //Броски гостей(удары в створ + блокированные удары)
-  const throwsAwayForFourMatches =
-    Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsAway?.fistMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsAway?.secondMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsAway?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsAway?.fouthMatch[0]?.VALUE_AWAY);
-
-  const throwsAwayForSixMatches =
-    Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_AWAY) +
-    Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsAway?.fistMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsAway?.secondMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsAway?.thirdMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsAway?.fouthMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsAway?.fifesMatch[0]?.VALUE_AWAY) +
-    Number(blockedShotsAway?.sixMatch[0]?.VALUE_AWAY);
-
-  const middleThrowsAwayForFourMatches = throwsAwayForFourMatches / 4;
-  const middleThrowsAwayForSixMatches = throwsAwayForSixMatches / 6;
-
-  //Пропущенные броски гостей(удары в створ + блокированные удары)
-  const missedThrowsAwayForFourMatches =
-    Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsAway?.fistMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsAway?.secondMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsAway?.thirdMatch[0]?.VALUE_HOME) +
-    Number(blockedShotsAway?.fouthMatch[0]?.VALUE_HOME);
-
-  const missedThrowsAwayForSixMatches =
-    Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_HOME) +
-    Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_HOME);
-
-  const middleMissedThrowsAwayForFourMatches =
-    missedThrowsAwayForFourMatches / 4;
-  const middleMissedThrowsAwayForSixMatches = missedThrowsAwayForSixMatches / 6;
-
-  //Броски хозяева/гостей
-  const throwHome =
-    middleThrowsHomeForFourMatches * 0.6 + middleThrowsHomeForSixMatches * 0.4;
-  const throwAway =
-    middleThrowsAwayForFourMatches * 0.6 + middleThrowsAwayForSixMatches * 0.4;
-
-  //Броски хозяев/гостей пропущенные
-  const throwHomeMissed =
-    middleMissedThrowForSixMatchHome * 0.4 +
-    middleMissedThrowForFourMatchHome * 0.6;
-
-  const throwAwayMissed =
-    middleMissedThrowsAwayForFourMatches * 0.6 +
-    middleMissedThrowsAwayForSixMatches * 0.4;
-
-  //Индивидуальный тотал броски
-  const individTotalThrowHome = (throwHome + throwAwayMissed) / 2;
-  const individTotalThrowAway = (throwAway + throwHomeMissed) / 2;
-
-  //Хозяева Процент пропущенных
-  console.log(previosMatchHome);
-  const passRateHome = {
-    firstMatch:
-      Number(previosMatchHome[0]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[0]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY),
-    secondMatch:
-      Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY),
-    thirdMatch:
-      Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY),
-    fourMatch:
-      Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY),
-    fifesMacth:
-      Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY),
-    sixMacth:
-      Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME),
-  };
-
-  //Гости процент пропущенных
-  const passRateAway = {
-    firstMatch:
-      Number(previosMatchAway[0]?.HOME_SCORE_FULL) /
-        Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchAway[0]?.HOME_SCORE_FULL) /
-          Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME),
-    secondMatch:
-      Number(previosMatchAway[1]?.HOME_SCORE_FULL) /
-        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchAway[1]?.HOME_SCORE_FULL) /
-          Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME),
-    thirdMatch:
-      Number(previosMatchAway[2]?.HOME_SCORE_FULL) /
-        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchAway[2]?.HOME_SCORE_FULL) /
-          Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME),
-    fourMatch:
-      Number(previosMatchAway[3]?.HOME_SCORE_FULL) /
-        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchAway[3]?.HOME_SCORE_FULL) /
-          Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME),
-    fifesMacth:
-      Number(previosMatchAway[4]?.HOME_SCORE_FULL) /
-        Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME),
-    sixMacth:
-      Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME),
-  };
-
-  //Средний процент отбития
-  const middlePassRateHome =
-    (passRateHome.firstMatch +
-      passRateHome.secondMatch +
-      passRateHome.thirdMatch +
-      passRateHome.fourMatch +
-      passRateHome.fifesMacth +
-      passRateHome.sixMacth) /
-    6;
-
-  const middlePassRateAway =
-    (passRateAway.firstMatch +
-      passRateAway.secondMatch +
-      passRateAway.thirdMatch +
-      passRateAway.fourMatch +
-      passRateAway.fifesMacth +
-      passRateAway.sixMacth) /
-    6;
-  //Хозяева процент забитых
-  const scoringPercentage = {
-    firstMatch:
-      Number(previosMatchHome[0]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[0]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME),
-    secondMatch:
-      Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME),
-    thirdMatch:
-      Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME),
-    fourMatch:
-      Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME),
-    fifesMacth:
-      Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME),
-    sixMacth:
-      Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
-        Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME) ===
-      Infinity
-        ? 0
-        : Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
-          Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME),
-  };
-
-  console.log(scoringPercentage);
-
+  // Кол-во игр в лиге
+  console.log(statsForSixMatchesAway);
+
+  function calculateStats(period) {
+    if (!currentMatch) {
+      const countGameHome = previosMatchHome.length;
+      const countGameAway = previosMatchAway.length;
+
+      //Забито в лиге
+      const goalsInTheLeagHome = previosMatchHome.reduce((sum, match) => {
+        return sum + Number(match.HOME_SCORE_FULL);
+      }, 0);
+      const goalsInTheLeagAway = previosMatchAway.reduce((sum, match) => {
+        return sum + Number(match.AWAY_SCORE_FULL);
+      }, 0);
+
+      const middleGoalInLeagHome = goalsInTheLeagHome / countGameHome;
+      const middleGoalInLeagAway = goalsInTheLeagAway / countGameAway;
+
+      //Пропущено в лиге
+      const missedInLeagHome = previosMatchHome.reduce((sum, match) => {
+        return sum + Number(match.AWAY_SCORE_FULL);
+      }, 0);
+      const missedInLeagAway = previosMatchAway.reduce((sum, match) => {
+        return sum + Number(match.HOME_SCORE_FULL);
+      }, 0);
+
+      const middleMissInLeagHome = missedInLeagHome / countGameHome;
+      const middleMissInLeagAway = missedInLeagAway / countGameAway;
+
+      //Забито за 4 матча
+      const goalsForFourMatchHome = previosMatchHome
+        .slice(0, 4)
+        .reduce((sum, match) => {
+          return sum + Number(match.HOME_SCORE_FULL);
+        }, 0);
+
+      const goalsForFourMatchAway = previosMatchAway
+        .slice(0, 4)
+        .reduce((sum, match) => {
+          return sum + Number(match.AWAY_SCORE_FULL);
+        }, 0);
+
+      const middleGoalForFourMatchesHome = goalsForFourMatchHome / 4;
+      const middleGoalForFourMatchesAway = goalsForFourMatchAway / 4;
+
+      //Забито за 6 матчей
+      const goalsForSixMatchHome = previosMatchHome
+        .slice(0, 6)
+        .reduce((sum, match) => {
+          return sum + Number(match.HOME_SCORE_FULL);
+        }, 0);
+
+      const goalsForSixMatchAway = previosMatchAway
+        .slice(0, 6)
+        .reduce((sum, match) => {
+          return sum + Number(match.AWAY_SCORE_FULL);
+        }, 0);
+
+      const middleGoalForSixMatchesHome = goalsForSixMatchHome / 6;
+      const middleGoalForSixMatchesAway = goalsForSixMatchAway / 6;
+
+      //Голы хозяев и гостей
+      const goalHome =
+        middleGoalForFourMatchesHome * 0.6 + middleGoalForSixMatchesHome * 0.4;
+
+      const goalAway =
+        middleGoalForFourMatchesAway * 0.6 + middleGoalForSixMatchesAway * 0.4;
+
+      //Пропущено за 4 матча
+      const misedForFourMatchHome = previosMatchHome
+        .slice(0, 4)
+        .reduce((sum, match) => {
+          return sum + Number(match.AWAY_SCORE_FULL);
+        }, 0);
+
+      const misedForFourMatchAway = previosMatchAway
+        .slice(0, 4)
+        .reduce((sum, match) => {
+          return sum + Number(match.HOME_SCORE_FULL);
+        }, 0);
+
+      const middleMissedForFourMatcesHome = misedForFourMatchHome / 4;
+      const middleMissedForFourMatcesAway = misedForFourMatchAway / 4;
+
+      //Пропущено за 6 матчей
+      const misedForSixMatchHome = previosMatchHome
+        .slice(0, 6)
+        .reduce((sum, match) => {
+          return sum + Number(match.AWAY_SCORE_FULL);
+        }, 0);
+
+      const misedForSixMatchAway = previosMatchAway
+        .slice(0, 6)
+        .reduce((sum, match) => {
+          return sum + Number(match.HOME_SCORE_FULL);
+        }, 0);
+
+      const middleMissedForSixMatcesHome = misedForSixMatchHome / 6;
+      const middleMissedForSixMatcesAway = misedForSixMatchAway / 6;
+
+      //Пропущенные хозяев и гостей
+      const missedHome =
+        middleMissedForFourMatcesHome * 0.6 +
+        middleMissedForSixMatcesHome * 0.4;
+      const missedAway =
+        middleMissedForFourMatcesAway * 0.6 +
+        middleMissedForSixMatcesAway * 0.4;
+
+      //Голы тотал
+      //Без травм
+      const totalMatchWithoutInjuriesHome = goalHome + missedHome;
+      const totalMatchWithoutInjuriesGuest = goalAway + missedAway;
+      const finallyTotalGoal =
+        (totalMatchWithoutInjuriesHome + totalMatchWithoutInjuriesGuest) / 2;
+
+      //Результативность лиги
+      const efficiencyLeagHome =
+        (goalsForSixMatchHome + misedForSixMatchHome) / 6;
+      const efficiencyLeagAway =
+        (goalsForSixMatchAway + misedForSixMatchAway) / 6;
+      const middleEfficiencyLeagHome = efficiencyLeagHome / 2;
+      const middleEfficiencyLeagAway = efficiencyLeagAway / 2;
+
+      //Ценность  забитого
+      const scoringValueHome = middleEfficiencyLeagHome / middleGoalInLeagHome;
+      const scoringValueAway = middleEfficiencyLeagAway / middleGoalInLeagAway;
+
+      //Ценность пропущенного
+      const valueOfMissingHome =
+        middleEfficiencyLeagHome / middleMissInLeagHome;
+      const valueOfMissingAway =
+        middleEfficiencyLeagAway / middleMissInLeagAway;
+
+      //За все периоды
+      const allPeriod = statsForSixMatchesHome.filter(
+        (stats) => stats.STAGE_NAME === period
+      );
+
+      const allPeriodAway = statsForSixMatchesAway.filter(
+        (stats) => stats.STAGE_NAME === period
+      );
+
+      // Удары в створ хозяева + соперники хозяев
+      const shotsOnTargetHome = {
+        fistMatch: allPeriod[0]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+        secondMatch: allPeriod[1]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+        thirdMatch: allPeriod[2]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+        fouthMatch: allPeriod[3]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+        fifesMatch: allPeriod[4]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+        sixMatch: allPeriod[5]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+      };
+
+      //Удары в створ за 4 матча хозяева
+      const shotsOnTargetHomeForFourMatches =
+        Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME);
+
+      //Всего ударов в створ хозяев
+      const sumShotsOnTargetHome =
+        Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME);
+
+      //Пропущенные удары в створ хозяева
+      const missedShotsOnTargetHome =
+        Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_AWAY);
+
+      const missedShotsForFourMatchesHome =
+        Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY);
+
+      //Средние пропущенные удары в створ
+      const middleMissedShotsOnTargetForSixMatches =
+        missedShotsOnTargetHome / 6;
+      const middleMissedShotsOnTargetForFourMatches =
+        missedShotsForFourMatchesHome / 4;
+
+      //Средние удары в створ хозяева
+      const middleShotsOnTargetForFourMatchesHome =
+        shotsOnTargetHomeForFourMatches / 4;
+      const middleShotsOnTargetForSixMatchesHome = sumShotsOnTargetHome / 6;
+
+      const shotOnTargetHome =
+        middleShotsOnTargetForFourMatchesHome * 0.6 +
+        middleShotsOnTargetForSixMatchesHome * 0.4;
+
+      const miisedShotOnTarget =
+        middleMissedShotsOnTargetForFourMatches * 0.6 +
+        middleMissedShotsOnTargetForSixMatches * 0.4;
+
+      //Блокированные голы хозяев + соперики хозяев
+      const blockedShotsHome = {
+        fistMatch: allPeriod[0]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+        secondMatch: allPeriod[1]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+        thirdMatch: allPeriod[2]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+        fouthMatch: allPeriod[3]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+        fifesMatch: allPeriod[4]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+        sixMatch: allPeriod[5]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+      };
+
+      //Голы хозяев + соперники хозяев
+      const goalsHome = {
+        fistMatch: Number(previosMatchHome[0]?.HOME_SCORE_FULL),
+        secondMatch: Number(previosMatchHome[1]?.HOME_SCORE_FULL),
+        thirdMatch: Number(previosMatchHome[2]?.HOME_SCORE_FULL),
+        fouthMatch: Number(previosMatchHome[3]?.HOME_SCORE_FULL),
+        fifesMatch: Number(previosMatchHome[4]?.HOME_SCORE_FULL),
+        sixMatch: Number(previosMatchHome[5]?.HOME_SCORE_FULL),
+      };
+      const goalsHomeEnemy = {
+        fistMatch: Number(previosMatchHome[0]?.AWAY_SCORE_FULL),
+        secondMatch: Number(previosMatchHome[1]?.AWAY_SCORE_FULL),
+        thirdMatch: Number(previosMatchHome[2]?.AWAY_SCORE_FULL),
+        fouthMatch: Number(previosMatchHome[3]?.AWAY_SCORE_FULL),
+        fifesMatch: Number(previosMatchHome[4]?.AWAY_SCORE_FULL),
+        sixMatch: Number(previosMatchHome[5]?.AWAY_SCORE_FULL),
+      };
+
+      //Удары в створ гости + соперники гостей
+      const shotsOnTargetAway = {
+        fistMatch: allPeriodAway[0]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+        secondMatch: allPeriodAway[1]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+        thirdMatch: allPeriodAway[2]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+        fouthMatch: allPeriodAway[3]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+        fifesMatch: allPeriodAway[4]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+        sixMatch: allPeriodAway[5]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Удары в створ"
+        ),
+      };
+      //Блокированные удары гостей + соперники
+      const blockedShotsAway = {
+        fistMatch: allPeriodAway[0]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+        secondMatch: allPeriodAway[1]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+        thirdMatch: allPeriodAway[2]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+        fouthMatch: allPeriodAway[3]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+        fifesMatch: allPeriodAway[4]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+        sixMatch: allPeriodAway[5]?.GROUPS?.[0].ITEMS.filter(
+          (item) => item.INCIDENT_NAME === "Блок-но ударов"
+        ),
+      };
+      // Всего ударов в створ гости
+      const sumShotsTargetAway =
+        Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_AWAY);
+
+      const shotsOnTargetAwayForFourMatches =
+        Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY);
+
+      //Пропущенные удары в створ гости
+      const missedShotsOnTargetAwayForFourMatches =
+        Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME);
+
+      const missedSumShotsTargetAway =
+        Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_HOME);
+
+      //Пропущенные удары в створ
+      const middleMissedShotsOnTargetAwayForSixMAtches =
+        missedSumShotsTargetAway / 6;
+      const middleMissedShotsOnTargetAwayForFourMAtches =
+        missedShotsOnTargetAwayForFourMatches / 4;
+
+      //Средние удары в створ гости
+      const middleShotsOnTargetForFourMatchesAway =
+        shotsOnTargetAwayForFourMatches / 4;
+      const middleShotsOnTargetForSixMatchesAway = sumShotsTargetAway / 6;
+
+      //Пропущенные удары в створ гости
+      const missedShotOnTargetAway =
+        middleMissedShotsOnTargetAwayForFourMAtches * 0.6 +
+        middleMissedShotsOnTargetAwayForSixMAtches * 0.4;
+
+      //Удары в створ гости
+      const shotOnTargetAway =
+        middleShotsOnTargetForFourMatchesAway * 0.6 +
+        middleShotsOnTargetForSixMatchesAway * 0.4;
+
+      //Индивидуальный тотал голы
+      const individTotalHomeGoal = (goalHome + missedAway) / 2;
+      const individTotalAwayGoal = (goalAway + missedHome) / 2;
+
+      //Голы гостей + соперников гостей
+      const goalsAway = {
+        fistMatch: Number(previosMatchAway[0]?.AWAY_SCORE_FULL),
+        secondMatch: Number(previosMatchAway[1]?.AWAY_SCORE_FULL),
+        thirdMatch: Number(previosMatchAway[2]?.AWAY_SCORE_FULL),
+        fouthMatch: Number(previosMatchAway[3]?.AWAY_SCORE_FULL),
+        fifesMatch: Number(previosMatchAway[4]?.AWAY_SCORE_FULL),
+        sixMatch: Number(previosMatchAway[5]?.AWAY_SCORE_FULL),
+      };
+      const goalsAwayEnemy = {
+        fistMatch: Number(previosMatchAway[0]?.HOME_SCORE_FULL),
+        secondMatch: Number(previosMatchAway[1]?.HOME_SCORE_FULL),
+        thirdMatch: Number(previosMatchAway[2]?.HOME_SCORE_FULL),
+        fouthMatch: Number(previosMatchAway[3]?.HOME_SCORE_FULL),
+        fifesMatch: Number(previosMatchAway[4]?.HOME_SCORE_FULL),
+        sixMatch: Number(previosMatchAway[5]?.HOME_SCORE_FULL),
+      };
+
+      //Тотал без травм удары в створ
+      const shotsOnTargetInjuriesHome = shotOnTargetHome + miisedShotOnTarget;
+      const shotsOnTargetInjuriesAway =
+        shotOnTargetAway + missedShotOnTargetAway;
+      const finallyTotalShotsOnTarget =
+        (shotsOnTargetInjuriesHome + shotsOnTargetInjuriesAway) / 2;
+
+      //Индивидуальный тотал
+      const individTotalHome = (shotOnTargetHome + missedShotOnTargetAway) / 2;
+      const individTotalAway = (shotOnTargetAway + miisedShotOnTarget) / 2;
+
+      //Броски хозяева(удары в створ + блокированные удары)
+      const throwsHomeForFourMatches =
+        Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsHome?.fistMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsHome?.secondMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsHome?.thirdMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsHome?.fouthMatch[0]?.VALUE_HOME);
+
+      const throwsHomeForSixMatches =
+        Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsHome?.fistMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsHome?.secondMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsHome?.thirdMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsHome?.fouthMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsHome?.fifesMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsHome?.sixMatch[0]?.VALUE_HOME);
+
+      const middleThrowsHomeForFourMatches = throwsHomeForFourMatches / 4;
+      const middleThrowsHomeForSixMatches = throwsHomeForSixMatches / 6;
+
+      // Пропущенные броски хозяева(удары в створ + блокированные удары)
+      const missedThrowsHomeForFourMatches =
+        Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsHome?.fistMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsHome?.secondMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsHome?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsHome?.fouthMatch[0]?.VALUE_AWAY);
+
+      const missedThrowsHomeForSixMatches =
+        Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsHome?.fistMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsHome?.secondMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsHome?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsHome?.fouthMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsHome?.fifesMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsHome?.sixMatch[0]?.VALUE_AWAY);
+
+      const middleMissedThrowForSixMatchHome =
+        missedThrowsHomeForSixMatches / 6;
+      const middleMissedThrowForFourMatchHome =
+        missedThrowsHomeForFourMatches / 4;
+
+      //Броски гостей(удары в створ + блокированные удары)
+      const throwsAwayForFourMatches =
+        Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsAway?.fistMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsAway?.secondMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsAway?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsAway?.fouthMatch[0]?.VALUE_AWAY);
+
+      const throwsAwayForSixMatches =
+        Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_AWAY) +
+        Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsAway?.fistMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsAway?.secondMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsAway?.thirdMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsAway?.fouthMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsAway?.fifesMatch[0]?.VALUE_AWAY) +
+        Number(blockedShotsAway?.sixMatch[0]?.VALUE_AWAY);
+
+      const middleThrowsAwayForFourMatches = throwsAwayForFourMatches / 4;
+      const middleThrowsAwayForSixMatches = throwsAwayForSixMatches / 6;
+      //Пропущенные броски гостей(удары в створ + блокированные удары)
+      const missedThrowsAwayForFourMatches =
+        Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsAway?.fistMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsAway?.secondMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsAway?.thirdMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsAway?.fouthMatch[0]?.VALUE_HOME);
+
+      const missedThrowsAwayForSixMatches =
+        Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_HOME) +
+        Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsAway?.fistMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsAway?.secondMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsAway?.thirdMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsAway?.fouthMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsAway?.fifesMatch[0]?.VALUE_HOME) +
+        Number(blockedShotsAway?.sixMatch[0]?.VALUE_HOME);
+
+      const middleMissedThrowsAwayForFourMatches =
+        missedThrowsAwayForFourMatches / 4;
+      const middleMissedThrowsAwayForSixMatches =
+        missedThrowsAwayForSixMatches / 6;
+
+      //Броски хозяева/гостей
+      const throwHome =
+        middleThrowsHomeForFourMatches * 0.6 +
+        middleThrowsHomeForSixMatches * 0.4;
+      const throwAway =
+        middleThrowsAwayForFourMatches * 0.6 +
+        middleThrowsAwayForSixMatches * 0.4;
+
+      //Броски хозяев/гостей пропущенные
+      const throwHomeMissed =
+        middleMissedThrowForSixMatchHome * 0.4 +
+        middleMissedThrowForFourMatchHome * 0.6;
+
+      const throwAwayMissed =
+        middleMissedThrowsAwayForFourMatches * 0.6 +
+        middleMissedThrowsAwayForSixMatches * 0.4;
+
+      //Индивидуальный тотал броски
+      const individTotalThrowHome = (throwHome + throwAwayMissed) / 2;
+      const individTotalThrowAway = (throwAway + throwHomeMissed) / 2;
+
+      //Хозяева Процент пропущенных
+
+      const passRateHome = {
+        firstMatch: isFinite(
+          Number(previosMatchHome[0]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchHome[0]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[0]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchHome[0]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_AWAY)
+          : 0,
+        secondMatch: isFinite(
+          Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchHome[1]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_AWAY)
+          : 0,
+        thirdMatch: isFinite(
+          Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchHome[2]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_AWAY)
+          : 0,
+        fourMatch: isFinite(
+          Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchHome[3]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_AWAY)
+          : 0,
+        fifesMacth: isFinite(
+          Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchHome[4]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_AWAY)
+          : 0,
+        sixMacth: isFinite(
+          Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchHome[5]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_AWAY)
+          : 0,
+      };
+
+      //Гости процент пропущенных
+      const passRateAway = {
+        firstMatch: isFinite(
+          Number(previosMatchAway[0]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchAway[0]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[0]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchAway[0]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY)
+          : 0,
+        secondMatch: isFinite(
+          Number(previosMatchAway[1]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchAway[1]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[1]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchAway[1]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY)
+          : 0,
+        thirdMatch: isFinite(
+          Number(previosMatchAway[2]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchAway[2]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[2]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchAway[2]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY)
+          : 0,
+        fourMatch: isFinite(
+          Number(previosMatchAway[3]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchAway[3]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[3]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchAway[3]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY)
+          : 0,
+        fifesMacth: isFinite(
+          Number(previosMatchAway[4]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchAway[4]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[4]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchAway[4]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_AWAY)
+          : 0,
+        sixMacth: isFinite(
+          Number(previosMatchAway[5]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchAway[5]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[5]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchAway[5]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_AWAY)
+          : 0,
+      };
+
+      //Средний процент отбития
+      const middlePassRateHome =
+        (passRateHome.firstMatch +
+          passRateHome.secondMatch +
+          passRateHome.thirdMatch +
+          passRateHome.fourMatch +
+          passRateHome.fifesMacth +
+          passRateHome.sixMacth) /
+        6;
+
+      const middlePassRateAway =
+        (passRateAway.firstMatch +
+          passRateAway.secondMatch +
+          passRateAway.thirdMatch +
+          passRateAway.fourMatch +
+          passRateAway.fifesMacth +
+          passRateAway.sixMacth) /
+        6;
+
+      //Хозяева процент забитых
+      const scoringPercentageHome = {
+        firstMatch: isFinite(
+          Number(previosMatchHome[0]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchHome[0]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[0]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchHome[0]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fistMatch[0]?.VALUE_HOME)
+          : 0,
+        secondMatch: isFinite(
+          Number(previosMatchHome[1]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchHome[1]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[1]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchHome[1]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.secondMatch[0]?.VALUE_HOME)
+          : 0,
+        thirdMatch: isFinite(
+          Number(previosMatchHome[2]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchHome[2]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[2]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchHome[2]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.thirdMatch[0]?.VALUE_HOME)
+          : 0,
+        fourMatch: isFinite(
+          Number(previosMatchHome[3]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchHome[3]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[3]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchHome[3]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fouthMatch[0]?.VALUE_HOME)
+          : 0,
+        fifesMacth: isFinite(
+          Number(previosMatchHome[4]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchHome[4]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[4]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchHome[4]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.fifesMatch[0]?.VALUE_HOME)
+          : 0,
+        sixMacth: isFinite(
+          Number(previosMatchHome[5]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME)
+        )
+          ? Number(previosMatchHome[5]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME)
+          : 0 &&
+            isNaN(
+              Number(previosMatchHome[5]?.HOME_SCORE_FULL) /
+                Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME)
+            )
+          ? Number(previosMatchHome[5]?.HOME_SCORE_FULL) /
+            Number(shotsOnTargetHome?.sixMatch[0]?.VALUE_HOME)
+          : 0,
+      };
+
+      //Гости процент забитых
+      const scoringPercentageAway = {
+        firstMatch: isFinite(
+          Number(previosMatchAway[0]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchAway[0]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[0]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchAway[0]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fistMatch[0]?.VALUE_AWAY)
+          : 0,
+        secondMatch: isFinite(
+          Number(previosMatchAway[1]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchAway[1]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[1]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchAway[1]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.secondMatch[0]?.VALUE_AWAY)
+          : 0,
+        thirdMatch: isFinite(
+          Number(previosMatchAway[2]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchAway[2]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[2]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchAway[2]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.thirdMatch[0]?.VALUE_AWAY)
+          : 0,
+        fourMatch: isFinite(
+          Number(previosMatchAway[3]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchAway[3]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[3]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchAway[3]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fouthMatch[0]?.VALUE_AWAY)
+          : 0,
+        fifesMacth: isFinite(
+          Number(previosMatchAway[4]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchAway[4]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[4]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchAway[4]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.fifesMatch[0]?.VALUE_AWAY)
+          : 0,
+        sixMacth: isFinite(
+          Number(previosMatchAway[5]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_AWAY)
+        )
+          ? Number(previosMatchAway[5]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_AWAY)
+          : 0 &&
+            isNaN(
+              Number(previosMatchAway[5]?.AWAY_SCORE_FULL) /
+                Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_AWAY)
+            )
+          ? Number(previosMatchAway[5]?.AWAY_SCORE_FULL) /
+            Number(shotsOnTargetAway?.sixMatch[0]?.VALUE_AWAY)
+          : 0,
+      };
+
+      //Средний процент забитых
+      const middleScoringPercentageHome =
+        (scoringPercentageHome.firstMatch +
+          scoringPercentageHome.secondMatch +
+          scoringPercentageHome.thirdMatch +
+          scoringPercentageHome.fourMatch +
+          scoringPercentageHome.fifesMacth +
+          scoringPercentageHome.sixMacth) /
+        6;
+
+      const middleScoringPercentageAway =
+        (scoringPercentageAway.firstMatch +
+          scoringPercentageAway.secondMatch +
+          scoringPercentageAway.thirdMatch +
+          scoringPercentageAway.fourMatch +
+          scoringPercentageAway.fifesMacth +
+          scoringPercentageAway.sixMacth) /
+        6;
+
+      //Ценность удары в створ НАПАДЕНИЕ
+      const shotToGoalRatioAttackHome =
+        goalsForSixMatchHome / sumShotsOnTargetHome;
+      const shotToGoalRatioAttackAway =
+        goalsForSixMatchAway / sumShotsTargetAway;
+
+      //Ценность удары в створ ЗАЩИТА
+      const shotToGoalRatioSafeHome =
+        misedForSixMatchHome / missedShotsOnTargetHome;
+
+      const shotToGoalRatioSafeAway =
+        misedForSixMatchAway / missedSumShotsTargetAway;
+
+      // Хозяева Средние забитые броски за 6 матчей /Средние забитые удары в створ за 6 матчей P.S M27-название ячейки
+      const M27 =
+        middleThrowsHomeForSixMatches / middleShotsOnTargetForSixMatchesHome;
+
+      //Хозяева Средние пропущенные броски за 6 матчей/Средние пропущенные удары в створ за 6 матчей P.S N27-название ячейки
+      const N27 =
+        middleMissedThrowForSixMatchHome /
+        middleMissedShotsOnTargetForSixMatches;
+      //Гости Средние забитые броски за 6 матчей /Средние забитые удары в створ за 6 матчей P.S M28-название
+
+      const M28 =
+        middleThrowsAwayForSixMatches / middleShotsOnTargetForSixMatchesAway;
+
+      //Гости Средние пропущенные броски за 6 матчей/Средние пропущенные удары в створ за 6 матчей P.S N28-название ячейки
+      const N28 =
+        middleMissedThrowsAwayForSixMatches /
+        middleMissedShotsOnTargetAwayForSixMAtches;
+
+      //Хозяева D10
+      const host = individTotalThrowHome / M27;
+
+      //Гости
+      const guest = individTotalThrowAway / M28;
+
+      //К соотношению атаки
+      const toTheRatioOfAttackHost = host * shotToGoalRatioAttackHome;
+      const toTheRatioOfAttackGuest = guest * shotToGoalRatioAttackAway;
+
+      //Среднее результативность в лиге/Среднее забитое за 6 матчей M4
+      const M4host = middleEfficiencyLeagHome / middleGoalForSixMatchesHome;
+
+      //Среднее результативность в лиге/Среднее забитое за 6 матчей M5
+      const M5guest = middleEfficiencyLeagAway / middleGoalForSixMatchesAway;
+
+      //ИТБ к ценности нападения
+      const itbToTheValueOfTheAttackHost = individTotalHomeGoal / M4host;
+      const itbToTheValueOfTheAttackGuest = individTotalAwayGoal / M5guest;
+
+      //F10=Индивидуальный тотал(удары, хозява)/N28
+      const F10 = individTotalThrowHome / N28;
+      //F11=Индивидуальный тотал(удары, гости)/N27
+      const F11 = individTotalThrowAway / N27;
+
+      //Атака H13
+      const attackHost = F10 * middleScoringPercentageHome;
+      //Атака H14
+      const attackGuest = F11 * middleScoringPercentageAway;
+      //Атака H13*Ценность удары в створ защита хоз
+      const I13 = attackHost * shotToGoalRatioSafeAway;
+      //Атака H14*Ценность удары в створ защита гости
+      const I14 = attackGuest * shotToGoalRatioSafeHome;
+
+      //S4, S5 =Средняя результативность лиги/Среднее пропущенное за 6 матчей
+      const S4host = middleEfficiencyLeagAway / middleMissedForSixMatcesHome;
+      const S5guest = middleEfficiencyLeagAway / middleMissedForSixMatcesAway;
+
+      //К ценности защиты противника
+      const valueOfTheEnemysDefenseHost = attackHost / S5guest;
+      const valueOfTheEnemysDefenseGuest = attackGuest / S4host;
+
+      //H8 ИТБ к ценности нападения/К ценности защиты противника
+      const H8host = valueOfTheEnemysDefenseHost / itbToTheValueOfTheAttackHost;
+      const H8guest =
+        valueOfTheEnemysDefenseGuest / itbToTheValueOfTheAttackGuest;
+
+      //Тренд
+      const trandHost = toTheRatioOfAttackHost / H8host;
+      const trandGuest = toTheRatioOfAttackGuest / H8guest;
+
+      //E15 =Индивидуальный тотал ГОЛЫ ХОЗЯЕВА/M4
+      const E15host = individTotalHomeGoal / M4host;
+      const E16guest = individTotalAwayGoal / M5guest;
+
+      //F15
+      const F15host = toTheRatioOfAttackHost / S5guest;
+      const F16guest = toTheRatioOfAttackGuest / S4host;
+
+      //D15/D16
+      const D15host = E15host / F15host;
+      const D16guest = E16guest / F16guest;
+
+      //H16 =Индивидуальный тотал голы хозяева /s5
+      const h16 = individTotalHomeGoal / S5guest;
+      const h15 = individTotalAwayGoal / S4host;
+
+      const J19 = individTotalThrowAway / N27;
+
+      const m14 =
+        middleMissedForSixMatcesHome / middleMissedShotsOnTargetForSixMatches;
+
+      //Пропустят хозяева
+      const k14 = J19 * m14;
+
+      const i16 = k14 / M5guest;
+
+      const H16 = individTotalHomeGoal / S5guest;
+
+      const g16 = H16 / i16;
+
+      const c19 = D16guest / g16;
+
+      //B15 = тренд /d15
+      const B15 = trandHost * D15host;
+
+      const B18 = B15 / c19;
+
+      const A18 = B18 / individTotalHomeGoal;
+
+      //Показаьель хозяева
+      const B13 = trandHost / A18;
+
+      const B16 = trandGuest * D16guest;
+
+      const m15 =
+        middleMissedForSixMatcesAway /
+        middleMissedShotsOnTargetAwayForSixMAtches;
+
+      const J18 = individTotalThrowHome / N28;
+
+      const K15 = J18 * m15;
+
+      const I15 = K15 / M4host;
+
+      const G15 = h15 / I15;
+
+      const C18 = D15host / G15;
+
+      const B19 = B16 / C18;
+
+      const A19 = B19 / individTotalAwayGoal;
+
+      const B14 = trandGuest / A19; ///Показатель гости
+
+      const h10 = F10 * middlePassRateAway;
+
+      const l10 = h10 / M4host;
+
+      const k11 = attackHost / S5guest;
+
+      const j11 = l10 / k11;
+
+      const l18 = K15 / j11;
+
+      const c13 = l18 / trandHost;
+
+      ////////
+      const f13 = trandHost * c13; /////Стабилизатор Хозяева
+      ////////
+
+      const h11 = F11 * middlePassRateHome;
+
+      const l11 = h11 / M5guest;
+
+      const k10 = attackGuest / S4host;
+
+      const j10 = l11 / k10;
+
+      const l17 = k14 / j10;
+
+      const c14 = l17 / trandGuest;
+
+      ///////
+      const f14 = trandGuest * c14; /////Стабилизатор гости
+      //////
+
+      ///Трендовый показатель хозяева
+
+      const c43 = f13 / A19;
+      ////
+
+      ///Трендовый показатель гости
+      const c44 = f14 / A18;
+
+      /////// Якорный показатель хозяева
+      const e43 = (c43 / efficiencyLeagAway) * B13;
+
+      /////Якорный показатель гости
+      const e44 = (c44 / efficiencyLeagHome) * B14;
+
+      return { e44, e43, c44, c43 };
+    }
+  }
   function getDateFromTimeStamp() {
     const time = currentMatch?.START_TIME;
     const milleSeconds = time * 1000;
@@ -980,6 +1423,8 @@ function useCalculateFormule() {
     //   getDateFromTimeStamp(previosMatchHome);
     // }
   }, [query.id, currentMatch]);
+
+  // calculateStats("Матч");
 
   React.useEffect(() => {
     setTimeout(() => {

@@ -23,6 +23,7 @@ export default function Match() {
     day,
     month,
     tournament,
+    calculateStats,
   } = useCalculateFormule();
 
   const handlematch = () => {

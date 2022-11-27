@@ -12,7 +12,7 @@ export default function SidebarLeagues({ leagues }) {
         params: { locale: "ru_RU" },
         headers: {
           "X-RapidAPI-Key":
-            "be050b25e5msh6c1665177826c1cp187ca3jsn813ff1055e41",
+            "3e63304450msh29388120546f2d0p15ce21jsnb4fdd7382d8f",
           "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
         },
       }
