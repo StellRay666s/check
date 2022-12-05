@@ -8,7 +8,7 @@ export const fetchLeagues = createAsyncThunk("match/fetchLeagues", async () => {
     {
       params: { locale: "ru_RU", sport_id: "1" },
       headers: {
-        "X-RapidAPI-Key": "3e63304450msh29388120546f2d0p15ce21jsnb4fdd7382d8f",
+        "X-RapidAPI-Key": "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
       },
     }

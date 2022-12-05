@@ -25,7 +25,7 @@ function HockeyLeague() {
           },
           headers: {
             "X-RapidAPI-Key":
-              "74c1c74161msh81b32b051c65e81p11159cjsn2deb295c0520",
+              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
             "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
           },
         }
@@ -42,7 +42,7 @@ function HockeyLeague() {
           },
           headers: {
             "X-RapidAPI-Key":
-              "74c1c74161msh81b32b051c65e81p11159cjsn2deb295c0520",
+              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
             "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
           },
         }
@@ -61,7 +61,7 @@ function HockeyLeague() {
   }, []);
 
   return (
-    <MainLayout title={"Футбольные лиги"}>
+    <MainLayout title={"Хоккейная лига"}>
       <main>
         <div className={`main-content pages-content`}>
           <div className="page-header">
