@@ -6,7 +6,7 @@ const initialState = {
     lastname: "",
     phone: null,
     email: "",
-    tariffs: 1,
+    tariffs: 0,
   },
   isAuth: true,
 };

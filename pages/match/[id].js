@@ -17,13 +17,17 @@ export default function Match() {
   const tariffs = useSelector((state) => state.user.user.tariffs);
   const {
     currentMatch,
-    previosMatchHome,
     hour,
     minute,
     day,
     month,
     tournament,
-    calculateStats,
+    statsAll,
+    firstTime,
+    secondTime,
+    firstPeriod,
+    secondPeriod,
+    thirdPeriod,
   } = useCalculateFormule();
 
   const handlematch = () => {
@@ -117,6 +121,13 @@ export default function Match() {
                   handletime1={handletime1}
                   handletime2={handletime2}
                   handletime3={handletime3}
+                  tournament={tournament}
+                  statsAll={statsAll}
+                  firstTime={firstTime}
+                  secondTime={secondTime}
+                  firstPeriod={firstPeriod}
+                  secondPeriod={secondPeriod}
+                  thirdPeriod={thirdPeriod}
                 />
               )) ||
                 (tariffs === 0 && (
@@ -130,7 +141,13 @@ export default function Match() {
                       "flashscorekz"
                     )}
                     activeForecastTab={activeForecastTab}
-                    // numbers={numbers}
+                    tournament={tournament}
+                    statsAll={statsAll}
+                    firstTime={firstTime}
+                    secondTime={secondTime}
+                    firstPeriod={firstPeriod}
+                    secondPeriod={secondPeriod}
+                    thirdPeriod={thirdPeriod}
                     handlematch={handlematch}
                     handletime1={handletime1}
                     handletime2={handletime2}
