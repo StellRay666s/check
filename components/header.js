@@ -67,15 +67,12 @@ export default function Header() {
 
   React.useEffect(() => {
     window.addEventListener("resize", () => {
-      setActtive(false);
-      setWidth(innerWidth);
       if (width < 1025) {
-        setActtive(true);
+        setActtive(false);
       } else {
         setActtive(true);
       }
     });
-    setActtive(false);
   }, [width]);
 
   return (
