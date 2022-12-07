@@ -56,6 +56,7 @@ function TableBaseTariffs({
         <>
           {activeForecastTab === "match" ? (
             <TableStatsBaseTariff
+              activeForecastTab={activeForecastTab}
               statsAll={statsAll}
               numbers={numbers}
               logoHome={logoHome}

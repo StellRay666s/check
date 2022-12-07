@@ -18,6 +18,8 @@ export default function League() {
   const [isLoad, setIsLoad] = React.useState(false);
   const [tomorrowMatches, setTomorrowMatches] = React.useState([]);
 
+  console.log(todayMatches);
+
   const { query } = useRouter();
 
   async function getMatchOneLeag() {
@@ -97,6 +99,7 @@ export default function League() {
                   sportTitle={"Футбол"}
                   id={query.id}
                   isLoad={isLoad}
+                  namePart2={tomorrowMatches.NAME_PART_2}
                   matches={todayMatches}
                   numbers={numbers}
                   titleTable={"Сегодня"}
@@ -113,6 +116,7 @@ export default function League() {
                   seasonName={tomorrowMatches[0]?.NAME}
                   id={query.id}
                   matches={tomorrowMatches}
+                  namePart2={tomorrowMatches.NAME_PART_2}
                   numbers={numbers}
                   titleTable={"Завтра"}
                 />

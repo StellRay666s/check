@@ -10,6 +10,7 @@ function PronosisTable({
   seasonName,
   titleTable,
 }) {
+  console.log(matches);
   return (
     <div className={`forecast-block`}>
       <div className={`forecast-title`}>
@@ -35,6 +36,7 @@ function PronosisTable({
                 nameHome={item.HOME_NAME}
                 key={index}
                 match={item}
+                NAME_PART_2={item.NAME_PART_2}
                 eventId={item.EVENT_ID}
                 logoTeamHome={item.HOME_IMAGES}
                 logoTeamAway={item.AWAY_IMAGES}

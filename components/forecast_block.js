@@ -4,16 +4,22 @@ import { useGetToTheMatch } from "../hooks/useGetToTheMatch";
 import Link from "next/link";
 import MatchPlate from "./MatchPlate";
 
-export default function ForecastBlock({ footballMatches, hocceyMatches, day }) {
+export default function ForecastBlock({
+  footballMatches,
+  hocceyMatches,
+  day,
+  getHockeyMatches,
+}) {
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const [activeForecastTab, setActiveForecastTab] = useState("football");
   const getToTheMatch = useGetToTheMatch();
-  console.log(footballMatches);
+
   const handlefootball = () => {
     setActiveForecastTab("football");
   };
   const handlehockey = () => {
+    getHockeyMatches();
     setActiveForecastTab("hockey");
   };
 
@@ -48,7 +54,7 @@ export default function ForecastBlock({ footballMatches, hocceyMatches, day }) {
         {activeForecastTab === "football" ? (
           <div className={`forecast-tab-content`}>
             <div className={`forecast-table d-flex flex-column`}>
-              {footballMatches?.map((item) => (
+              {footballMatches.slice(0, 2)?.map((item) => (
                 <MatchPlate
                   key={item.EVENT_ID}
                   logoTeamAway={item.AWAY_IMAGES}
@@ -64,7 +70,7 @@ export default function ForecastBlock({ footballMatches, hocceyMatches, day }) {
         ) : (
           <div className={`forecast-tab-content`}>
             <div className={`forecast-table d-flex flex-column`}>
-              {hocceyMatches?.[0].map((item) => (
+              {hocceyMatches.slice(0, 2)?.[0].map((item) => (
                 <MatchPlate
                   key={item.EVENT_ID}
                   logoTeamAway={item.AWAY_IMAGES}

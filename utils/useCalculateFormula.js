@@ -5,7 +5,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-function useCalculateFormule() {
+function useCalculateFormule(eventId) {
   const { query } = useRouter();
   const [currentMatch, setCurrentMatch] = React.useState();
   const [previosMatchHome, setPreviosMatchHome] = React.useState([]);
@@ -146,7 +146,7 @@ function useCalculateFormule() {
       const totalMatchWithoutInjuriesGuest = goalAway + missedAway;
       const finallyTotalGoal =
         (totalMatchWithoutInjuriesHome + totalMatchWithoutInjuriesGuest) / 2;
-
+      //totalMatchWithoutInjuriesHome,,totalMatchWithoutInjuriesGuest,finallyTotalGoal
       //Индивидуальный тотал
       const individTotalHomeGoal = (goalHome + missedAway) / 2;
       const individTotalAwayGoal = (goalAway + missedHome) / 2;
@@ -1422,6 +1422,7 @@ function useCalculateFormule() {
       const missedInLeagAway = previosMatchAway.reduce((sum, match) => {
         return sum + Number(match?.HOME_SCORE_FULL);
       }, 0);
+
       const middleMissInLeagHome = missedInLeagHome / countGameHome;
       const middleMissInLeagAway = missedInLeagAway / countGameAway;
 
@@ -1652,6 +1653,7 @@ function useCalculateFormule() {
               return sum + Number(obj?.VALUE_HOME);
             }, shotsOnTargetMissedAwayForFourMatch);
 
+      console.log(shotsOnTargeMissedtAwayForSixMatches);
       const middleMissedShotsOnTargetForSixMatchesAway =
         shotsOnTargeMissedtAwayForSixMatches / 6;
       const middleMissedShotsOnTargetForFourMatchesAway =
@@ -1660,7 +1662,6 @@ function useCalculateFormule() {
         shotsOnTargetAwayForSixMatches / 6;
       const middleShotsOnTargetAwayForFourMatch =
         shotsOnTargetAwayForFourMatch / 4;
-
       const allShotOnTargetHome =
         middleShotsOnTargetHomeForFourMatch * 0.6 +
         middleShotsOnTargetHomeForSixMatch * 0.4;
@@ -1694,37 +1695,37 @@ function useCalculateFormule() {
       const blockedShotsForFourMatch =
         tournament.NAME === "США: НХЛ"
           ? blockedShotsHome.slice(0, 12).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_HOME);
+              return sum + Number(obj?.VALUE_AWAY);
             }, 0)
           : blockedShotsHome.slice(0, 8).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_HOME);
+              return sum + Number(obj?.VALUE_AWAY);
             }, 0);
 
       const blockedShotsForSixMatch =
         tournament.NAME === "США: НХЛ"
           ? blockedShotsHome.slice(12, 18).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_HOME);
+              return sum + Number(obj?.VALUE_AWAY);
             }, blockedShotsForFourMatch)
           : blockedShotsHome.slice(8, 12).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_HOME);
+              return sum + Number(obj?.VALUE_AWAY);
             }, blockedShotsForFourMatch);
 
       const missedBlockedShotsForFourMatchHome =
         tournament.NAME === "США: НХЛ"
           ? blockedShotsHome.slice(0, 12).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_AWAY);
+              return sum + Number(obj?.VALUE_HOME);
             }, 0)
           : blockedShotsHome.slice(0, 8).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_AWAY);
+              return sum + Number(obj?.VALUE_HOME);
             }, 0);
 
       const missedBlockedShotsForSixMatchHome =
         tournament.NAME === "США: НХЛ"
           ? blockedShotsHome.slice(12, 18).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_AWAY);
+              return sum + Number(obj?.VALUE_HOME);
             }, missedBlockedShotsForFourMatchHome)
           : blockedShotsHome.slice(8, 12).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_AWAY);
+              return sum + Number(obj?.VALUE_HOME);
             }, missedBlockedShotsForFourMatchHome);
 
       const middleBlockedShotsHomeFour = blockedShotsForFourMatch / 4;
@@ -2281,37 +2282,37 @@ function useCalculateFormule() {
       const blockedShotsForFourMatchAway =
         tournament.NAME === "США: НХЛ"
           ? blockedShotsAway.slice(0, 12).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_AWAY);
+              return sum + Number(obj?.VALUE_HOME);
             }, 0)
           : blockedShotsAway.slice(0, 8).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_AWAY);
+              return sum + Number(obj?.VALUE_HOME);
             }, 0);
 
       const blockedShotsForSixMatchAway =
         tournament.NAME === "США: НХЛ"
           ? blockedShotsAway.slice(12, 18).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_AWAY);
+              return sum + Number(obj?.VALUE_HOME);
             }, blockedShotsForFourMatchAway)
           : blockedShotsAway.slice(8, 12).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_AWAY);
+              return sum + Number(obj?.VALUE_HOME);
             }, blockedShotsForFourMatchAway);
-
+      console.log(blockedShotsAway);
       const missedBlockedShotsForFourMatchAway =
         tournament.NAME === "США: НХЛ"
           ? blockedShotsAway.slice(0, 12).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_HOME);
+              return sum + Number(obj?.VALUE_AWAY);
             }, 0)
           : blockedShotsAway.slice(0, 8).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_HOME);
+              return sum + Number(obj?.VALUE_AWAY);
             }, 0);
 
       const missedBlockedShotsForSixMatchAway =
         tournament.NAME === "США: НХЛ"
           ? blockedShotsAway.slice(12, 18).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_HOME);
+              return sum + Number(obj?.VALUE_AWAY);
             }, missedBlockedShotsForFourMatchAway)
           : blockedShotsAway.slice(8, 12).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_HOME);
+              return sum + Number(obj?.VALUE_AWAY);
             }, missedBlockedShotsForFourMatchAway);
 
       const middleBlockedShotsForFourMatchesAway =
@@ -2940,6 +2941,9 @@ function useCalculateFormule() {
         (trendIndicatorAway / efficiencyLeagHome) * indicatorAway;
 
       return {
+        totalMatchWithoutInjuriesHome,
+        totalMatchWithoutInjuriesGuest,
+        finallyTotalGoal,
         indicatorHome,
         indicatorAway,
         stabilizerHome,
@@ -3274,8 +3278,6 @@ function useCalculateFormule() {
       getDateFromTimeStamp(previosMatchHome);
     }
   }, [query.id, currentMatch]);
-
-  // calculateStats("Матч");
 
   React.useEffect(() => {
     setTimeout(() => {

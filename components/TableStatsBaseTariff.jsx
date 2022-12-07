@@ -1,7 +1,13 @@
 import React from "react";
 import StatsPlate from "./StatsPlate";
 
-function TableStatsBaseTariff({ logoHome, logoAway, statsAll, tournament }) {
+function TableStatsBaseTariff({
+  logoHome,
+  logoAway,
+  statsAll,
+  tournament,
+  activeForecastTab,
+}) {
   React.useEffect(() => {}, [statsAll]);
   return (
     <div className={`match-tab-content`}>
@@ -37,6 +43,14 @@ function TableStatsBaseTariff({ logoHome, logoAway, statsAll, tournament }) {
         <div className="table-free-body">
           {tournament?.NAME === "США: НХЛ" ? (
             <>
+              {activeForecastTab === "match" && (
+                <StatsPlate
+                  homeStats={statsAll?.totalMatchWithoutInjuriesHome}
+                  totalStats={statsAll?.finallyTotalGoal}
+                  totalAway={statsAll?.totalMatchWithoutInjuriesGuest}
+                  statsName={"Голы"}
+                />
+              )}
               <StatsPlate
                 homeStats={statsAll?.totalInjuriesHome}
                 totalAway={statsAll?.totalInjuriesAway}
@@ -58,8 +72,15 @@ function TableStatsBaseTariff({ logoHome, logoAway, statsAll, tournament }) {
             </>
           ) : (
             <>
-              {" "}
-              {/* <StatsPlate statsName={"Голы"} /> */}
+              {activeForecastTab === "match" && (
+                <StatsPlate
+                  homeStats={statsAll?.totalMatchWithoutInjuriesHome}
+                  totalStats={statsAll?.finallyTotalGoal}
+                  totalAway={statsAll?.totalMatchWithoutInjuriesGuest}
+                  statsName={"Голы"}
+                />
+              )}
+
               <StatsPlate
                 homeStats={statsAll?.cornerInjuriesHome}
                 totalStats={statsAll?.cornerTotalInjuries}

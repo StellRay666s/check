@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import { useCalculateFormule } from "../utils/useCalculateFormula";
 import axios from "axios";
-
 function MatchPlate({
   logoTeamHome,
   logoTeamAway,
@@ -9,12 +9,17 @@ function MatchPlate({
   nameAway,
   nameHome,
   eventId,
+  NAME_PART_2,
 }) {
   const time = timeStamp;
   const milleSeconds = time * 1000;
   const datteObject = new Date(milleSeconds);
   const hour = datteObject.toLocaleString("en-UK", { hour: "numeric" });
   const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
+  const { totalMatchWithoutInjuriesHome, totalMatchWithoutInjuriesGuest } =
+    useCalculateFormule(eventId);
+
+  React.useEffect(() => {}, []);
 
   return (
     <Link href={`/match/${eventId}`}>
@@ -44,12 +49,12 @@ function MatchPlate({
             <div
               className={`forecast-item-num d-flex align-items-center justify-content-center`}
             >
-              0.1
+              {totalMatchWithoutInjuriesHome}
             </div>
             <div
               className={`forecast-item-num d-flex align-items-center justify-content-center`}
             >
-              2.2
+              {totalMatchWithoutInjuriesGuest}
             </div>
           </div>
           <div
