@@ -117,14 +117,12 @@ export default function Home() {
   const footballTommorowMAtches = tomorrowMatches.flatMap(
     (item) => item.EVENTS
   );
+
   const hockeyToday = todayHockeyMatches.map((item) => item.EVENTS);
   const hockeyTomorrow = tomorrowMatchesHockey.map((item) => item.EVENTS);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (todayEvents()) {
-      tommorowEvents();
-    }
     function resize() {
       if (window.innerWidth <= 500) {
         setIsVisible(true);
@@ -136,6 +134,17 @@ export default function Home() {
     window.addEventListener("resize", resize);
     dispatch(fetchLeagues());
   }, []);
+
+  React.useEffect(() => {
+    if (dispatch) {
+      setTimeout(() => {
+        todayEvents();
+      }, 1000);
+      setTimeout(() => {
+        tommorowEvents(), 2000;
+      });
+    }
+  }, [leag.leag]);
 
   return (
     <MainLayout title={"Главная"}>

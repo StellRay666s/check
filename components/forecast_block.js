@@ -4,12 +4,12 @@ import { useGetToTheMatch } from "../hooks/useGetToTheMatch";
 import Link from "next/link";
 import MatchPlate from "./MatchPlate";
 
-export default function ForecastBlock({ footballMatches, hocceyMatches }) {
+export default function ForecastBlock({ footballMatches, hocceyMatches, day }) {
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const [activeForecastTab, setActiveForecastTab] = useState("football");
   const getToTheMatch = useGetToTheMatch();
-
+  console.log(footballMatches);
   const handlefootball = () => {
     setActiveForecastTab("football");
   };
@@ -17,12 +17,12 @@ export default function ForecastBlock({ footballMatches, hocceyMatches }) {
     setActiveForecastTab("hockey");
   };
 
-  React.useEffect(() => {}, [footballMatches, hocceyMatches]);
+  React.useEffect(() => {}, []);
 
   return (
     <div className={`forecast-block`}>
       <div className={`forecast-title`}>
-        Прогнозы на <span>сегодня</span>
+        Прогнозы на <span>{day}</span>
       </div>
       <div className={`forecast-tabs`}>
         <div className={`forecast-tabs-buttons d-flex align-items-center`}>
