@@ -122,8 +122,9 @@ export default function Home() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    todayEvents();
-    tommorowEvents();
+    if (todayEvents()) {
+      tommorowEvents();
+    }
     function resize() {
       if (window.innerWidth <= 500) {
         setIsVisible(true);

@@ -76,7 +76,7 @@ export default function Header() {
       }
     });
     setActtive(false);
-  }, []);
+  }, [width]);
 
   return (
     <>
