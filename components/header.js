@@ -70,12 +70,13 @@ export default function Header() {
       setActtive(false);
       setWidth(innerWidth);
       if (width < 1025) {
-        setActtive(false);
+        setActtive(true);
       } else {
         setActtive(true);
       }
     });
-  }, [width, active]);
+    setActtive(false);
+  }, []);
 
   return (
     <>
