@@ -11,15 +11,6 @@ import {
 import Login from "./login";
 import Search from "./search";
 
-import {
-  IndicatorHosts,
-  IndicatorGuest,
-  stabilizerHost,
-  stabilizerGuest,
-  anchorIndicatorHost,
-  anchorIndicatorGuest,
-} from "../utils/useCalculateFormula";
-
 export default function Header() {
   const [active, setActtive] = React.useState(true);
   const [width, setWidth] = React.useState();
@@ -62,7 +53,6 @@ export default function Header() {
     },
     { title: "Telagram", path: "" },
   ];
-  const telegram = [{ title: "Telagram", path: "" }];
 
   const underMenu = [
     { title: "Хоккейная лига НХЛ", path: "hockey-league" },
@@ -76,20 +66,16 @@ export default function Header() {
   );
 
   React.useEffect(() => {
-    setWidth(window.innerWidth);
-    if (width < 1025) {
-      setActtive(false);
-    }
     window.addEventListener("resize", () => {
+      setActtive(false);
+      setWidth(innerWidth);
       if (width < 1025) {
         setActtive(false);
-        menuList.concat(telegram);
-      }
-      if (width > 1025) {
+      } else {
         setActtive(true);
       }
     });
-  }, []);
+  }, [width, active]);
 
   return (
     <>
@@ -111,57 +97,112 @@ export default function Header() {
             {active && (
               <nav className={`main-header-menu flex-grow-1`}>
                 <Search />
-                <ul
-                  className={`main-header-menu_list d-flex align-items-center list-none p-0 m-0`}
-                >
-                  {menuList2.map((link, index) => (
-                    <>
-                      <li
-                        className={`${
-                          link.title === "ЛИГИ" &&
-                          "menu-item-has-child position-relative"
-                        }`}
-                        key={index}
-                      >
-                        <Link
+
+                {width > 1025 ? (
+                  <ul
+                    className={`main-header-menu_list d-flex align-items-center list-none p-0 m-0`}
+                  >
+                    {menuList.map((link, index) => (
+                      <>
+                        <li
                           className={`${
-                            link.title === "ЛИГИ"
-                              ? `header-menu-link d-flex align-items-center position-relative`
-                              : ""
+                            link.title === "ЛИГИ" &&
+                            "menu-item-has-child position-relative"
                           }`}
-                          href={`/${link.path}`}
+                          key={index}
                         >
-                          <a
-                            className={`header-menu-link d-flex align-items-center position-relative ${
-                              isActive === index ? "active" : ""
+                          <Link
+                            className={`${
+                              link.title === "ЛИГИ"
+                                ? `header-menu-link d-flex align-items-center position-relative`
+                                : ""
                             }`}
-                            onClick={() => dispatch(setActiveMainMenu(index))}
+                            href={`/${link.path}`}
                           >
-                            {link.title}
-                          </a>
-                        </Link>
-                        <ul className={`main-header-sub-menu list-none m-0`}>
-                          {underMenu.map((undMenu, index) => (
-                            <li key={index}>
-                              <Link href={`/${undMenu.path}`}>
-                                <a
-                                  onClick={() =>
-                                    dispatch(setActiveUnderMenu(index))
-                                  }
-                                  className={`header-sub-menu-link d-flex align-items-center w-100 ${
-                                    isActiveUnderMenu === index && "active"
-                                  }`}
-                                >
-                                  {undMenu.title}
-                                </a>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                    </>
-                  ))}
-                </ul>
+                            <a
+                              className={`header-menu-link d-flex align-items-center position-relative ${
+                                isActive === index ? "active" : ""
+                              }`}
+                              onClick={() => dispatch(setActiveMainMenu(index))}
+                            >
+                              {link.title}
+                            </a>
+                          </Link>
+                          <ul className={`main-header-sub-menu list-none m-0`}>
+                            {underMenu.map((undMenu, index) => (
+                              <li key={index}>
+                                <Link href={`/${undMenu.path}`}>
+                                  <a
+                                    onClick={() =>
+                                      dispatch(setActiveUnderMenu(index))
+                                    }
+                                    className={`header-sub-menu-link d-flex align-items-center w-100 ${
+                                      isActiveUnderMenu === index && "active"
+                                    }`}
+                                  >
+                                    {undMenu.title}
+                                  </a>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
+                      </>
+                    ))}
+                  </ul>
+                ) : (
+                  <ul
+                    className={`main-header-menu_list d-flex align-items-center list-none p-0 m-0`}
+                  >
+                    {menuList2.map((link, index) => (
+                      <>
+                        <li
+                          className={`${
+                            link.title === "ЛИГИ" &&
+                            "menu-item-has-child position-relative"
+                          }`}
+                          key={index}
+                        >
+                          <Link
+                            className={`${
+                              link.title === "ЛИГИ"
+                                ? `header-menu-link d-flex align-items-center position-relative`
+                                : ""
+                            }`}
+                            href={`/${link.path}`}
+                          >
+                            <a
+                              className={`header-menu-link d-flex align-items-center position-relative ${
+                                isActive === index ? "active" : ""
+                              }`}
+                              onClick={() => dispatch(setActiveMainMenu(index))}
+                            >
+                              {link.title}
+                            </a>
+                          </Link>
+                          <ul className={`main-header-sub-menu list-none m-0`}>
+                            {underMenu.map((undMenu, index) => (
+                              <li key={index}>
+                                <Link href={`/${undMenu.path}`}>
+                                  <a
+                                    onClick={() =>
+                                      dispatch(setActiveUnderMenu(index))
+                                    }
+                                    className={`header-sub-menu-link d-flex align-items-center w-100 ${
+                                      isActiveUnderMenu === index && "active"
+                                    }`}
+                                  >
+                                    {undMenu.title}
+                                  </a>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
+                      </>
+                    ))}
+                  </ul>
+                )}
               </nav>
             )}
             <Search />

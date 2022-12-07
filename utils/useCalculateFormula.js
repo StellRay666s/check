@@ -957,7 +957,7 @@ function useCalculateFormule() {
 
       function passRateCalc(b, c) {
         const a = b / c;
-        return isNaN(a) ? 0 : a || isFinite(a) ? a : 0;
+        return isNaN(b / c) ? 0 : b / c && isFinite(b / c) ? b / c : 0;
       }
 
       const firstMatchPassRateHome = passRateCalc(
@@ -965,11 +965,13 @@ function useCalculateFormule() {
         Number(shotsOnTargetHome?.[0]?.VALUE_HOME)
       );
 
+      // console.log(prevGoalsHome);
+      // console.log(shotsOnTargetHome);
+
       const secondMatchPassRateHome = passRateCalc(
         Number(prevGoalsHome?.[1]),
         Number(shotsOnTargetHome?.[1]?.VALUE_HOME)
       );
-
       const thirdMatchPassRateHome = passRateCalc(
         Number(prevGoalsHome?.[2]),
         Number(shotsOnTargetHome?.[2]?.VALUE_HOME)
@@ -1019,25 +1021,23 @@ function useCalculateFormule() {
         Number(prevGoalsAway?.[5]),
         Number(shotsOnTargetAway?.[5]?.VALUE_AWAY)
       );
-      const passRateHome = checkIsNanAndFinint(
+      const passRateHome =
         (firstMatchPassRateHome +
           secondMatchPassRateHome +
           thirdMatchPassRateHome +
           fouthMatchPassRateHome +
           fivesMatchPassRateHome +
           sixMatchPassRateHome) /
-          6
-      );
+        6;
 
-      const passRateAway = checkIsNanAndFinint(
+      const passRateAway =
         (firstMatchPassRateAway +
           secondMatchPassRateAway +
           thirdMatchPassRateAway +
           fouthMatchPassRateAway +
           fivesMatchPassRateAway +
           sixMatchPassRateAway) /
-          6
-      );
+        6;
 
       const firstMatchPassRateHomeEnemy = passRateCalc(
         Number(prevGoalsEnemyHome?.[0]),
@@ -1099,72 +1099,77 @@ function useCalculateFormule() {
         Number(shotsOnTargetAway?.[5]?.VALUE_HOME)
       );
 
-      const missedRateHome = checkIsNanAndFinint(
+      const missedRateHome =
         (firstMatchPassRateHomeEnemy +
           secondMatchPassRateHomeEnemy +
           thirdMatchPassRateHomeEnemy +
           fouthMatchPassRateHomeEnemy +
           fivesMatchPassRateHomeEnemy +
           sixMatchPassRateHomeEnemy) /
-          6
-      );
+        6;
 
-      const missedRateAway = checkIsNanAndFinint(
+      const missedRateAway =
         (firstMatchPassRateAwayEnemy +
           secondMatchPassRateAwayEnemy +
           thirdMatchPassRateAwayEnemy +
           fouthMatchPassRateAwayEnemy +
           fivesMatchPassRateAwayEnemy +
           sixMatchPassRateAwayEnemy) /
-          6
-      );
+        6;
 
       //За все периоды
       // Ценность удары в створ НАПАДЕНИЕ
       const shotToGoalRatioAttackHome = checkIsNanAndFinint(
-        goalsForSixMatchHome / shotsOnTargetHomeForSixMatches
+        goalsForSixMatchHome,
+        shotsOnTargetHomeForSixMatches
       );
 
-      console.log(missedRateHome);
       const shotToGoalRatioAttackAway = checkIsNanAndFinint(
-        goalsForSixMatchAway / shotsOnTargetAwayForSixMatches
+        goalsForSixMatchAway,
+        shotsOnTargetAwayForSixMatches
       );
 
       //Ценность удары в створ ЗАЩИТА
       const shotToGoalRatioSafeHome = checkIsNanAndFinint(
-        misedForSixMatchHome / shotsOnTargeMissedtHomeForSixMatches
+        misedForSixMatchHome,
+        shotsOnTargeMissedtHomeForSixMatches
       );
 
       const shotToGoalRatioSafeAway = checkIsNanAndFinint(
-        misedForSixMatchAway / shotsOnTargeMissedtAwayForSixMatches
+        misedForSixMatchAway,
+        shotsOnTargeMissedtAwayForSixMatches
       );
 
       // Хозяева Средние забитые броски за 6 матчей /Средние забитые удары в створ за 6 матчей P.S M27-название ячейки
       const M27 = checkIsNanAndFinint(
-        middleThrowSixMatchesHome / middleShotsOnTargetHomeForSixMatch
+        middleThrowSixMatchesHome,
+        middleShotsOnTargetHomeForSixMatch
       );
 
       //Хозяева Средние пропущенные броски за 6 матчей/Средние пропущенные удары в створ за 6 матчей P.S N27-название ячейки
       const N27 = checkIsNanAndFinint(
-        middleMissedThrowHomeSixMatches / middleMissedShotsOnTargetForSixMatches
+        middleMissedThrowHomeSixMatches,
+        middleMissedShotsOnTargetForSixMatches
       );
-      // //Гости Средние забитые броски за 6 матчей /Средние забитые удары в створ за 6 матчей P.S M28-название
 
+      // //Гости Средние забитые броски за 6 матчей /Средние забитые удары в створ за 6 матчей P.S M28-название
+      // console.log(middleMissedShotsOnTargetForSixMatches);
       const M28 = checkIsNanAndFinint(
-        middleThrowSixMatchesAway / middleShotsOnTargetAwayForSixMatch
+        middleThrowSixMatchesAway,
+        middleShotsOnTargetAwayForSixMatch
       );
 
       //Гости Средние пропущенные броски за 6 матчей/Средние пропущенные удары в створ за 6 матчей P.S N28-название ячейки
       const N28 = checkIsNanAndFinint(
-        middleMissedThrowAwaySixMatches /
-          middleMissedShotsOnTargetForSixMatchesAway
+        middleMissedThrowAwaySixMatches,
+        middleMissedShotsOnTargetForSixMatchesAway
       );
 
       //Хозяева D10
-      const host = checkIsNanAndFinint(individTotalHomeThrow / M27);
+      const host = checkIsNanAndFinint(individTotalHomeThrow, M27);
 
       // //Гости
-      const guest = checkIsNanAndFinint(individTotalAwayThrow / M28);
+      const guest = checkIsNanAndFinint(individTotalAwayThrow, M28);
 
       // //К соотношению атаки
       const toTheRatioOfAttackHost = host * shotToGoalRatioAttackHome;
@@ -1172,26 +1177,30 @@ function useCalculateFormule() {
 
       // //Среднее результативность в лиге/Среднее забитое за 6 матчей M4
       const M4host = checkIsNanAndFinint(
-        middleEfficiencyLeagHome / middleGoalForSixMatchesHome
+        middleEfficiencyLeagHome,
+        middleGoalForSixMatchesHome
       );
 
       // //Среднее результативность в лиге/Среднее забитое за 6 матчей M5
       const M5guest = checkIsNanAndFinint(
-        middleEfficiencyLeagAway / middleGoalForSixMatchesAway
+        middleEfficiencyLeagAway,
+        middleGoalForSixMatchesAway
       );
 
       // //ИТБ к ценности нападения
       const itbToTheValueOfTheAttackHost = checkIsNanAndFinint(
-        individTotalHomeGoal / M4host
+        individTotalHomeGoal,
+        M4host
       );
       const itbToTheValueOfTheAttackGuest = checkIsNanAndFinint(
-        individTotalAwayGoal / M5guest
+        individTotalAwayGoal,
+        M5guest
       );
 
       // //F10=Индивидуальный тотал(удары, хозява)/N28
-      const F10 = checkIsNanAndFinint(individTotalHomeThrow / N28);
+      const F10 = checkIsNanAndFinint(individTotalHomeThrow, N28);
       // //F11=Индивидуальный тотал(удары, гости)/N27
-      const F11 = checkIsNanAndFinint(individTotalAwayThrow / N27);
+      const F11 = checkIsNanAndFinint(individTotalAwayThrow, N27);
 
       // //Атака H13
       const attackHost = F10 * passRateHome;
@@ -1204,110 +1213,117 @@ function useCalculateFormule() {
 
       // //S4, S5 =Средняя результативность лиги/Среднее пропущенное за 6 матчей
       const S4host = checkIsNanAndFinint(
-        middleEfficiencyLeagAway / middleMissedForSixMatcesHome
+        middleEfficiencyLeagAway,
+        middleMissedForSixMatcesHome
       );
       const S5guest = checkIsNanAndFinint(
-        middleEfficiencyLeagAway / middleMissedForSixMatcesAway
+        middleEfficiencyLeagAway,
+        middleMissedForSixMatcesAway
       );
 
       // //К ценности защиты противника
       const valueOfTheEnemysDefenseHost = checkIsNanAndFinint(
-        attackHost / S5guest
+        attackHost,
+        S5guest
       );
       const valueOfTheEnemysDefenseGuest = checkIsNanAndFinint(
-        attackGuest / S4host
+        attackGuest,
+        S4host
       );
 
       // //H8 ИТБ к ценности нападения/К ценности защиты противника
       const H8host = checkIsNanAndFinint(
-        valueOfTheEnemysDefenseHost / itbToTheValueOfTheAttackHost
+        valueOfTheEnemysDefenseHost,
+        itbToTheValueOfTheAttackHost
       );
       const H8guest = checkIsNanAndFinint(
-        valueOfTheEnemysDefenseGuest / itbToTheValueOfTheAttackGuest
+        valueOfTheEnemysDefenseGuest,
+        itbToTheValueOfTheAttackGuest
       );
 
       // //Тренд
-      const trandHost = checkIsNanAndFinint(toTheRatioOfAttackHost / H8host);
-      const trandGuest = checkIsNanAndFinint(toTheRatioOfAttackGuest / H8guest);
+      const trandHost = checkIsNanAndFinint(toTheRatioOfAttackHost, H8host);
+      const trandGuest = checkIsNanAndFinint(toTheRatioOfAttackGuest, H8guest);
 
       // //E15 =Индивидуальный тотал ГОЛЫ ХОЗЯЕВА/M4
-      const E15host = checkIsNanAndFinint(individTotalHomeGoal / M4host);
-      const E16guest = checkIsNanAndFinint(individTotalAwayGoal / M5guest);
+      const E15host = checkIsNanAndFinint(individTotalHomeGoal, M4host);
+      const E16guest = checkIsNanAndFinint(individTotalAwayGoal, M5guest);
 
       // //F15
-      const F15host = checkIsNanAndFinint(toTheRatioOfAttackHost / S5guest);
-      const F16guest = checkIsNanAndFinint(toTheRatioOfAttackGuest / S4host);
+      const F15host = checkIsNanAndFinint(toTheRatioOfAttackHost, S5guest);
+      const F16guest = checkIsNanAndFinint(toTheRatioOfAttackGuest, S4host);
 
       // //D15/D16
-      const D15host = checkIsNanAndFinint(E15host / F15host);
+      const D15host = checkIsNanAndFinint(E15host, F15host);
 
-      const D16guest = checkIsNanAndFinint(E16guest / F16guest);
+      const D16guest = checkIsNanAndFinint(E16guest, F16guest);
 
       // //H16 =Индивидуальный тотал голы хозяева /s5
-      const h16 = checkIsNanAndFinint(individTotalHomeGoal / S5guest);
+      const h16 = checkIsNanAndFinint(individTotalHomeGoal, S5guest);
 
-      const h15 = checkIsNanAndFinint(individTotalAwayGoal / S4host);
+      const h15 = checkIsNanAndFinint(individTotalAwayGoal, S4host);
 
-      const J19 = checkIsNanAndFinint(individTotalAwayThrow / N27);
+      const J19 = checkIsNanAndFinint(individTotalAwayThrow, N27);
 
       const m14 = checkIsNanAndFinint(
-        middleMissedForSixMatcesHome / middleMissedShotsOnTargetForSixMatches
+        middleMissedForSixMatcesHome,
+        middleMissedShotsOnTargetForSixMatches
       );
 
       // //Пропустят хозяева
       const k14 = J19 * m14;
 
-      const i16 = checkIsNanAndFinint(k14 / M5guest);
+      const i16 = checkIsNanAndFinint(k14, M5guest);
 
-      const H16 = checkIsNanAndFinint(individTotalHomeGoal / S5guest);
+      const H16 = checkIsNanAndFinint(individTotalHomeGoal, S5guest);
 
-      const g16 = checkIsNanAndFinint(H16 / i16);
+      const g16 = checkIsNanAndFinint(H16, i16);
 
-      const c19 = checkIsNanAndFinint(D16guest / g16);
+      const c19 = checkIsNanAndFinint(D16guest, g16);
 
       // //B15 = тренд /d15
       const B15 = trandHost * D15host;
 
-      const B18 = checkIsNanAndFinint(B15 / c19);
+      const B18 = checkIsNanAndFinint(B15, c19);
 
-      const A18 = checkIsNanAndFinint(B18 / individTotalHomeGoal);
+      const A18 = checkIsNanAndFinint(B18, individTotalHomeGoal);
 
       // //Показаьель хозяева
-      const indicatorHome = checkIsNanAndFinint(trandHost / A18);
+      const indicatorHome = checkIsNanAndFinint(trandHost, A18);
 
       const B16 = trandGuest * D16guest;
 
       const m15 = checkIsNanAndFinint(
-        middleMissedForSixMatcesAway /
-          middleMissedShotsOnTargetForSixMatchesAway
+        middleMissedForSixMatcesAway,
+        middleMissedShotsOnTargetForSixMatchesAway
       );
 
-      const J18 = checkIsNanAndFinint(individTotalHomeThrow / N28);
+      const J18 = checkIsNanAndFinint(individTotalHomeThrow, N28);
 
       const K15 = J18 * m15;
 
-      const I15 = checkIsNanAndFinint(K15 / M4host);
+      const I15 = checkIsNanAndFinint(K15, M4host);
 
-      const G15 = checkIsNanAndFinint(h15 / I15);
+      const G15 = checkIsNanAndFinint(h15, I15);
 
-      const C18 = checkIsNanAndFinint(D15host / G15);
+      const C18 = checkIsNanAndFinint(D15host, G15);
 
-      const B19 = checkIsNanAndFinint(B16 / C18);
+      const B19 = checkIsNanAndFinint(B16, C18);
 
-      const A19 = checkIsNanAndFinint(B19 / individTotalAwayGoal);
+      const A19 = checkIsNanAndFinint(B19, individTotalAwayGoal);
 
-      const indicatorAway = checkIsNanAndFinint(trandGuest / A19); ///Показатель гости
+      const indicatorAway = checkIsNanAndFinint(trandGuest, A19); ///Показатель гости
       const h10 = F10 * missedRateAway;
 
-      const l10 = checkIsNanAndFinint(h10 / M4host);
+      const l10 = checkIsNanAndFinint(h10, M4host);
 
-      const k11 = checkIsNanAndFinint(attackHost / S5guest);
+      const k11 = checkIsNanAndFinint(attackHost, S5guest);
 
-      const j11 = checkIsNanAndFinint(l10 / k11);
+      const j11 = checkIsNanAndFinint(l10, k11);
 
-      const l18 = checkIsNanAndFinint(K15 / j11);
+      const l18 = checkIsNanAndFinint(K15, j11);
 
-      const c13 = checkIsNanAndFinint(l18 / trandHost);
+      const c13 = checkIsNanAndFinint(l18, trandHost);
 
       // ////////
       const stabilizerHome = trandHost * c13; /////Стабилизатор Хозяева
@@ -1315,15 +1331,15 @@ function useCalculateFormule() {
 
       const h11 = F11 * missedRateHome;
 
-      const l11 = checkIsNanAndFinint(h11 / M5guest);
+      const l11 = checkIsNanAndFinint(h11, M5guest);
 
-      const k10 = checkIsNanAndFinint(attackGuest / S4host);
+      const k10 = checkIsNanAndFinint(attackGuest, S4host);
 
-      const j10 = checkIsNanAndFinint(l11 / k10);
+      const j10 = checkIsNanAndFinint(l11, k10);
 
-      const l17 = checkIsNanAndFinint(k14 / j10);
+      const l17 = checkIsNanAndFinint(k14, j10);
 
-      const c14 = checkIsNanAndFinint(l17 / trandGuest);
+      const c14 = checkIsNanAndFinint(l17, trandGuest);
 
       // ///////
       const stabilizerAway = trandGuest * c14; /////Стабилизатор гости
@@ -1335,16 +1351,11 @@ function useCalculateFormule() {
       // ////
 
       function checkIsNanAndFinint(a, b) {
-        const d = a / b;
-        return isNaN(d) ? 0 : d || isFinite(d) ? d : 0;
+        return isNaN(a / b) ? 0 : a / b && isFinite(a / b) ? a / b : 0;
       }
 
       // ///Трендовый показатель гости
-      const trendIndicatorAway = isNaN(stabilizerAway / A18)
-        ? 0
-        : stabilizerAway / A18 && isFinite(stabilizerAway / A18)
-        ? 0
-        : stabilizerAway / A18;
+      const trendIndicatorAway = checkIsNanAndFinint(stabilizerAway, A18);
 
       // /////// Якорный показатель хозяева
       const anchorValueHome =
@@ -2962,12 +2973,13 @@ function useCalculateFormule() {
     }
   }
 
-  const statsAll = 1; // calculateAllStats();
+  const statsAll = calculateAllStats();
   const firstTime = calculateStats("1-й тайм");
-  const secondTime = 1; // calculateStats("2-й тайм");
-  const firstPeriod = 1; // calculateStats("1-й период");
-  const secondPeriod = 1; // calculateStats("2-й период");
-  const thirdPeriod = 1; // calculateStats("3-й период");
+  const secondTime = calculateStats("2-й тайм");
+  const firstPeriod = calculateStats("1-й период");
+  const secondPeriod = calculateStats("2-й период");
+  const thirdPeriod = calculateStats("3-й период");
+
   function getDateFromTimeStamp() {
     const time = currentMatch?.START_TIME;
     const milleSeconds = time * 1000;

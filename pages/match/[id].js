@@ -170,6 +170,13 @@ export default function Match() {
                     handletime1={handletime1}
                     handletime2={handletime2}
                     handletime3={handletime3}
+                    tournament={tournament}
+                    statsAll={statsAll}
+                    firstTime={firstTime}
+                    secondTime={secondTime}
+                    firstPeriod={firstPeriod}
+                    secondPeriod={secondPeriod}
+                    thirdPeriod={thirdPeriod}
                   />
                 ))}
               <SeoBlock />

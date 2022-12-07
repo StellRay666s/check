@@ -51,37 +51,82 @@ function TablePremiumTariffs({
           ""
         )}
       </div>
-      {activeForecastTab === "match" ? (
-        <TableStatsPremiumTariffs
-          stats={statsAll}
-          logoHome={logoHome}
-          logoAway={logoAway}
-        />
+
+      {tournament?.NAME === "США: НХЛ" ? (
+        <>
+          {activeForecastTab === "match" ? (
+            <TableStatsPremiumTariffs
+              stats={statsAll}
+              logoAway={logoAway}
+              logoHome={logoHome}
+            />
+          ) : (
+            <></>
+          )}
+          {activeForecastTab === "time1" ? (
+            <TableStatsPremiumTariffs
+              stats={firstPeriod}
+              logoAway={logoAway}
+              logoHome={logoHome}
+            />
+          ) : (
+            <></>
+          )}
+          {activeForecastTab === "time2" ? (
+            <TableStatsPremiumTariffs
+              stats={secondPeriod}
+              logoAway={logoAway}
+              logoHome={logoHome}
+            />
+          ) : (
+            <></>
+          )}
+          {activeForecastTab === "time3" ? (
+            <TableStatsPremiumTariffs
+              stats={thirdPeriod}
+              logoAway={logoAway}
+              logoHome={logoHome}
+            />
+          ) : (
+            <></>
+          )}
+        </>
       ) : (
-        <></>
-      )}
-      {activeForecastTab === "time1" ? (
-        <TableStatsPremiumTariffs
-          stats={firstTime}
-          logoHome={logoHome}
-          logoAway={logoAway}
-        />
-      ) : (
-        <></>
-      )}
-      {activeForecastTab === "time2" ? (
-        <TableStatsPremiumTariffs
-          stats={secondTime}
-          logoHome={logoHome}
-          logoAway={logoAway}
-        />
-      ) : (
-        <></>
-      )}
-      {activeForecastTab === "time3" ? (
-        <TableStatsPremiumTariffs logoHome={logoHome} logoAway={logoAway} />
-      ) : (
-        <></>
+        <>
+          {activeForecastTab === "match" ? (
+            <TableStatsPremiumTariffs
+              stats={statsAll}
+              numbers={numbers}
+              logoHome={logoHome}
+              logoAway={logoAway}
+              tournament={tournament}
+            />
+          ) : (
+            <></>
+          )}
+          {activeForecastTab === "time1" ? (
+            <TableStatsPremiumTariffs
+              stats={firstTime}
+              numbers={numbers}
+              logoHome={logoHome}
+              logoAway={logoAway}
+              tournament={tournament}
+            />
+          ) : (
+            <></>
+          )}
+          {activeForecastTab === "time2" ? (
+            <TableStatsPremiumTariffs
+              numbers={numbers}
+              logoHome={logoHome}
+              logoAway={logoAway}
+              stats={secondTime}
+              tournament={tournament}
+            />
+          ) : (
+            <></>
+          )}
+        </>
       )}
     </div>
   );

@@ -23,7 +23,7 @@ function StatsPremiumPlate({
           <div
             className={`result-cell d-flex align-items-center justify-content-center mx-auto`}
           >
-            {indicator}
+            {isNaN(indicator) ? "..." : indicator}
           </div>
         </div>
         <div
@@ -32,21 +32,21 @@ function StatsPremiumPlate({
           <div
             className={`result-cell d-flex align-items-center justify-content-center mx-auto`}
           >
-            {stabilizator}
+            {isNaN(stabilizator) ? "..." : stabilizator}
           </div>
         </div>
         <div className={`table-premium-column table-column`}>
           <div
             className={`result-cell d-flex align-items-center justify-content-center mx-auto`}
           >
-            {trendIndicator}
+            {isNaN(trendIndicator) ? "..." : trendIndicator}
           </div>
         </div>
         <div className={`table-premium-column table-column`}>
           <div
             className={`result-cell d-flex align-items-center justify-content-center mx-auto`}
           >
-            {anchorIndicator}
+            {isNaN(anchorIndicator) ? "..." : anchorIndicator}
           </div>
         </div>
         <div
