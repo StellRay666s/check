@@ -73,7 +73,7 @@ export default function Header() {
         setActtive(true);
       }
     });
-  }, [width]);
+  }, []);
 
   return (
     <>
