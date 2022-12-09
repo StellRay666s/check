@@ -38,7 +38,7 @@ export default function FootballLeagues() {
           </div>
           <div className={`container mx-auto d-grid`}>
             <div className={`main-column d-flex flex-column`}>
-              <ForecastBlock />
+              {/* <ForecastBlock /> */}
               <SeoBlock />
             </div>
             <Sidebar />
