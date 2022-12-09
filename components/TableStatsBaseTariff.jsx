@@ -45,76 +45,105 @@ function TableStatsBaseTariff({
             <>
               {activeForecastTab === "match" && (
                 <StatsPlate
-                  homeStats={statsAll?.totalMatchWithoutInjuriesHome}
-                  totalStats={statsAll?.finallyTotalGoal}
-                  totalAway={statsAll?.totalMatchWithoutInjuriesGuest}
+                  homeStats={statsAll?.individTotalHomeGoal}
+                  totalStats={
+                    statsAll?.individTotalHomeGoal +
+                    statsAll?.individTotalAwayGoal
+                  }
+                  totalAway={statsAll?.individTotalAwayGoal}
                   statsName={"Голы"}
                 />
               )}
               <StatsPlate
-                homeStats={statsAll?.totalInjuriesHome}
-                totalAway={statsAll?.totalInjuriesAway}
-                totalStats={statsAll?.totalShotsOnTarget}
+                homeStats={statsAll?.individTotalHome}
+                totalAway={statsAll?.individTotalAway}
+                totalStats={
+                  statsAll?.individTotalAway + statsAll?.individTotalHome
+                }
                 statsName={"Удары в створ"}
               />
               <StatsPlate
-                homeStats={statsAll?.injuriesBlockedShotsHome}
-                totalAway={statsAll?.injuriesBlockedShotsAway}
-                totalStats={statsAll?.totalShotsBlocked}
+                homeStats={statsAll?.individeTotalBlockedShotsHome}
+                totalAway={statsAll?.individeTotalBlockedShotsAway}
+                totalStats={
+                  statsAll?.individeTotalBlockedShotsAway +
+                  statsAll?.individeTotalBlockedShotsHome
+                }
                 statsName={"Блок-но ударов"}
               />
               <StatsPlate
                 statsName={"2мин. удаления"}
-                homeStats={statsAll?.twoMinutsRemoveInjuriesHome}
-                totalAway={statsAll?.twoMinutsRemoveInjuriesAway}
-                totalStats={statsAll?.twoMinutsRemoveTotalInjuries}
+                homeStats={statsAll?.twiMinutsIndividTotalHome}
+                totalAway={statsAll?.twoMinutsIndividTotalAway}
+                totalStats={
+                  statsAll?.twiMinutsIndividTotalHome +
+                  statsAll?.twoMinutsIndividTotalAway
+                }
               />
             </>
           ) : (
             <>
               {activeForecastTab === "match" && (
                 <StatsPlate
-                  homeStats={statsAll?.totalMatchWithoutInjuriesHome}
-                  totalStats={statsAll?.finallyTotalGoal}
-                  totalAway={statsAll?.totalMatchWithoutInjuriesGuest}
+                  homeStats={statsAll?.individTotalHomeGoal}
+                  totalStats={
+                    statsAll?.individTotalAwayGoal +
+                    statsAll?.individTotalHomeGoal
+                  }
+                  totalAway={statsAll?.individTotalAwayGoal}
                   statsName={"Голы"}
                 />
               )}
 
               <StatsPlate
-                homeStats={statsAll?.cornerInjuriesHome}
-                totalStats={statsAll?.cornerTotalInjuries}
-                totalAway={statsAll?.cornerInjuriesAway}
+                homeStats={statsAll?.cornerIndividTotalHome}
+                totalStats={
+                  statsAll?.cornerIndividTotalAway +
+                  statsAll?.cornerIndividTotalHome
+                }
+                totalAway={statsAll?.cornerIndividTotalAway}
                 statsName={"Угловые"}
               />
               <StatsPlate
-                homeStats={statsAll?.totalInjuriesHome}
-                totalStats={statsAll?.totalShotsOnTarget}
-                totalAway={statsAll?.totalInjuriesAway}
+                homeStats={statsAll?.individTotalHome}
+                totalStats={
+                  statsAll?.individTotalAway + statsAll?.individTotalHome
+                }
+                totalAway={statsAll?.individTotalAway}
                 statsName={"Удары в створ"}
               />
               <StatsPlate
-                homeStats={statsAll?.injuriesBlockedShotsHome}
-                totalStats={statsAll?.totalShotsBlocked}
-                totalAway={statsAll?.injuriesBlockedShotsAway}
+                homeStats={statsAll?.individeTotalBlockedShotsHome}
+                totalAway={statsAll?.individeTotalBlockedShotsAway}
+                totalStats={
+                  statsAll?.individeTotalBlockedShotsAway +
+                  statsAll?.individeTotalBlockedShotsHome
+                }
                 statsName={"Блок-но ударов"}
               />
               <StatsPlate
-                homeStats={statsAll?.offsidersInjurieHome}
-                totalStats={statsAll?.totalOfidersInjuriesHome}
-                totalAway={statsAll?.offsidersInjuriesAway}
+                homeStats={statsAll?.individOfsidersHome}
+                totalStats={
+                  statsAll?.individOfsidersAway + statsAll?.individOfsidersHome
+                }
+                totalAway={statsAll?.individOfsidersAway}
                 statsName={"Офсайды"}
               />
               <StatsPlate
-                homeStats={statsAll?.follsInjurieHome}
-                totalStats={statsAll?.totalFollsInjuries}
-                totalAway={statsAll?.follsInjuriesAway}
+                homeStats={statsAll?.individfollsHome}
+                totalStats={
+                  statsAll?.individfollsAway + statsAll?.individfollsHome
+                }
+                totalAway={statsAll?.individfollsAway}
                 statsName={"Фолы"}
               />
               <StatsPlate
-                homeStats={statsAll?.injuriesYellowCardHome}
-                totalStats={statsAll?.totalYellowCardInjuries}
-                totalAway={statsAll?.injuriesYellowCardAway}
+                homeStats={statsAll?.individTotalYellowCardHome}
+                totalStats={
+                  statsAll?.individTotalYellowCardHome +
+                  statsAll?.individTotalYellowCardAway
+                }
+                totalAway={statsAll?.individTotalYellowCardAway}
                 statsName={"Желтые карточки"}
               />
             </>

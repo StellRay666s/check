@@ -6,24 +6,19 @@ import MatchPlate from "./MatchPlate";
 
 export default function ForecastBlock({
   footballMatches,
-  hocceyMatches,
+  hocceyMatches = [],
   day,
-  getHockeyMatches,
 }) {
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const [activeForecastTab, setActiveForecastTab] = useState("football");
-  const getToTheMatch = useGetToTheMatch();
 
   const handlefootball = () => {
     setActiveForecastTab("football");
   };
   const handlehockey = () => {
-    getHockeyMatches();
     setActiveForecastTab("hockey");
   };
-
-  React.useEffect(() => {}, []);
 
   return (
     <div className={`forecast-block`}>
@@ -41,46 +36,54 @@ export default function ForecastBlock({
             <img src="../images/football-icon.svg" alt="" />
             <span>Футбол</span>
           </button>
-          <button
-            className={`btn tab-button d-flex align-items-center justify-content-center ${
-              activeForecastTab === "hockey" ? "active" : ""
-            }`}
-            onClick={handlehockey}
-          >
-            <img src="../images/hockey-icon.svg" alt="" />
-            <span>Хоккей</span>
-          </button>
+          {day === "сегодня" ? (
+            ""
+          ) : (
+            <button
+              className={`btn tab-button d-flex align-items-center justify-content-center ${
+                activeForecastTab === "hockey" ? "active" : ""
+              }`}
+              onClick={handlehockey}
+            >
+              <img src="../images/hockey-icon.svg" alt="" />
+              <span>Хоккей</span>
+            </button>
+          )}
         </div>
         {activeForecastTab === "football" ? (
           <div className={`forecast-tab-content`}>
             <div className={`forecast-table d-flex flex-column`}>
-              {footballMatches.slice(0, 2)?.map((item) => (
-                <MatchPlate
-                  key={item.EVENT_ID}
-                  logoTeamAway={item.AWAY_IMAGES}
-                  logoTeamHome={item.HOME_IMAGES}
-                  timeStamp={item.START_TIME}
-                  nameHome={item.HOME_NAME}
-                  nameAway={item.AWAY_NAME}
-                  eventId={item.EVENT_ID}
-                />
-              ))}
+              {footballMatches.length === 0
+                ? "Сегодня матчей нет"
+                : footballMatches.map((item) => (
+                    <MatchPlate
+                      key={item.EVENT_ID}
+                      logoTeamAway={item.AWAY_IMAGES}
+                      logoTeamHome={item.HOME_IMAGES}
+                      timeStamp={item.START_TIME}
+                      nameHome={item.HOME_NAME}
+                      nameAway={item.AWAY_NAME}
+                      eventId={item.EVENT_ID}
+                    />
+                  ))}
             </div>
           </div>
         ) : (
           <div className={`forecast-tab-content`}>
             <div className={`forecast-table d-flex flex-column`}>
-              {hocceyMatches.slice(0, 2)?.[0].map((item) => (
-                <MatchPlate
-                  key={item.EVENT_ID}
-                  logoTeamAway={item.AWAY_IMAGES}
-                  logoTeamHome={item.HOME_IMAGES}
-                  timeStamp={item.START_TIME}
-                  nameHome={item.HOME_NAME}
-                  nameAway={item.AWAY_NAME}
-                  eventId={item.EVENT_ID}
-                />
-              ))}
+              {hocceyMatches?.[0].length === 0
+                ? "Сегодня нет матчей"
+                : hocceyMatches?.[0].map((item) => (
+                    <MatchPlate
+                      key={item.EVENT_ID}
+                      logoTeamAway={item.AWAY_IMAGES}
+                      logoTeamHome={item.HOME_IMAGES}
+                      timeStamp={item.START_TIME}
+                      nameHome={item.HOME_NAME}
+                      nameAway={item.AWAY_NAME}
+                      eventId={item.EVENT_ID}
+                    />
+                  ))}
             </div>
           </div>
         )}

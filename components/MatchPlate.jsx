@@ -16,10 +16,6 @@ function MatchPlate({
   const datteObject = new Date(milleSeconds);
   const hour = datteObject.toLocaleString("en-UK", { hour: "numeric" });
   const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
-  const { totalMatchWithoutInjuriesHome, totalMatchWithoutInjuriesGuest } =
-    useCalculateFormule(eventId);
-
-  React.useEffect(() => {}, []);
 
   return (
     <Link href={`/match/${eventId}`}>
@@ -40,7 +36,7 @@ function MatchPlate({
             <div className={`forecast-item-team-logo`}>
               <img
                 className={`w-100 h-100`}
-                src={logoTeamHome[0].replace("flashscore", "flashscorekz")}
+                src={logoTeamHome?.[0].replace("flashscore", "flashscorekz")}
                 alt=""
               />
             </div>
@@ -49,12 +45,12 @@ function MatchPlate({
             <div
               className={`forecast-item-num d-flex align-items-center justify-content-center`}
             >
-              {totalMatchWithoutInjuriesHome}
+              {/* {totalMatchWithoutInjuriesHome} */}
             </div>
             <div
               className={`forecast-item-num d-flex align-items-center justify-content-center`}
             >
-              {totalMatchWithoutInjuriesGuest}
+              {/* {totalMatchWithoutInjuriesGuest} */}
             </div>
           </div>
           <div
@@ -63,7 +59,7 @@ function MatchPlate({
             <div className={`forecast-item-team-logo`}>
               <img
                 className={`w-100 h-100`}
-                src={logoTeamAway[0].replace("flashscore", "flashscorekz")}
+                src={logoTeamAway?.[0].replace("flashscore", "flashscorekz")}
                 alt=""
               />
             </div>

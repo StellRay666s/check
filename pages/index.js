@@ -56,9 +56,9 @@ export default function Home() {
       }
     );
 
-    setTodayHockeyMatches(
-      response2.data.DATA.filter((item) => item.NAME === "США: НХЛ")
-    );
+    // setTodayHockeyMatches(
+    //   response2.data.DATA.filter((item) => item.NAME === "США: НХЛ")
+    // );
 
     setTodayMatches(
       response.data.DATA.filter((item) =>
@@ -105,12 +105,6 @@ export default function Home() {
     setTomorrowMatchesHockey(
       response2.data.DATA.filter((item) => item.NAME === "США: НХЛ")
     );
-
-    setTomorrowMatches(
-      response.data.DATA.filter((item) =>
-        TEMPLATE_ID?.includes(item.TEMPLATE_ID)
-      )
-    );
   }
 
   const footmallTodayMatches = todayMatchces.flatMap((item) => item.EVENTS);
@@ -118,7 +112,6 @@ export default function Home() {
     (item) => item.EVENTS
   );
 
-  const hockeyToday = todayHockeyMatches.map((item) => item.EVENTS);
   const hockeyTomorrow = tomorrowMatchesHockey.map((item) => item.EVENTS);
   const dispatch = useDispatch();
 
@@ -141,7 +134,7 @@ export default function Home() {
         todayEvents();
       }, 1000);
       setTimeout(() => {
-        tommorowEvents(), 2000;
+        tommorowEvents(), 1500;
       });
     }
   }, [leag.leag]);
@@ -156,13 +149,13 @@ export default function Home() {
             <div className={`main-column d-flex flex-column`}>
               <ForecastBlock
                 day={"сегодня"}
-                hocceyMatches={hockeyToday}
+                // hocceyMatches={hockeyToday}
                 footballMatches={footmallTodayMatches}
               />
               {isVisible && <SidebarTariffs />}
               <ForecastBlock
-                hocceyMatches={hockeyTomorrow}
                 footballMatches={footballTommorowMAtches}
+                hocceyMatches={hockeyTomorrow}
                 day={"завтра"}
               />
               <MainTriggersBlock />

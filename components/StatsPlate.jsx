@@ -17,26 +17,26 @@ function StatsPlate({
         <div className={`table-free-column table-column`}>
           <div
             className={`result-cell ${
-              homeStats > totalAway && "best-result_green"
+              homeStats > totalAway ? "best-result_green" : ""
             }  d-flex align-items-center justify-content-center mx-auto`}
           >
-            {homeStats.toFixed(2)}
+            {isNaN(totalStats) || 0 ? "..." : homeStats.toFixed(2)}
           </div>
         </div>
         <div className={`table-free-column table-column`}>
           <div
             className={`result-cell d-flex align-items-center justify-content-center mx-auto`}
           >
-            {totalStats.toFixed(2)}
+            {isNaN(totalStats) || 0 ? "..." : totalStats.toFixed(2)}
           </div>
         </div>
         <div className={`table-free-column table-column best-result`}>
           <div
             className={`result-cell ${
-              totalAway > homeStats && "best-result_blue"
+              totalAway > homeStats ? "best-result_blue" : ""
             } best-result_blue d-flex align-items-center justify-content-center mx-auto`}
           >
-            {totalAway.toFixed(2)}
+            {isNaN(totalAway) || 0 ? "..." : totalAway.toFixed(2)}
           </div>
         </div>
       </div>

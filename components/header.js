@@ -34,24 +34,11 @@ export default function Header() {
     },
   ];
 
-  const menuList2 = [
+  const telegram = [
     {
-      title: "КАК ЭТО РАБОТАЕТ?",
-      path: "how-it-work",
-    },
-    {
-      title: "ЛИГИ",
+      title: "Telegam",
       path: "",
     },
-    {
-      title: "ТАРИФЫ",
-      path: "tariffs",
-    },
-    {
-      title: "НОВОСТИ",
-      path: "news",
-    },
-    { title: "Telagram", path: "" },
   ];
 
   const underMenu = [
@@ -67,9 +54,11 @@ export default function Header() {
 
   React.useEffect(() => {
     window.addEventListener("resize", () => {
-      if (width < 1025) {
+      if (window.innerWidth < 1025) {
         setActtive(false);
-      } else {
+        menuList.push(telegram);
+      }
+      if (window.innerWidth > 1025) {
         setActtive(true);
       }
     });
@@ -96,111 +85,57 @@ export default function Header() {
               <nav className={`main-header-menu flex-grow-1`}>
                 <Search />
 
-                {width > 1025 ? (
-                  <ul
-                    className={`main-header-menu_list d-flex align-items-center list-none p-0 m-0`}
-                  >
-                    {menuList.map((link, index) => (
-                      <>
-                        <li
+                <ul
+                  className={`main-header-menu_list d-flex align-items-center list-none p-0 m-0`}
+                >
+                  {menuList.map((link, index) => (
+                    <>
+                      <li
+                        className={`${
+                          link.title === "ЛИГИ" &&
+                          "menu-item-has-child position-relative"
+                        }`}
+                        key={index}
+                      >
+                        <Link
                           className={`${
-                            link.title === "ЛИГИ" &&
-                            "menu-item-has-child position-relative"
+                            link.title === "ЛИГИ"
+                              ? `header-menu-link d-flex align-items-center position-relative`
+                              : ""
                           }`}
-                          key={index}
+                          href={`/${link.path}`}
                         >
-                          <Link
-                            className={`${
-                              link.title === "ЛИГИ"
-                                ? `header-menu-link d-flex align-items-center position-relative`
-                                : ""
+                          <a
+                            className={`header-menu-link d-flex align-items-center position-relative ${
+                              isActive === index ? "active" : ""
                             }`}
-                            href={`/${link.path}`}
+                            onClick={() => dispatch(setActiveMainMenu(index))}
                           >
-                            <a
-                              className={`header-menu-link d-flex align-items-center position-relative ${
-                                isActive === index ? "active" : ""
-                              }`}
-                              onClick={() => dispatch(setActiveMainMenu(index))}
-                            >
-                              {link.title}
-                            </a>
-                          </Link>
-                          <ul className={`main-header-sub-menu list-none m-0`}>
-                            {underMenu.map((undMenu, index) => (
-                              <li key={index}>
-                                <Link href={`/${undMenu.path}`}>
-                                  <a
-                                    onClick={() =>
-                                      dispatch(setActiveUnderMenu(index))
-                                    }
-                                    className={`header-sub-menu-link d-flex align-items-center w-100 ${
-                                      isActiveUnderMenu === index && "active"
-                                    }`}
-                                  >
-                                    {undMenu.title}
-                                  </a>
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </li>
-                      </>
-                    ))}
-                  </ul>
-                ) : (
-                  <ul
-                    className={`main-header-menu_list d-flex align-items-center list-none p-0 m-0`}
-                  >
-                    {menuList2.map((link, index) => (
-                      <>
-                        <li
-                          className={`${
-                            link.title === "ЛИГИ" &&
-                            "menu-item-has-child position-relative"
-                          }`}
-                          key={index}
-                        >
-                          <Link
-                            className={`${
-                              link.title === "ЛИГИ"
-                                ? `header-menu-link d-flex align-items-center position-relative`
-                                : ""
-                            }`}
-                            href={`/${link.path}`}
-                          >
-                            <a
-                              className={`header-menu-link d-flex align-items-center position-relative ${
-                                isActive === index ? "active" : ""
-                              }`}
-                              onClick={() => dispatch(setActiveMainMenu(index))}
-                            >
-                              {link.title}
-                            </a>
-                          </Link>
-                          <ul className={`main-header-sub-menu list-none m-0`}>
-                            {underMenu.map((undMenu, index) => (
-                              <li key={index}>
-                                <Link href={`/${undMenu.path}`}>
-                                  <a
-                                    onClick={() =>
-                                      dispatch(setActiveUnderMenu(index))
-                                    }
-                                    className={`header-sub-menu-link d-flex align-items-center w-100 ${
-                                      isActiveUnderMenu === index && "active"
-                                    }`}
-                                  >
-                                    {undMenu.title}
-                                  </a>
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </li>
-                      </>
-                    ))}
-                  </ul>
-                )}
+                            {link.title}
+                          </a>
+                        </Link>
+                        <ul className={`main-header-sub-menu list-none m-0`}>
+                          {underMenu.map((undMenu, index) => (
+                            <li key={index}>
+                              <Link href={`/${undMenu.path}`}>
+                                <a
+                                  onClick={() =>
+                                    dispatch(setActiveUnderMenu(index))
+                                  }
+                                  className={`header-sub-menu-link d-flex align-items-center w-100 ${
+                                    isActiveUnderMenu === index && "active"
+                                  }`}
+                                >
+                                  {undMenu.title}
+                                </a>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    </>
+                  ))}
+                </ul>
               </nav>
             )}
             <Search />
