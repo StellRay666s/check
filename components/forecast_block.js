@@ -53,37 +53,33 @@ export default function ForecastBlock({
         {activeForecastTab === "football" ? (
           <div className={`forecast-tab-content`}>
             <div className={`forecast-table d-flex flex-column`}>
-              {footballMatches.length === 0
-                ? "Сегодня матчей нет"
-                : footballMatches.map((item) => (
-                    <MatchPlate
-                      key={item.EVENT_ID}
-                      logoTeamAway={item.AWAY_IMAGES}
-                      logoTeamHome={item.HOME_IMAGES}
-                      timeStamp={item.START_TIME}
-                      nameHome={item.HOME_NAME}
-                      nameAway={item.AWAY_NAME}
-                      eventId={item.EVENT_ID}
-                    />
-                  ))}
+              {footballMatches.map((item) => (
+                <MatchPlate
+                  key={item.EVENT_ID}
+                  logoTeamAway={item.AWAY_IMAGES}
+                  logoTeamHome={item.HOME_IMAGES}
+                  timeStamp={item.START_TIME}
+                  nameHome={item.HOME_NAME}
+                  nameAway={item.AWAY_NAME}
+                  eventId={item.EVENT_ID}
+                />
+              ))}
             </div>
           </div>
         ) : (
           <div className={`forecast-tab-content`}>
             <div className={`forecast-table d-flex flex-column`}>
-              {hocceyMatches?.[0].length === 0
-                ? "Сегодня нет матчей"
-                : hocceyMatches?.[0].map((item) => (
-                    <MatchPlate
-                      key={item.EVENT_ID}
-                      logoTeamAway={item.AWAY_IMAGES}
-                      logoTeamHome={item.HOME_IMAGES}
-                      timeStamp={item.START_TIME}
-                      nameHome={item.HOME_NAME}
-                      nameAway={item.AWAY_NAME}
-                      eventId={item.EVENT_ID}
-                    />
-                  ))}
+              {hocceyMatches?.[0].map((item) => (
+                <MatchPlate
+                  key={item.EVENT_ID}
+                  logoTeamAway={item.AWAY_IMAGES}
+                  logoTeamHome={item.HOME_IMAGES}
+                  timeStamp={item.START_TIME}
+                  nameHome={item.HOME_NAME}
+                  nameAway={item.AWAY_NAME}
+                  eventId={item.EVENT_ID}
+                />
+              ))}
             </div>
           </div>
         )}
