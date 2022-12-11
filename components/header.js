@@ -31,46 +31,43 @@ export default function Header() {
       title: "НОВОСТИ",
       path: "news",
     },
-  ]);
-
-  const telegram = [
     {
-      title: "Telegam",
+      title: "Telegram",
       path: "",
     },
-  ];
+  ]);
 
   const underMenu = [
     { title: "Хоккейная лига НХЛ", path: "hockey-league" },
     { title: "Футбольный лиги", path: "football-leagues" },
   ];
 
-  const ref = React.useRef(null);
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.menu.isActive);
   const isActiveUnderMenu = useSelector(
     (state) => state.menu.isActiveUnderMenu
   );
-  console.log(menuList);
-  React.useEffect(() => {
-    window.addEventListener("resize", () => {
-      if (
-        ref.current.offsetWidth < 1020 &&
-        menuList.find((item) => item.title !== "Telegam")
-      ) {
-        setActtive(false);
-        menuList.concat(telegram);
-      } else {
-        setActtive(true);
-      }
 
-      console.log(menuList);
+  React.useEffect(() => {
+    setActtive(false);
+    window.addEventListener("resize", () => {
+      setWidth(window.innerWidth);
     });
-  }, [ref]);
+
+    if (width < 1025) {
+      setActtive(false);
+      setMenuList(menuList);
+    }
+
+    if (width > 1025) {
+      setMenuList(menuList.filter((item) => item.title != "Telegram"));
+      setActtive(true);
+    }
+  }, [width]);
 
   return (
     <>
-      <div ref={ref} className={`main-header position-absolute`}>
+      <div className={`main-header position-absolute`}>
         <div className={`main-header-logo-decore position-absolute`}>
           <div className={`main-header-logo-decore_bg`}></div>
         </div>
