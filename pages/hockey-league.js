@@ -19,7 +19,7 @@ function HockeyLeague() {
           params: {
             locale: "ru_RU",
             sport_id: "4",
-            indent_days: "0",
+            indent_days: "1",
             timezone: "3",
           },
           headers: {
@@ -71,7 +71,7 @@ function HockeyLeague() {
           </div>
           <div className={`container mx-auto d-grid`}>
             <div className={`main-column d-flex flex-column`}>
-              {/* {todayMatches.length === 0 ? (
+              {todayMatches.length === 0 ? (
                 "Нету матчей"
               ) : (
                 <PronosisTable
@@ -85,8 +85,8 @@ function HockeyLeague() {
                   matches={todayMatches}
                   title={"Национальная хоккейная лига"}
                 />
-              )} */}
-              {tomorrowMatches.length === 0 ? (
+              )}
+              {/* {tomorrowMatches.length === 0 ? (
                 "Нету матчей"
               ) : (
                 <PronosisTable
@@ -100,7 +100,7 @@ function HockeyLeague() {
                   matches={tomorrowMatches}
                   title={"Национальная хоккейная лига"}
                 />
-              )}
+              )} */}
               <MainTriggersBlock />
               <SeoBlock />
             </div>

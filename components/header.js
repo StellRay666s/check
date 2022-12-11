@@ -14,8 +14,7 @@ import Search from "./search";
 export default function Header() {
   const [active, setActtive] = React.useState(true);
   const [width, setWidth] = React.useState();
-
-  const menuList = [
+  const [menuList, setMenuList] = React.useState([
     {
       title: "КАК ЭТО РАБОТАЕТ?",
       path: "how-it-work",
@@ -32,7 +31,7 @@ export default function Header() {
       title: "НОВОСТИ",
       path: "news",
     },
-  ];
+  ]);
 
   const telegram = [
     {
@@ -46,27 +45,32 @@ export default function Header() {
     { title: "Футбольный лиги", path: "football-leagues" },
   ];
 
+  const ref = React.useRef(null);
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.menu.isActive);
   const isActiveUnderMenu = useSelector(
     (state) => state.menu.isActiveUnderMenu
   );
-
+  console.log(menuList);
   React.useEffect(() => {
     window.addEventListener("resize", () => {
-      if (window.innerWidth < 1025) {
+      if (
+        ref.current.offsetWidth < 1020 &&
+        menuList.find((item) => item.title !== "Telegam")
+      ) {
         setActtive(false);
-        menuList.push(telegram);
-      }
-      if (window.innerWidth > 1025) {
+        menuList.concat(telegram);
+      } else {
         setActtive(true);
       }
+
+      console.log(menuList);
     });
-  }, []);
+  }, [ref]);
 
   return (
     <>
-      <div className={`main-header position-absolute`}>
+      <div ref={ref} className={`main-header position-absolute`}>
         <div className={`main-header-logo-decore position-absolute`}>
           <div className={`main-header-logo-decore_bg`}></div>
         </div>
