@@ -68,6 +68,7 @@ function TableBaseTariffs({
           )}
           {activeForecastTab === "time1" ? (
             <TableStatsBaseTariff
+              activeForecastTab={activeForecastTab}
               statsAll={firstPeriod}
               numbers={numbers}
               logoHome={logoHome}
@@ -79,6 +80,7 @@ function TableBaseTariffs({
           )}
           {activeForecastTab === "time2" ? (
             <TableStatsBaseTariff
+              activeForecastTab={activeForecastTab}
               numbers={numbers}
               logoHome={logoHome}
               logoAway={logoAway}
@@ -90,6 +92,7 @@ function TableBaseTariffs({
           )}
           {activeForecastTab === "time3" ? (
             <TableStatsBaseTariff
+              activeForecastTab={activeForecastTab}
               numbers={numbers}
               logoHome={logoHome}
               logoAway={logoAway}
@@ -104,6 +107,7 @@ function TableBaseTariffs({
         <>
           {activeForecastTab === "match" ? (
             <TableStatsBaseTariff
+              activeForecastTab={activeForecastTab}
               statsAll={statsAll}
               numbers={numbers}
               logoHome={logoHome}
@@ -116,6 +120,7 @@ function TableBaseTariffs({
           {activeForecastTab === "time1" ? (
             <TableStatsBaseTariff
               statsAll={firstTime}
+              activeForecastTab={activeForecastTab}
               numbers={numbers}
               logoHome={logoHome}
               logoAway={logoAway}
@@ -127,6 +132,7 @@ function TableBaseTariffs({
           {activeForecastTab === "time2" ? (
             <TableStatsBaseTariff
               numbers={numbers}
+              activeForecastTab={activeForecastTab}
               logoHome={logoHome}
               logoAway={logoAway}
               statsAll={secondTime}

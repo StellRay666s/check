@@ -41,19 +41,18 @@ function TableStatsBaseTariff({
           </div>
         </div>
         <div className="table-free-body">
+          {activeForecastTab === "match" && (
+            <StatsPlate
+              homeStats={statsAll?.individTotalHomeGoal}
+              totalStats={
+                statsAll?.individTotalAwayGoal + statsAll?.individTotalHomeGoal
+              }
+              totalAway={statsAll?.individTotalAwayGoal}
+              statsName={"Голы"}
+            />
+          )}
           {tournament?.NAME === "США: НХЛ" ? (
             <>
-              {activeForecastTab === "match" && (
-                <StatsPlate
-                  homeStats={statsAll?.individTotalHomeGoal}
-                  totalStats={
-                    statsAll?.individTotalHomeGoal +
-                    statsAll?.individTotalAwayGoal
-                  }
-                  totalAway={statsAll?.individTotalAwayGoal}
-                  statsName={"Голы"}
-                />
-              )}
               <StatsPlate
                 homeStats={statsAll?.individTotalHome}
                 totalAway={statsAll?.individTotalAway}
@@ -83,18 +82,6 @@ function TableStatsBaseTariff({
             </>
           ) : (
             <>
-              {activeForecastTab === "match" && (
-                <StatsPlate
-                  homeStats={statsAll?.individTotalHomeGoal}
-                  totalStats={
-                    statsAll?.individTotalAwayGoal +
-                    statsAll?.individTotalHomeGoal
-                  }
-                  totalAway={statsAll?.individTotalAwayGoal}
-                  statsName={"Голы"}
-                />
-              )}
-
               <StatsPlate
                 homeStats={statsAll?.cornerIndividTotalHome}
                 totalStats={
