@@ -796,6 +796,12 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
   gap: 12px;
 }
 
+@media screen and (max-width: 410px) {
+  .forecast-item {
+    gap: 6px;
+  }
+}
+
 .forecast-item-date {
   width: 95px;
   height: 52px;
@@ -818,6 +824,7 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 @media screen and (max-width: 410px) {
   .forecast-item-content {
     justify-content: start;
+    width: 270px;
   }
 }
 
@@ -3607,8 +3614,14 @@ label.checkbox #agree {
   }
 
   .forecast-tab-content {
-    padding: 20px 15px;
-    overflow: auto;
+    padding: 20px 16px;
+    overflow-x: hidden;
+  }
+
+  @media screen and (max-width: 410px) {
+    .forecast-tab-content {
+      padding: 20px 6px;
+    }
   }
 
   .seo_block {
