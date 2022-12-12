@@ -3075,7 +3075,7 @@ label.checkbox #agree {
   @media screen and (max-width: 410px) {
     .forecast-item-date {
       width: 44px;
-      font-size: 8px;
+      font-size: 11px;
       height: 29px;
     }
   }
@@ -3107,7 +3107,7 @@ label.checkbox #agree {
 
   @media screen and (max-width: 410px) {
     .forecast-item-name {
-      font-size: 9px;
+      font-size: 11px;
       width: 70px;
     }
   }
