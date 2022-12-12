@@ -824,7 +824,7 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 @media screen and (max-width: 410px) {
   .forecast-item-content {
     justify-content: start;
-    width: 270px;
+    width: calc(100% - 324px);
   }
 }
 
