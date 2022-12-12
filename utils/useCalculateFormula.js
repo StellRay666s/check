@@ -273,7 +273,39 @@ function useCalculateFormule(eventId) {
               }, 0);
       }
 
-      const firstMatchCornerShotAwayEnemy = getBaseStatsEnemy(
+      function getBaseStatsAway(a, b, c, d, e, arr) {
+        return checkTeamSideAway[a]
+          ? arr
+              .filter((item) => item !== undefined)
+              .slice(d, e)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
+          : arr
+              .filter((item) => item !== undefined)
+              .slice(d, e)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0);
+      }
+
+      function getBaseStatsEnemyAway(a, b, c, d, e, arr) {
+        return checkTeamSideAway[a]
+          ? arr
+              .filter((item) => item !== undefined)
+              .slice(d, e)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
+          : arr
+              .filter((item) => item !== undefined)
+              .slice(d, e)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0);
+      }
+
+      const firstMatchCornerShotAwayEnemy = getBaseStatsEnemyAway(
         0,
         0,
         3,
@@ -282,7 +314,7 @@ function useCalculateFormule(eventId) {
         cornerShotsAway
       );
 
-      const secondMatchCornerShotAwayEnemy = getBaseStatsEnemy(
+      const secondMatchCornerShotAwayEnemy = getBaseStatsEnemyAway(
         1,
         3,
         6,
@@ -291,7 +323,7 @@ function useCalculateFormule(eventId) {
         cornerShotsAway
       );
 
-      const thirdMatchCornerShotAwayEnemy = getBaseStatsEnemy(
+      const thirdMatchCornerShotAwayEnemy = getBaseStatsEnemyAway(
         2,
         6,
         9,
@@ -300,7 +332,7 @@ function useCalculateFormule(eventId) {
         cornerShotsAway
       );
 
-      const fouthMatchCornerShotAwayEnemy = getBaseStatsEnemy(
+      const fouthMatchCornerShotAwayEnemy = getBaseStatsEnemyAway(
         3,
         9,
         12,
@@ -309,7 +341,7 @@ function useCalculateFormule(eventId) {
         cornerShotsAway
       );
 
-      const fivesMatchCornerShotAwayEnemy = getBaseStatsEnemy(
+      const fivesMatchCornerShotAwayEnemy = getBaseStatsEnemyAway(
         4,
         12,
         15,
@@ -317,7 +349,7 @@ function useCalculateFormule(eventId) {
         10,
         cornerShotsAway
       );
-      const sixMatchCornerShotHomeAwayEnemy = getBaseStatsEnemy(
+      const sixMatchCornerShotHomeAwayEnemy = getBaseStatsEnemyAway(
         5,
         15,
         18,
@@ -326,7 +358,7 @@ function useCalculateFormule(eventId) {
         cornerShotsAway
       );
 
-      const firstMatchCornerShotAway = getBaseStats(
+      const firstMatchCornerShotAway = getBaseStatsAway(
         0,
         0,
         3,
@@ -335,7 +367,7 @@ function useCalculateFormule(eventId) {
         cornerShotsAway
       );
 
-      const secondMatchCornerShotAway = getBaseStats(
+      const secondMatchCornerShotAway = getBaseStatsAway(
         1,
         3,
         6,
@@ -344,7 +376,7 @@ function useCalculateFormule(eventId) {
         cornerShotsAway
       );
 
-      const thirdMatchCornerShotAway = getBaseStats(
+      const thirdMatchCornerShotAway = getBaseStatsAway(
         2,
         6,
         9,
@@ -353,7 +385,7 @@ function useCalculateFormule(eventId) {
         cornerShotsAway
       );
 
-      const fouthMatchCornerShotAway = getBaseStats(
+      const fouthMatchCornerShotAway = getBaseStatsAway(
         3,
         9,
         12,
@@ -362,7 +394,7 @@ function useCalculateFormule(eventId) {
         cornerShotsAway
       );
 
-      const fivesMatchCornerShotAway = getBaseStats(
+      const fivesMatchCornerShotAway = getBaseStatsAway(
         4,
         12,
         15,
@@ -657,7 +689,7 @@ function useCalculateFormule(eventId) {
         ofsidesHome
       );
 
-      const firstMatchOffisideAwayEnemy = getBaseStatsEnemy(
+      const firstMatchOffisideAwayEnemy = getBaseStatsEnemyAway(
         0,
         0,
         3,
@@ -666,7 +698,7 @@ function useCalculateFormule(eventId) {
         ofsidesAway
       );
 
-      const secondMatchOffisideAwayEnemy = getBaseStatsEnemy(
+      const secondMatchOffisideAwayEnemy = getBaseStatsEnemyAway(
         1,
         3,
         6,
@@ -675,7 +707,7 @@ function useCalculateFormule(eventId) {
         ofsidesAway
       );
 
-      const thirdMatchOffisideAwayEnemy = getBaseStatsEnemy(
+      const thirdMatchOffisideAwayEnemy = getBaseStatsEnemyAway(
         2,
         6,
         9,
@@ -683,7 +715,7 @@ function useCalculateFormule(eventId) {
         6,
         ofsidesAway
       );
-      const fouthMatchOffisideAwayEnemy = getBaseStatsEnemy(
+      const fouthMatchOffisideAwayEnemy = getBaseStatsEnemyAway(
         3,
         9,
         12,
@@ -692,7 +724,7 @@ function useCalculateFormule(eventId) {
         ofsidesAway
       );
 
-      const fivesMatchOffisideAwayEnemy = getBaseStatsEnemy(
+      const fivesMatchOffisideAwayEnemy = getBaseStatsEnemyAway(
         4,
         12,
         15,
@@ -700,7 +732,7 @@ function useCalculateFormule(eventId) {
         10,
         ofsidesAway
       );
-      const sixMatchOffisideHomeAwayEnemy = getBaseStatsEnemy(
+      const sixMatchOffisideHomeAwayEnemy = getBaseStatsEnemyAway(
         5,
         15,
         18,
@@ -709,14 +741,42 @@ function useCalculateFormule(eventId) {
         ofsidesAway
       );
 
-      const firstMatchOffisideAway = getBaseStats(0, 0, 3, 0, 2, ofsidesAway);
+      const firstMatchOffisideAway = getBaseStatsAway(
+        0,
+        0,
+        3,
+        0,
+        2,
+        ofsidesAway
+      );
 
-      const secondMatchOffisideAway = getBaseStats(1, 3, 6, 2, 4, ofsidesAway);
-      const thirdMatchOffisideAway = getBaseStats(2, 6, 9, 4, 6, ofsidesAway);
+      const secondMatchOffisideAway = getBaseStatsAway(
+        1,
+        3,
+        6,
+        2,
+        4,
+        ofsidesAway
+      );
+      const thirdMatchOffisideAway = getBaseStatsAway(
+        2,
+        6,
+        9,
+        4,
+        6,
+        ofsidesAway
+      );
 
-      const fouthMatchOffisideAway = getBaseStats(3, 9, 12, 6, 8, ofsidesAway);
+      const fouthMatchOffisideAway = getBaseStatsAway(
+        3,
+        9,
+        12,
+        6,
+        8,
+        ofsidesAway
+      );
 
-      const fivesMatchOffisideAway = getBaseStats(
+      const fivesMatchOffisideAway = getBaseStatsAway(
         4,
         12,
         15,
@@ -725,7 +785,7 @@ function useCalculateFormule(eventId) {
         ofsidesAway
       );
 
-      const sixMatchOffisideHomeAway = getBaseStats(
+      const sixMatchOffisideHomeAway = getBaseStatsAway(
         5,
         15,
         18,
@@ -871,7 +931,7 @@ function useCalculateFormule(eventId) {
         fivesMatchFollsEnemy +
         sixMatchFollsHomeEnemy;
 
-      const firstMatchFollsAwayEnemy = getBaseStatsEnemy(
+      const firstMatchFollsAwayEnemy = getBaseStatsEnemyAway(
         0,
         0,
         3,
@@ -880,7 +940,7 @@ function useCalculateFormule(eventId) {
         follsAway
       );
 
-      const secondMatchFollsAwayEnemy = getBaseStatsEnemy(
+      const secondMatchFollsAwayEnemy = getBaseStatsEnemyAway(
         1,
         3,
         6,
@@ -889,7 +949,7 @@ function useCalculateFormule(eventId) {
         follsAway
       );
 
-      const thirdMatchFollsAwayEnemy = getBaseStatsEnemy(
+      const thirdMatchFollsAwayEnemy = getBaseStatsEnemyAway(
         2,
         6,
         9,
@@ -897,7 +957,7 @@ function useCalculateFormule(eventId) {
         6,
         follsAway
       );
-      const fouthMatchFollsAwayEnemy = getBaseStatsEnemy(
+      const fouthMatchFollsAwayEnemy = getBaseStatsEnemyAway(
         3,
         9,
         12,
@@ -906,7 +966,7 @@ function useCalculateFormule(eventId) {
         follsAway
       );
 
-      const fivesMatchFollsAwayEnemy = getBaseStatsEnemy(
+      const fivesMatchFollsAwayEnemy = getBaseStatsEnemyAway(
         4,
         12,
         15,
@@ -914,7 +974,7 @@ function useCalculateFormule(eventId) {
         10,
         follsAway
       );
-      const sixMatchFollsAwayEnemy = getBaseStatsEnemy(
+      const sixMatchFollsAwayEnemy = getBaseStatsEnemyAway(
         5,
         15,
         18,
@@ -923,16 +983,16 @@ function useCalculateFormule(eventId) {
         follsAway
       );
 
-      const firstMatchFollsAway = getBaseStats(0, 0, 3, 0, 2, follsAway);
+      const firstMatchFollsAway = getBaseStatsAway(0, 0, 3, 0, 2, follsAway);
 
-      const secondMatchFollsAway = getBaseStats(1, 3, 6, 2, 4, follsAway);
-      const thirdMatchFollsAway = getBaseStats(2, 6, 9, 4, 6, follsAway);
+      const secondMatchFollsAway = getBaseStatsAway(1, 3, 6, 2, 4, follsAway);
+      const thirdMatchFollsAway = getBaseStatsAway(2, 6, 9, 4, 6, follsAway);
 
-      const fouthMatchFollsAway = getBaseStats(3, 9, 12, 6, 8, follsAway);
+      const fouthMatchFollsAway = getBaseStatsAway(3, 9, 12, 6, 8, follsAway);
 
-      const fivesMatchFollsAway = getBaseStats(4, 12, 15, 8, 10, follsAway);
+      const fivesMatchFollsAway = getBaseStatsAway(4, 12, 15, 8, 10, follsAway);
 
-      const sixMatchFollsAway = getBaseStats(5, 15, 18, 10, 12, follsAway);
+      const sixMatchFollsAway = getBaseStatsAway(5, 15, 18, 10, 12, follsAway);
 
       const follsAwayFourMatches =
         firstMatchFollsAway +
@@ -1122,7 +1182,7 @@ function useCalculateFormule(eventId) {
         fivesMatchYellowCardHomeEnemy +
         sixMatchYellowCardHomeEnemy;
 
-      const firstMatchYellowCardAwayEnemy = getBaseStatsEnemy(
+      const firstMatchYellowCardAwayEnemy = getBaseStatsEnemyAway(
         0,
         0,
         3,
@@ -1131,7 +1191,7 @@ function useCalculateFormule(eventId) {
         yellowCardAway
       );
 
-      const secondMatchYellowCardAwayEnemy = getBaseStatsEnemy(
+      const secondMatchYellowCardAwayEnemy = getBaseStatsEnemyAway(
         1,
         3,
         6,
@@ -1140,7 +1200,7 @@ function useCalculateFormule(eventId) {
         yellowCardAway
       );
 
-      const thirdMatchYellowCardAwayEnemy = getBaseStatsEnemy(
+      const thirdMatchYellowCardAwayEnemy = getBaseStatsEnemyAway(
         2,
         6,
         9,
@@ -1148,7 +1208,7 @@ function useCalculateFormule(eventId) {
         6,
         yellowCardAway
       );
-      const fouthMatchYellowCardAwayEnemy = getBaseStatsEnemy(
+      const fouthMatchYellowCardAwayEnemy = getBaseStatsEnemyAway(
         3,
         9,
         12,
@@ -1157,7 +1217,7 @@ function useCalculateFormule(eventId) {
         yellowCardAway
       );
 
-      const fivesMatchYellowCardAwayEnemy = getBaseStatsEnemy(
+      const fivesMatchYellowCardAwayEnemy = getBaseStatsEnemyAway(
         4,
         12,
         15,
@@ -1165,7 +1225,7 @@ function useCalculateFormule(eventId) {
         10,
         yellowCardAway
       );
-      const sixMatchYellowCardAwayEnemy = getBaseStatsEnemy(
+      const sixMatchYellowCardAwayEnemy = getBaseStatsEnemyAway(
         5,
         15,
         18,
@@ -1174,7 +1234,7 @@ function useCalculateFormule(eventId) {
         yellowCardAway
       );
 
-      const firstMatchYellowCardAway = getBaseStats(
+      const firstMatchYellowCardAway = getBaseStatsAway(
         0,
         0,
         3,
@@ -1183,7 +1243,7 @@ function useCalculateFormule(eventId) {
         yellowCardAway
       );
 
-      const secondMatchYellowCardAway = getBaseStats(
+      const secondMatchYellowCardAway = getBaseStatsAway(
         1,
         3,
         6,
@@ -1191,7 +1251,7 @@ function useCalculateFormule(eventId) {
         4,
         yellowCardAway
       );
-      const thirdMatchYellowCardAway = getBaseStats(
+      const thirdMatchYellowCardAway = getBaseStatsAway(
         2,
         6,
         9,
@@ -1200,7 +1260,7 @@ function useCalculateFormule(eventId) {
         yellowCardAway
       );
 
-      const fouthMatchYellowCardAway = getBaseStats(
+      const fouthMatchYellowCardAway = getBaseStatsAway(
         3,
         9,
         12,
@@ -1209,7 +1269,7 @@ function useCalculateFormule(eventId) {
         yellowCardAway
       );
 
-      const fivesMatchYellowCardAway = getBaseStats(
+      const fivesMatchYellowCardAway = getBaseStatsAway(
         4,
         12,
         15,
@@ -1218,7 +1278,7 @@ function useCalculateFormule(eventId) {
         yellowCardAway
       );
 
-      const sixMatchYellowCardAway = getBaseStats(
+      const sixMatchYellowCardAway = getBaseStatsAway(
         5,
         15,
         18,
@@ -1977,9 +2037,9 @@ function useCalculateFormule(eventId) {
         (injuriesBlockedShotsHome + injuriesBlockedShotsAway) / 2;
 
       const individeTotalBlockedShotsHome =
-        allBlockedShotsHome / allMissedBlockedShotsAway / 2;
+        (allBlockedShotsHome + allMissedBlockedShotsAway) / 2;
       const individeTotalBlockedShotsAway =
-        allBlockedShotsAway / allMissedBlockedShotsHome / 2;
+        (allBlockedShotsAway + allMissedBlockedShotsHome) / 2;
 
       //individeTotalBlockedShotsHome,individeTotalBlockedShotsAway
 
@@ -3489,7 +3549,6 @@ function useCalculateFormule(eventId) {
         10,
         cornerShotsAway
       );
-      console.log(fivesMatchCornerShotAway);
 
       const sixMatchCornerShotHomeAway = getBaseStatsAway(
         5,
