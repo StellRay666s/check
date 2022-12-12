@@ -17,6 +17,8 @@ function MatchPlate({
   const hour = datteObject.toLocaleString("en-UK", { hour: "numeric" });
   const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
 
+  console.log(datteObject === new Date());
+
   return (
     <Link href={`/match/${eventId}`}>
       <a className={`forecast-item d-flex align-items-center`}>

@@ -52,7 +52,7 @@ export default function League() {
         params: {
           locale: "ru_RU",
           sport_id: "1",
-          indent_days: "1",
+          indent_days: "2",
           timezone: "3",
         },
         headers: {
@@ -69,6 +69,7 @@ export default function League() {
 
     setIsLoad(true);
   }
+  console.log(tomorrowMatches);
 
   React.useEffect(() => {
     getMatchOneLeag();
