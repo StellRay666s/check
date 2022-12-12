@@ -818,7 +818,6 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
   background: #ffffff;
   backdrop-filter: blur(6px);
   height: 52px;
-  width: calc(100% - 107px);
 }
 
 @media screen and (max-width: 410px) {
@@ -3085,6 +3084,12 @@ label.checkbox #agree {
     width: calc(100% - 77px);
   }
 
+  @media screen and (max-width: 410px) {
+    .forecast-item-content {
+      width: 276px;
+    }
+  }
+
   .forecast-item-team {
     width: 185px;
   }
@@ -4105,6 +4110,6 @@ label.checkbox #agree {
 @media screen and (max-width: 410px) {
   .forecast-tab-content {
     padding: 20px 6px;
-    width: calc(100% - 40px);
+    width: calc(100%);
   }
 }
