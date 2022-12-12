@@ -19,7 +19,6 @@ function TableBaseTariffs({
   secondPeriod,
   thirdPeriod,
 }) {
-  console.log(firstPeriod);
   return (
     <div className={`forecast-tabs`}>
       <div className={`forecast-tabs-buttons d-flex align-items-center`}>

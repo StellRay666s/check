@@ -12,7 +12,7 @@ import Login from "./login";
 import Search from "./search";
 
 export default function Header() {
-  const [active, setActtive] = React.useState(true);
+  const [active, setActtive] = React.useState(false);
   const [width, setWidth] = React.useState();
   const [menuList, setMenuList] = React.useState([
     {
@@ -66,19 +66,26 @@ export default function Header() {
     (state) => state.menu.isActiveUnderMenu
   );
 
-  React.useEffect(() => {
-    setActtive(true);
-    window.addEventListener("resize", () => {
-      setWidth(window.innerWidth);
-    });
+  function fullSize() {
+    if (innerWidth > 1025) {
+      setMenuList(menuList.filter((item) => item.title != "Telegram"));
+      setActtive(true);
+    }
+  }
+
+  function mobileSize() {
     if (width < 1025) {
       setActtive(false);
       setMenuList(menuList);
     }
-    if (width > 1025) {
-      setMenuList(menuList.filter((item) => item.title != "Telegram"));
-      setActtive(true);
-    }
+  }
+
+  React.useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWidth(window.innerWidth);
+      fullSize();
+      mobileSize();
+    });
   }, [width]);
 
   return (
