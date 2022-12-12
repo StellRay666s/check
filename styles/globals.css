@@ -824,7 +824,7 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 @media screen and (max-width: 410px) {
   .forecast-item-content {
     justify-content: start;
-    width: calc(100% - 324px);
+    width: 276px;
   }
 }
 
@@ -4099,5 +4099,12 @@ label.checkbox #agree {
   .tariffs-items-content {
     grid-template-columns: repeat(1, 1fr);
     gap: 65px;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .forecast-tab-content {
+    padding: 20px 6px;
+    width: calc(100% - 40px);
   }
 }
