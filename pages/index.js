@@ -99,7 +99,7 @@ export default function Home() {
           locale: "ru_RU",
           sport_id: "4",
           indent_days: "1",
-          timezone: "-3",
+          timezone: "3",
         },
         headers: {
           "X-RapidAPI-Key":
