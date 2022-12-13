@@ -32,7 +32,7 @@ function useCalculateFormule(eventId) {
   const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
   const day = datteObject.toLocaleString("en-UK", { day: "numeric" });
   const month = datteObject.toLocaleString("ru-RU", { month: "long" });
-  console.log(teamResultHome);
+
   // Кол-во игр в лиге
 
   function calculateStats(period) {
@@ -388,6 +388,7 @@ function useCalculateFormule(eventId) {
         (item) => item.TEAM_MARK === "away"
       );
 
+      console.log(firstMatchCornerShotHome);
       function getBaseStats(a, b, c, d, e, arr) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
@@ -454,18 +455,18 @@ function useCalculateFormule(eventId) {
               .filter((item) => item !== undefined)
               .slice(d, e)
               .reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
+                return sum + Number(obj?.VALUE_AWAY);
               }, 0)
           : arr
               .filter((item) => item !== undefined)
               .slice(d, e)
               .reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
+                return sum + Number(obj?.VALUE_HOME);
               }, 0);
       }
 
       function getBaseStatsEnemyAway(a, b, c, d, e, arr) {
-        return checkTeamSideAway[a]
+        return !checkTeamSideAway[a]
           ? arr
               .filter((item) => item !== undefined)
               .slice(d, e)
@@ -485,7 +486,7 @@ function useCalculateFormule(eventId) {
         0,
         3,
         0,
-        2,
+        1,
         cornerShotsAway
       );
 
@@ -493,8 +494,8 @@ function useCalculateFormule(eventId) {
         1,
         3,
         6,
+        1,
         2,
-        4,
         cornerShotsAway
       );
 
@@ -502,8 +503,8 @@ function useCalculateFormule(eventId) {
         2,
         6,
         9,
-        4,
-        6,
+        2,
+        3,
         cornerShotsAway
       );
 
@@ -511,8 +512,8 @@ function useCalculateFormule(eventId) {
         3,
         9,
         12,
-        6,
-        8,
+        3,
+        4,
         cornerShotsAway
       );
 
@@ -520,16 +521,17 @@ function useCalculateFormule(eventId) {
         4,
         12,
         15,
-        8,
-        10,
+        4,
+        5,
         cornerShotsAway
       );
+
       const sixMatchCornerShotHomeAwayEnemy = getBaseStatsEnemyAway(
         5,
         15,
         18,
-        10,
-        12,
+        5,
+        6,
         cornerShotsAway
       );
 
@@ -538,7 +540,7 @@ function useCalculateFormule(eventId) {
         0,
         3,
         0,
-        2,
+        1,
         cornerShotsAway
       );
 
@@ -546,8 +548,8 @@ function useCalculateFormule(eventId) {
         1,
         3,
         6,
+        1,
         2,
-        4,
         cornerShotsAway
       );
 
@@ -555,8 +557,8 @@ function useCalculateFormule(eventId) {
         2,
         6,
         9,
-        4,
-        6,
+        2,
+        3,
         cornerShotsAway
       );
 
@@ -564,8 +566,8 @@ function useCalculateFormule(eventId) {
         3,
         9,
         12,
-        6,
-        8,
+        3,
+        4,
         cornerShotsAway
       );
 
@@ -573,8 +575,8 @@ function useCalculateFormule(eventId) {
         4,
         12,
         15,
-        8,
-        10,
+        4,
+        5,
         cornerShotsAway
       );
 
@@ -582,8 +584,8 @@ function useCalculateFormule(eventId) {
         5,
         15,
         18,
-        10,
-        12,
+        5,
+        6,
         cornerShotsAway
       );
 
@@ -592,7 +594,7 @@ function useCalculateFormule(eventId) {
         0,
         3,
         0,
-        2,
+        1,
         cornerShotsHome
       );
 
@@ -600,8 +602,8 @@ function useCalculateFormule(eventId) {
         1,
         3,
         6,
+        1,
         2,
-        4,
         cornerShotsHome
       );
 
@@ -609,16 +611,17 @@ function useCalculateFormule(eventId) {
         2,
         6,
         9,
-        4,
-        6,
+        2,
+        3,
         cornerShotsHome
       );
+
       const fouthMatchCornerShotHomeEnemy = getBaseStatsEnemy(
         3,
         9,
         12,
-        6,
-        8,
+        3,
+        4,
         cornerShotsHome
       );
 
@@ -626,16 +629,16 @@ function useCalculateFormule(eventId) {
         4,
         12,
         15,
-        8,
-        10,
+        4,
+        5,
         cornerShotsHome
       );
       const sixMatchCornerShotHomeHomeEnemy = getBaseStatsEnemy(
         5,
         15,
         18,
-        10,
-        12,
+        5,
+        6,
         cornerShotsHome
       );
 
@@ -644,7 +647,7 @@ function useCalculateFormule(eventId) {
         0,
         3,
         0,
-        2,
+        1,
         cornerShotsHome
       );
 
@@ -652,16 +655,16 @@ function useCalculateFormule(eventId) {
         1,
         3,
         6,
+        1,
         2,
-        4,
         cornerShotsHome
       );
       const thirdMatchCornerShotHome = getBaseStats(
         2,
         6,
         9,
-        4,
-        6,
+        2,
+        3,
         cornerShotsHome
       );
 
@@ -669,8 +672,8 @@ function useCalculateFormule(eventId) {
         3,
         9,
         12,
-        6,
-        8,
+        3,
+        4,
         cornerShotsHome
       );
 
@@ -678,8 +681,8 @@ function useCalculateFormule(eventId) {
         4,
         12,
         15,
-        8,
-        10,
+        4,
+        5,
         cornerShotsHome
       );
 
@@ -687,8 +690,8 @@ function useCalculateFormule(eventId) {
         5,
         15,
         18,
-        10,
-        12,
+        5,
+        6,
         cornerShotsHome
       );
 
@@ -759,6 +762,8 @@ function useCalculateFormule(eventId) {
       const cornerHome =
         middleCornerShotsHomeForFourMatches * 0.6 +
         middleCornerShotsHomeForSixMatches * 0.4;
+
+      console.log(cornerShotsAwayForSixMatches);
       const cornerAway =
         middleCornerShotsAwayForFourMatches * 0.6 +
         middleCornerShotsAwayForSixMatches * 0.4;
@@ -1673,10 +1678,12 @@ function useCalculateFormule(eventId) {
         secondMatchShotsOnTarget +
         thirdMatchShotsOnTarget +
         fouthMatchShotsOnTarget;
+
       const shotsOnTargetHomeForSixMatches =
         shotsOnTargetHomeForFourMatch +
         fivesMatchShotsOnTarget +
         sixMatchShotsOnTarget;
+
       function getShotsOnTargetHomeEnemy(a, b, c, d, e) {
         return tournament.NAME === "США: НХЛ"
           ? !checkTeamSideHome[a]

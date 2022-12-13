@@ -12,7 +12,7 @@ import Login from "./login";
 import Search from "./search";
 
 export default function Header() {
-  const [active, setActtive] = React.useState(false);
+  const [active, setActtive] = React.useState(true);
   const [width, setWidth] = React.useState();
   const [menuList, setMenuList] = React.useState([
     {
