@@ -2,7 +2,6 @@
 //Голы
 import React from "react";
 import axios from "axios";
-import { useState } from "react";
 import { useRouter } from "next/router";
 
 function useCalculateFormule(eventId) {
@@ -23,6 +22,8 @@ function useCalculateFormule(eventId) {
   const [statsForFourMatchesAway, setStatsForFourMatchesAway] = React.useState(
     []
   );
+  const [teamResultAway, setTeamResultAway] = React.useState([]);
+  const [teamResultHome, setTeamResultHome] = React.useState([]);
 
   const time = currentMatch?.START_TIME;
   const milleSeconds = time * 1000;
@@ -31,7 +32,7 @@ function useCalculateFormule(eventId) {
   const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
   const day = datteObject.toLocaleString("en-UK", { day: "numeric" });
   const month = datteObject.toLocaleString("ru-RU", { month: "long" });
-
+  console.log(teamResultHome);
   // Кол-во игр в лиге
 
   function calculateStats(period) {
@@ -62,41 +63,153 @@ function useCalculateFormule(eventId) {
       const middleMissInLeagAway = missedInLeagAway / countGameAway;
 
       //Забито за 4 матча
-      const goalsForFourMatchHome = previosMatchHome
-        .slice(0, 4)
-        .reduce((sum, match) => {
-          return match.TEAM_MARK === "home"
-            ? sum + Number(match?.KX || match?.HOME_SCORE_FULL)
-            : sum + Number(match?.KY || match?.AWAY_SCORE_FULL);
-        }, 0);
 
-      const goalsForFourMatchAway = previosMatchAway
-        .slice(0, 4)
-        .reduce((sum, match) => {
-          return match.TEAM_MARK === "home"
-            ? sum + Number(match?.KX || match?.HOME_SCORE_FULL)
-            : sum + Number(match?.KY || match?.AWAY_SCORE_FULL);
-        }, 0);
+      const checkTeamNameHome = teamResultHome.map(
+        (item) =>
+          item.HOME_PARTICIPANT_NAME_ONE ===
+          currentMatch?.HOME_PARTICIPANT_NAME_ONE
+      );
+
+      const firstPeriod = period === "1-й период" || period === "1-й тайм";
+      const secondPeriod = period === "2-й период" || period === "2-й тайм";
+      const thirdPeriod = period === "3-й период";
+
+      const checkTeamNameAway = teamResultAway.map(
+        (item) =>
+          item.HOME_PARTICIPANT_NAME_ONE ===
+          currentMatch?.AWAY_PARTICIPANT_NAME_ONE
+      );
+
+      function getGoalForSixMAtch(arr, a, b) {
+        if (firstPeriod) {
+          return arr[a]
+            ? teamResultHome?.[b]?.HOME_SCORE_PART_1
+            : teamResultHome?.[b]?.AWAY_SCORE_PART_1;
+        }
+        if (secondPeriod) {
+          return arr[a]
+            ? teamResultHome?.[b]?.HOME_SCORE_PART_2
+            : teamResultHome?.[b]?.AWAY_SCORE_PART_2;
+        }
+        if (thirdPeriod) {
+          return arr[a]
+            ? teamResultHome?.[b]?.HOME_SCORE_PART_3
+            : teamResultHome?.[b]?.AWAY_SCORE_PART_3;
+        }
+      }
+      function getGoalForSixMAtchEnemy(arr, a, b) {
+        if (firstPeriod) {
+          return !arr[a]
+            ? teamResultHome?.[b]?.HOME_SCORE_PART_1
+            : teamResultHome?.[b]?.AWAY_SCORE_PART_1;
+        }
+        if (secondPeriod) {
+          return !arr[a]
+            ? teamResultHome?.[b]?.HOME_SCORE_PART_2
+            : teamResultHome?.[b]?.AWAY_SCORE_PART_2;
+        }
+        if (thirdPeriod) {
+          return !arr[a]
+            ? teamResultHome?.[b]?.HOME_SCORE_PART_3
+            : teamResultHome?.[b]?.AWAY_SCORE_PART_3;
+        }
+      }
+
+      const firstMatchGoalHome = getGoalForSixMAtch(checkTeamNameHome, 0, 0);
+      const secondMatchGoalHome = getGoalForSixMAtch(checkTeamNameHome, 1, 1);
+      const thirdMatchGoalHome = getGoalForSixMAtch(checkTeamNameHome, 2, 2);
+      const fourhMatchGoalHome = getGoalForSixMAtch(checkTeamNameHome, 3, 3);
+      const fivesMatchGoalHome = getGoalForSixMAtch(checkTeamNameHome, 4, 4);
+      const sixMatchGoalHome = getGoalForSixMAtch(checkTeamNameHome, 5, 5);
+
+      const goalsForFourMatchHome =
+        Number(firstMatchGoalHome) +
+        Number(secondMatchGoalHome) +
+        Number(thirdMatchGoalHome) +
+        Number(fourhMatchGoalHome);
+
+      function getGoalForSixMAtchAway(arr, a, b) {
+        if (firstPeriod) {
+          return arr[a]
+            ? teamResultAway?.[b]?.HOME_SCORE_PART_1
+            : teamResultAway?.[b]?.AWAY_SCORE_PART_1;
+        }
+        if (secondPeriod) {
+          return arr[a]
+            ? teamResultAway?.[b]?.HOME_SCORE_PART_2
+            : teamResultAway?.[b]?.AWAY_SCORE_PART_2;
+        }
+        if (thirdPeriod) {
+          return arr[a]
+            ? teamResultAway?.[b]?.HOME_SCORE_PART_3
+            : teamResultAway?.[b]?.AWAY_SCORE_PART_3;
+        }
+      }
+
+      function getGoalForSixMAtchAwayEnemy(arr, a, b) {
+        if (firstPeriod) {
+          return !arr[a]
+            ? teamResultAway?.[b]?.HOME_SCORE_PART_1
+            : teamResultAway?.[b]?.AWAY_SCORE_PART_1;
+        }
+        if (secondPeriod) {
+          return !arr[a]
+            ? teamResultAway?.[b]?.HOME_SCORE_PART_2
+            : teamResultAway?.[b]?.AWAY_SCORE_PART_2;
+        }
+        if (thirdPeriod) {
+          return !arr[a]
+            ? teamResultAway?.[b]?.HOME_SCORE_PART_3
+            : teamResultAway?.[b]?.AWAY_SCORE_PART_3;
+        }
+      }
+
+      const firstMatchGoalAway = getGoalForSixMAtchAway(
+        checkTeamNameAway,
+        0,
+        0
+      );
+      const secondMatchGoalAway = getGoalForSixMAtchAway(
+        checkTeamNameAway,
+        1,
+        1
+      );
+      const thirdMatchGoalAway = getGoalForSixMAtchAway(
+        checkTeamNameAway,
+        2,
+        2
+      );
+      const fourhMatchGoalAway = getGoalForSixMAtchAway(
+        checkTeamNameAway,
+        3,
+        3
+      );
+      const fivesMatchGoalAway = getGoalForSixMAtchAway(
+        checkTeamNameAway,
+        4,
+        4
+      );
+      const sixMatchGoalAway = getGoalForSixMAtchAway(checkTeamNameAway, 5, 5);
+
+      const goalsForFourMatchAway =
+        Number(firstMatchGoalAway) +
+        Number(secondMatchGoalAway) +
+        Number(thirdMatchGoalAway) +
+        Number(fourhMatchGoalAway);
 
       const middleGoalForFourMatchesHome = goalsForFourMatchHome / 4;
       const middleGoalForFourMatchesAway = goalsForFourMatchAway / 4;
 
       //Забито за 6 матчей
-      const goalsForSixMatchHome = previosMatchHome
-        .slice(0, 6)
-        .reduce((sum, match) => {
-          return match.TEAM_MARK === "home"
-            ? sum + Number(match?.KX || match?.HOME_SCORE_FULL)
-            : sum + Number(match?.KY || match?.AWAY_SCORE_FULL);
-        }, 0);
+      const goalsForSixMatchHome =
+        goalsForFourMatchHome +
+        Number(fivesMatchGoalHome) +
+        Number(sixMatchGoalHome);
 
-      const goalsForSixMatchAway = previosMatchAway
-        .slice(0, 6)
-        .reduce((sum, match) => {
-          return match.TEAM_MARK === "home"
-            ? sum + Number(match?.KX || match?.HOME_SCORE_FULL)
-            : sum + Number(match?.KY || match?.AWAY_SCORE_FULL);
-        }, 0);
+      const goalsForSixMatchAway =
+        goalsForFourMatchAway +
+        Number(fivesMatchGoalAway) +
+        Number(sixMatchGoalAway);
 
       const middleGoalForSixMatchesHome = goalsForSixMatchHome / 6;
       const middleGoalForSixMatchesAway = goalsForSixMatchAway / 6;
@@ -108,42 +221,104 @@ function useCalculateFormule(eventId) {
       const goalAway =
         middleGoalForFourMatchesAway * 0.6 + middleGoalForSixMatchesAway * 0.4;
 
-      //Пропущено за 4 матча
-      const misedForFourMatchHome = previosMatchHome
-        .slice(0, 4)
-        .reduce((sum, match) => {
-          return match.TEAM_MARK === "home"
-            ? sum + Number(match?.KY || match?.AWAY_SCORE_FULL)
-            : sum + Number(match?.KX || match?.HOME_SCORE_FULL);
-        }, 0);
+      const firstMatchGoalEnemyHome = getGoalForSixMAtchEnemy(
+        checkTeamNameHome,
+        0,
+        0
+      );
 
-      const misedForFourMatchAway = previosMatchAway
-        .slice(0, 4)
-        .reduce((sum, match) => {
-          return match.TEAM_MARK === "home"
-            ? sum + Number(match?.KY || match?.AWAY_SCORE_FULL)
-            : sum + Number(match?.KX || match?.HOME_SCORE_FULL);
-        }, 0);
+      const secondMatchGoalEnemyHome = getGoalForSixMAtchEnemy(
+        checkTeamNameHome,
+        1,
+        1
+      );
+
+      const thirdMatchGoalEnemyHome = getGoalForSixMAtchEnemy(
+        checkTeamNameHome,
+        2,
+        2
+      );
+
+      const fouthMatchGoalEnemyHome = getGoalForSixMAtchEnemy(
+        checkTeamNameHome,
+        3,
+        3
+      );
+
+      const fivesMatchGoalEnemyHome = getGoalForSixMAtchEnemy(
+        checkTeamNameHome,
+        4,
+        4
+      );
+
+      const sixMatchGoalEnemyHome = getGoalForSixMAtchEnemy(
+        checkTeamNameHome,
+        5,
+        5
+      );
+
+      const firstMatchGoalEnemyAway = getGoalForSixMAtchAwayEnemy(
+        checkTeamNameAway,
+        0,
+        0
+      );
+
+      const secondMatchGoalEnemyAway = getGoalForSixMAtchAwayEnemy(
+        checkTeamNameAway,
+        1,
+        1
+      );
+
+      const thirdMatchGoalEnemyAway = getGoalForSixMAtchAwayEnemy(
+        checkTeamNameAway,
+        2,
+        2
+      );
+
+      const fouthMatchGoalEnemyAway = getGoalForSixMAtchAwayEnemy(
+        checkTeamNameAway,
+        3,
+        3
+      );
+
+      const fivesMatchGoalEnemyAway = getGoalForSixMAtchAwayEnemy(
+        checkTeamNameAway,
+        4,
+        4
+      );
+
+      const sixMatchGoalEnemyAway = getGoalForSixMAtchAwayEnemy(
+        checkTeamNameAway,
+        5,
+        5
+      );
+
+      //Пропущено за 4 матча
+      const misedForFourMatchHome =
+        Number(firstMatchGoalEnemyHome) +
+        Number(secondMatchGoalEnemyHome) +
+        Number(thirdMatchGoalEnemyHome) +
+        Number(fouthMatchGoalEnemyHome);
+
+      const misedForFourMatchAway =
+        Number(firstMatchGoalEnemyAway) +
+        Number(secondMatchGoalEnemyAway) +
+        Number(thirdMatchGoalEnemyAway) +
+        Number(fouthMatchGoalEnemyAway);
 
       const middleMissedForFourMatcesHome = misedForFourMatchHome / 4;
       const middleMissedForFourMatcesAway = misedForFourMatchAway / 4;
 
       //Пропущено за 6 матчей
-      const misedForSixMatchHome = previosMatchHome
-        .slice(0, 6)
-        .reduce((sum, match) => {
-          return match.TEAM_MARK === "home"
-            ? sum + Number(match?.KY || match?.AWAY_SCORE_FULL)
-            : sum + Number(match?.KX || match?.HOME_SCORE_FULL);
-        }, 0);
+      const misedForSixMatchHome =
+        misedForFourMatchHome +
+        Number(fivesMatchGoalEnemyHome) +
+        Number(sixMatchGoalEnemyHome);
 
-      const misedForSixMatchAway = previosMatchAway
-        .slice(0, 6)
-        .reduce((sum, match) => {
-          return match.TEAM_MARK === "home"
-            ? sum + Number(match?.KY || match?.AWAY_SCORE_FULL)
-            : sum + Number(match?.KX || match?.HOME_SCORE_FULL);
-        }, 0);
+      const misedForSixMatchAway =
+        misedForFourMatchAway +
+        Number(fivesMatchGoalEnemyAway) +
+        Number(sixMatchGoalEnemyAway);
 
       const middleMissedForSixMatcesHome = misedForSixMatchHome / 6;
       const middleMissedForSixMatcesAway = misedForSixMatchAway / 6;
@@ -1498,12 +1673,10 @@ function useCalculateFormule(eventId) {
         secondMatchShotsOnTarget +
         thirdMatchShotsOnTarget +
         fouthMatchShotsOnTarget;
-
       const shotsOnTargetHomeForSixMatches =
         shotsOnTargetHomeForFourMatch +
         fivesMatchShotsOnTarget +
         sixMatchShotsOnTarget;
-
       function getShotsOnTargetHomeEnemy(a, b, c, d, e) {
         return tournament.NAME === "США: НХЛ"
           ? !checkTeamSideHome[a]
@@ -1601,7 +1774,7 @@ function useCalculateFormule(eventId) {
 
       function getShottsOnTargetAway(a, b, c, d, e) {
         return tournament.NAME === "США: НХЛ"
-          ? checkTeamSideAway[a]
+          ? !checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_HOME);
               }, 0)
@@ -1642,7 +1815,7 @@ function useCalculateFormule(eventId) {
 
       function getShottsOnTargetAwayEnemy(a, b, c, d, e) {
         return tournament.NAME === "США: НХЛ"
-          ? !checkTeamSideAway[a]
+          ? checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_HOME);
               }, 0)
@@ -1748,6 +1921,7 @@ function useCalculateFormule(eventId) {
 
       const individTotalHome = (allShotOnTargetHome + allMissedAway) / 2;
       const individTotalAway = (allShotOnTargetAway + allMissedHome) / 2;
+
       const blockedShotsAway = statsForPeriodsAway.map(
         (item) =>
           item.ITEMS.filter(
@@ -1759,10 +1933,10 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
+                return sum + Number(obj?.VALUE_HOME);
               }, 0)
             : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
+                return sum + Number(obj?.VALUE_AWAY);
               }, 0)
           : checkTeamSideAway[a]
           ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
@@ -1798,7 +1972,7 @@ function useCalculateFormule(eventId) {
 
       function getShottsOnBlockedAwayEnemy(a, b, c, d, e) {
         return tournament.NAME === "США: НХЛ"
-          ? !checkTeamSideAway[a]
+          ? checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_AWAY);
               }, 0)
@@ -1909,7 +2083,6 @@ function useCalculateFormule(eventId) {
       const fivesMatchBlockedShotHome = getShottsOnBlockedHome(4, 4, 5, 4, 5);
 
       const sixMatchBlockedShotHome = getShottsOnBlockedHome(5, 5, 6, 5, 6);
-
       const blockedShotsForFourMatch =
         firstMatchBlockedShotHome +
         secondMatchBlockedShotHome +
@@ -2134,64 +2307,66 @@ function useCalculateFormule(eventId) {
       // return isNaN(a) ? 0 : a || isFinite(a) ? a : 0;
 
       const firstMatchPassRateHome = passRateCalc(
-        Number(prevGoalsHome?.[0]),
+        Number(firstMatchGoalHome),
         firstMatchShotsOnTarget
       );
 
       // console.log(prevGoalsHome);
       // console.log(shotsOnTargetHome);
 
+      firstMatchGoalAway;
+
       const secondMatchPassRateHome = passRateCalc(
-        Number(prevGoalsHome?.[1]),
+        Number(secondMatchGoalHome),
         secondMatchShotsOnTarget
       );
       const thirdMatchPassRateHome = passRateCalc(
-        Number(prevGoalsHome?.[2]),
+        Number(thirdMatchGoalHome),
         Number(thirdMatchShotsOnTarget)
       );
 
       const fouthMatchPassRateHome = passRateCalc(
-        Number(prevGoalsHome?.[3]),
+        Number(fourhMatchGoalHome),
         Number(fouthMatchShotsOnTarget)
       );
 
       const fivesMatchPassRateHome = passRateCalc(
-        Number(prevGoalsHome?.[4]),
+        Number(fivesMatchGoalHome),
         Number(fivesMatchShotsOnTarget)
       );
 
       const sixMatchPassRateHome = passRateCalc(
-        Number(prevGoalsHome?.[5]),
+        Number(sixMatchGoalHome),
         Number(sixMatchShotsOnTarget)
       );
 
       const firstMatchPassRateAway = passRateCalc(
-        Number(prevGoalsAway?.[0]),
+        Number(firstMatchGoalAway),
         Number(firstMatchShotsOnTargetAway)
       );
 
       const secondMatchPassRateAway = passRateCalc(
-        Number(prevGoalsAway?.[1]),
+        Number(secondMatchGoalAway),
         Number(secondMatchShotsOnTargetAway)
       );
 
       const thirdMatchPassRateAway = passRateCalc(
-        Number(prevGoalsAway?.[2]),
+        Number(thirdMatchGoalAway),
         Number(thirdMatchShotsOnTargetAway)
       );
 
       const fouthMatchPassRateAway = passRateCalc(
-        Number(prevGoalsAway?.[3]),
+        Number(fourhMatchGoalAway),
         Number(fouthMatchShotsOnTargetAway)
       );
 
       const fivesMatchPassRateAway = passRateCalc(
-        Number(prevGoalsAway?.[4]),
+        Number(fivesMatchGoalAway),
         Number(fivesMatchShotsOnTargetAway)
       );
 
       const sixMatchPassRateAway = passRateCalc(
-        Number(prevGoalsAway?.[5]),
+        Number(sixMatchGoalAway),
         Number(sixMatchShotsOnTargetAway)
       );
       const passRateHome =
@@ -2213,62 +2388,62 @@ function useCalculateFormule(eventId) {
         6;
 
       const firstMatchPassRateHomeEnemy = passRateCalc(
-        Number(prevGoalsEnemyHome?.[0]),
+        Number(firstMatchGoalEnemyHome),
         firstMatchShotsOnTargetHomeEnemy
       );
 
       const secondMatchPassRateHomeEnemy = passRateCalc(
-        Number(prevGoalsEnemyHome?.[1]),
+        Number(secondMatchGoalEnemyHome),
         secondMatchShotsOnTargetHomeEnemy
       );
 
       const thirdMatchPassRateHomeEnemy = passRateCalc(
-        Number(prevGoalsEnemyHome?.[2]),
+        Number(thirdMatchGoalEnemyHome),
         thirdMatchShotsOnTargetHomeEnemy
       );
 
       const fouthMatchPassRateHomeEnemy = passRateCalc(
-        Number(prevGoalsEnemyHome?.[3]),
+        Number(fouthMatchGoalEnemyHome),
         fourhMatchShotsOnTargetHomeEnemy
       );
 
       const fivesMatchPassRateHomeEnemy = passRateCalc(
-        Number(prevGoalsEnemyHome?.[4]),
+        Number(fivesMatchGoalEnemyHome),
         fivesMatchShotsOnTargetHomeEnemy
       );
 
       const sixMatchPassRateHomeEnemy = passRateCalc(
-        Number(prevGoalsEnemyHome?.[5]),
+        Number(sixMatchGoalEnemyHome),
         sixMatchShotsOnTargetHomeEnemy
       );
 
       const firstMatchPassRateAwayEnemy = passRateCalc(
-        Number(prevGoalsEnemyAway?.[0]),
+        Number(firstMatchGoalEnemyAway),
         firstMatchShotsOnTargetAwayEnemy
       );
 
       const secondMatchPassRateAwayEnemy = passRateCalc(
-        Number(prevGoalsEnemyAway?.[1]),
+        Number(secondMatchGoalEnemyAway),
         secondMatchShotsOnTargetAwayEnemy
       );
 
       const thirdMatchPassRateAwayEnemy = passRateCalc(
-        Number(prevGoalsEnemyAway?.[2]),
+        Number(thirdMatchGoalEnemyAway),
         thirdMatchShotsOnTargetAwayEnemy
       );
 
       const fouthMatchPassRateAwayEnemy = passRateCalc(
-        Number(prevGoalsEnemyAway?.[3]),
+        Number(fouthMatchGoalEnemyAway),
         fouthMatchShotsOnTargetAwayEnemy
       );
 
       const fivesMatchPassRateAwayEnemy = passRateCalc(
-        Number(prevGoalsEnemyAway?.[4]),
+        Number(fivesMatchGoalEnemyAway),
         fivesMatchShotsOnTargetAwayEnemy
       );
 
       const sixMatchPassRateAwayEnemy = passRateCalc(
-        Number(prevGoalsEnemyAway?.[5]),
+        Number(sixMatchGoalEnemyAway),
         sixMatchShotsOnTargetAwayEnemy
       );
 
@@ -5065,12 +5240,12 @@ function useCalculateFormule(eventId) {
     }
   }
 
-  const statsAll = calculateAllStats();
+  // const statsAll = calculateAllStats();
   const firstTime = calculateStats("1-й тайм");
-  const secondTime = calculateStats("2-й тайм");
-  const firstPeriod = calculateStats("1-й период");
-  const secondPeriod = calculateStats("2-й период");
-  const thirdPeriod = calculateStats("3-й период");
+  // const secondTime = calculateStats("2-й тайм");
+  // const firstPeriod = calculateStats("1-й период");
+  // const secondPeriod = calculateStats("2-й период");
+  // const thirdPeriod = calculateStats("3-й период");
 
   function getDateFromTimeStamp() {
     const time = currentMatch?.START_TIME;
@@ -5357,6 +5532,54 @@ function useCalculateFormule(eventId) {
     }
   }
 
+  async function getTeamsResult() {
+    const response = await axios.get(
+      "https://flashlive-sports.p.rapidapi.com/v1/teams/results",
+      {
+        params: {
+          locale: "ru_RU",
+          team_id: currentMatch?.AWAY_PARTICIPANT_IDS?.[0],
+          sport_id: "4",
+          page: "1",
+        },
+        headers: {
+          "X-RapidAPI-Key":
+            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+        },
+      }
+    );
+
+    setTeamResultAway(
+      response.data.DATA?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
+    );
+
+    if (response) {
+      const response = await axios.get(
+        "https://flashlive-sports.p.rapidapi.com/v1/teams/results",
+        {
+          params: {
+            locale: "ru_RU",
+            team_id: currentMatch?.HOME_PARTICIPANT_IDS?.[0],
+            sport_id: "4",
+            page: "1",
+          },
+          headers: {
+            "X-RapidAPI-Key":
+              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+            "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+          },
+        }
+      );
+
+      setTeamResultHome(
+        response.data.DATA?.[0].EVENTS.sort(
+          (a, b) => b.START_TIME - a.START_TIME
+        )
+      );
+    }
+  }
+
   React.useEffect(() => {
     if (query.id && !currentMatch) {
       getCurrentMatch(query.id);
@@ -5364,6 +5587,7 @@ function useCalculateFormule(eventId) {
     if (currentMatch) {
       getPrevMatches(currentMatch);
       getDateFromTimeStamp(previosMatchHome);
+      getTeamsResult();
     }
   }, [query.id, currentMatch]);
 
@@ -5380,6 +5604,8 @@ function useCalculateFormule(eventId) {
     }, 5000);
   }, [previosMatchHome]);
 
+  React.useEffect(() => {}, []);
+
   return {
     currentMatch,
     hour,
@@ -5388,503 +5614,13 @@ function useCalculateFormule(eventId) {
     month,
     tournament,
     previosMatchHome,
-    statsAll,
+    // statsAll,
     firstTime,
-    secondTime,
-    firstPeriod,
-    secondPeriod,
-    thirdPeriod,
+    // secondTime,
+    // firstPeriod,
+    // secondPeriod,
+    // thirdPeriod,
   };
 }
 
 export { useCalculateFormule };
-// const goalForFourMatchesHost = 12;
-// const goalForSixMatchesHost = 17;
-// const middleForFourMAtchesHost = 3;
-// const middleForSixMAtchesHost = 2.833333333;
-
-// //Пропущенные
-// const missedForFourMatchesHost = 10;
-// const missedForSixMatchesHost = 18;
-// const middleMissedForFourMatchesHost = 2.5;
-// const middleMissedForSixMatchesHost = 3;
-
-// //голы соперников хозяеев + удары в створ
-// const goalsEnemyHost = [1, 4, 5, 0, 5, 3];
-// const shotOnGoalsEnemyHost = [28, 38, 43, 34, 35, 27];
-
-// //голы хозяев + удары в ствоgoalGuestgoalHost = [2, 3, 3, 4, 2, 3];
-// const shotOnGoalHost = [20, 27, 31, 22, 28, 42];
-// const goalHost = [2, 3, 3, 4, 2, 3];
-
-// //Кол-во игр
-// const countGameHost = 13;
-
-// //Забито в лиге хозяев
-// const goalInLeagueHost = 35;
-// const missedInLeagueHost = 29;
-
-// //Голы хозяев
-// const goalsHost =
-//   middleForFourMAtchesHost * 0.6 + middleForSixMAtchesHost * 0.4;
-// //Пропущенные хозяев
-// const missedHost =
-//   middleMissedForFourMatchesHost * 0.6 + middleMissedForSixMatchesHost * 0.4;
-
-// //Результативность лиги хозяева
-// const resultLeagueHost = (goalForSixMatchesHost + missedForSixMatchesHost) / 6;
-// //Средняя результативность лиги хозяева
-// const middleResultLeagueHost = resultLeagueHost / 2;
-
-// //среднее забитое в лиге хозяева
-// const middleGoalInLeagueHost = goalInLeagueHost / countGameHost;
-// //Среднее пропущенное в лиге хозяева
-// const middleMissedInLeagueHost = missedInLeagueHost / countGameHost;
-
-// //ценность забитого хозяева
-// const valueGoalsHost = middleResultLeagueHost / middleGoalInLeagueHost;
-
-// //ценность пропущенного хозяева
-// const valueMissedHost = middleResultLeagueHost / middleMissedInLeagueHost;
-// ////////////////////////////////////////////////////////////////////////////////
-// ////////////////////////////////////////////////////////////////////////////////
-// ////////////////////////////////////////////////////////////////////////////////
-// ////////////////////////////////////////////////////////////////////////////////
-// //Гости
-// //Голы
-// const goalForFourMatchesGuest = 12;
-// const goalForSixMatchesGuest = 23;
-// const middleForFourMAtchesGuest = 3;
-// const middleForSixMAtchesGuest = 3.833333333;
-// //Пропущенные
-// const missedForFourMatchesGuest = 10;
-// const missedForSixMatchesGuest = 15;
-// const middleMissedForFourMatches = 2.5;
-// const middleMissedForSixMatches = 2.5;
-
-// //голы соперников гостей + удары в створ
-// const goalsEnemyGuest = [3, 2, 3, 2, 3, 2];
-// const shotOnGoalsEnemyGuest = [36, 29, 31, 36, 29, 34];
-
-// //голы гостей + удары в створ
-// const goalGuest = [3, 1, 5, 3, 6, 5];
-// const shotOnGoalGuest = [35, 43, 43, 21, 42, 31];
-
-// //Кол-во игр
-// const countGameGuest = 12;
-
-// //Забито в лиге гости
-// const goalInLeagueGuest = 41;
-// const missedInLeagueGuest = 33;
-
-// //Голы гости
-// const goalsGuest =
-//   middleForFourMAtchesGuest * 0.6 + middleForSixMAtchesGuest * 0.4;
-// //Пропущенные гости
-// const missedGuest =
-//   middleMissedForFourMatches * 0.6 + middleMissedForSixMatches * 0.4;
-
-// //Результативность лиги гости
-// const resultLeagueGuest =
-//   (goalForSixMatchesGuest + missedForSixMatchesGuest) / 6;
-// //Средняя результативность лиги гости
-// const middleResultLeagueGuest = resultLeagueGuest / 2;
-
-// //среднее забитое в лиге гости
-// const middleGoalInLeagueGuest = goalInLeagueGuest / countGameGuest;
-// //Среднее пропущенное в лиге гости
-// const middleMissedInLeagueGuest = missedInLeagueGuest / countGameGuest;
-
-// //ценность забитого гости
-// const valueGoalsGuest = middleResultLeagueGuest / middleGoalInLeagueGuest;
-
-// //ценность пропущенного гости
-// const valueMissedGuest = middleResultLeagueGuest / middleMissedInLeagueGuest;
-
-// //Голы тотал
-// //Тотал матча без травм
-// const totalMatchWithoutInjuriesHost = goalsHost + missedHost;
-// const totalMatchWithoutInjuriesGuest = goalsGuest + missedGuest;
-
-// //Итоговый тотал
-// const finallyTotal =
-//   (totalMatchWithoutInjuriesHost + totalMatchWithoutInjuriesGuest) / 2;
-
-// //Индивидуальный тотал хозяева
-// const individTotalHost = (goalsHost + missedGuest) / 2;
-// const individTotalGuest = (goalsGuest + missedHost) / 2;
-// ///Броски хозяева(Блокированные удары+удары в створ)
-// const totalShotsForFourMatches = 157;
-// const totalShotsForSixMatches = 256;
-// //Средние общие броски зозяева
-// const middleTotalShotsForFourMatches = totalShotsForFourMatches / 4;
-// const middleTotalShotsForSixMatches = totalShotsForSixMatches / 6;
-// //Пропущенные броски
-// const missedTotalShotsForFourMatches = 227;
-// const missedTotalShotsForSixMatches = 321;
-// //Средние пропущенные броски
-// const middleMissedShotsForFourMatches = missedTotalShotsForFourMatches / 4;
-// const middleMissedShotsForSixMatches = missedTotalShotsForSixMatches / 6;
-// //Общие броски хозяева
-// const totalShotsHost =
-//   middleTotalShotsForFourMatches * 0.6 + middleTotalShotsForSixMatches * 0.4;
-// //Общие пропущенные броски хозяева
-// const totalMissedHost =
-//   middleMissedShotsForFourMatches * 0.6 + middleMissedShotsForSixMatches * 0.4;
-
-// ///Броски гости(Блокированные удары+удары в створ)
-// const totalShotsForFourMatchesGuest = 215;
-// const totalShotsForSixMatchesGuest = 326;
-// //Средние общие броски гости
-// const middleTotalShotsForFourMatchesGuest = totalShotsForFourMatchesGuest / 4;
-// const middleTotalShotsForSixMatchesGuest = totalShotsForSixMatchesGuest / 6;
-// //Пропущенные броски
-// const missedTotalShotsForFourMatchesGuest = 186;
-// const missedTotalShotsForSixMatchesGuest = 276;
-// //Средние пропущенные броски
-// const middleMissedShotsForFourMatchesGuest =
-//   missedTotalShotsForFourMatchesGuest / 4;
-// const middleMissedShotsForSixMatchesGuest =
-//   missedTotalShotsForSixMatchesGuest / 6;
-// //Общие броски гости
-// const totalShotsGuest =
-//   middleTotalShotsForFourMatchesGuest * 0.6 +
-//   middleTotalShotsForSixMatchesGuest * 0.4;
-// //Общие пропущенные броски гости
-// const totalMissedGuest =
-//   middleMissedShotsForFourMatchesGuest * 0.6 +
-//   middleMissedShotsForSixMatchesGuest * 0.4;
-
-// //Броски тотал
-// const individtotalShotsHost = (totalShotsHost + totalMissedGuest) / 2;
-// const individtotalShotsGuest = (totalMissedHost + totalShotsGuest) / 2;
-
-// //Удары в створ хозяева
-// const shotsOnGoalHostFourMatches = 100;
-// const shotsOnGoalHostSixMatches = 170;
-// //Средние удары в створ хоз
-// const middleShotsOnGoalHostFourMatches = shotsOnGoalHostFourMatches / 4;
-// const middleShotsOnGoalHostSixMatches = shotsOnGoalHostSixMatches / 6;
-// //Пропущенные удары в створ
-// const missedShotsOnGoalHostFourMatches = 143;
-// const missedShotsOnGoalHostSixMatches = 205;
-// //Средние пропущенные удары в створ хоз
-// const missedMiddleShotsOnGoalHostFourMatches =
-//   missedShotsOnGoalHostFourMatches / 4;
-// const missedMiddleShotsOnGoalHostSixMatches =
-//   missedShotsOnGoalHostSixMatches / 6;
-// //Удары в створ хозяева
-// const shotsOnGoalHost =
-//   middleShotsOnGoalHostFourMatches * 0.6 +
-//   middleShotsOnGoalHostSixMatches * 0.4;
-// //пропущенные удары в створ хозяева
-// const missedOnGoalShotsHost =
-//   missedMiddleShotsOnGoalHostFourMatches * 0.6 +
-//   missedMiddleShotsOnGoalHostSixMatches * 0.4;
-
-// //Удары в створ гости
-// const shotsOnGoalGuestFourMatches = 142;
-// const shotsOnGoalGuestSixMatches = 215;
-// //Средние удары в створ гости
-// const middleShotsOnGoalGuestFourMatches = shotsOnGoalGuestFourMatches / 4;
-// const middleShotsOnGoalGuestSixMatches = shotsOnGoalGuestSixMatches / 6;
-// //Пропущенные удары в створ
-// const missedShotsOnGoalGuestFourMatches = 132;
-// const missedShotsOnGoalGuestSixMatches = 195;
-// //Средние пропущенные удары в створ гости
-// const missedMiddleShotsOnGoalGuestFourMatches =
-//   missedShotsOnGoalGuestFourMatches / 4;
-// const missedMiddleShotsOnGoalGuestSixMatches =
-//   missedShotsOnGoalGuestSixMatches / 6;
-// //Удары в створ гости
-// const shotsOnGoalGuest =
-//   middleShotsOnGoalGuestFourMatches * 0.6 +
-//   middleShotsOnGoalGuestSixMatches * 0.4;
-// //пропущенные удары в створ гости
-// const missedOnGoalShotsGuest =
-//   missedMiddleShotsOnGoalGuestFourMatches * 0.6 +
-//   missedMiddleShotsOnGoalGuestSixMatches * 0.4;
-
-// //Удары в створ тотал
-// const totalShotsOnGoalWithoutInjuryHost =
-//   shotsOnGoalHost + missedOnGoalShotsHost;
-// const totalShotsOnGoalWithoutInjuryGuest =
-//   shotsOnGoalGuest + missedOnGoalShotsGuest;
-// const summeryTotalShotsOnGoal =
-//   (totalShotsOnGoalWithoutInjuryHost + totalShotsOnGoalWithoutInjuryGuest) / 2;
-
-// //Индивидуальный тотал
-// const individShotsOnGoalHost = (shotsOnGoalHost + missedOnGoalShotsGuest) / 2;
-// const individShotsOnGoalGuest = (shotsOnGoalGuest + missedOnGoalShotsHost) / 2;
-// //Ценность ударов в створ(Нападение)
-// const valueShotsOnGoalHostAttack =
-//   goalForSixMatchesHost / shotsOnGoalHostSixMatches;
-// const valueShotsOnGoalGuestAttack =
-//   goalForSixMatchesGuest / shotsOnGoalGuestSixMatches;
-// //Ценность ударов в створ(Защита)
-// const valueShotsOnGoalHostSave =
-//   missedForSixMatchesHost / missedShotsOnGoalHostSixMatches;
-// const valueShotsOnGoalGuestSave =
-//   missedForSixMatchesGuest / missedShotsOnGoalGuestSixMatches;
-
-// //средний процент отбития хозяева
-// const battingAverageHost =
-//   (goalsEnemyHost[0] / shotOnGoalsEnemyHost[0] +
-//     goalsEnemyHost[1] / shotOnGoalsEnemyHost[1] +
-//     goalsEnemyHost[2] / shotOnGoalsEnemyHost[2] +
-//     goalsEnemyHost[3] / shotOnGoalsEnemyHost[3] +
-//     goalsEnemyHost[4] / shotOnGoalsEnemyHost[4] +
-//     goalsEnemyHost[5] / shotOnGoalsEnemyHost[5]) /
-//   6;
-
-// //средний процент отбития гости
-// const battingAverageGuest =
-//   (goalsEnemyGuest[0] / shotOnGoalsEnemyGuest[0] +
-//     goalsEnemyGuest[1] / shotOnGoalsEnemyGuest[1] +
-//     goalsEnemyGuest[2] / shotOnGoalsEnemyGuest[2] +
-//     goalsEnemyGuest[3] / shotOnGoalsEnemyGuest[3] +
-//     goalsEnemyGuest[4] / shotOnGoalsEnemyGuest[4] +
-//     goalsEnemyGuest[5] / shotOnGoalsEnemyGuest[5]) /
-//   6;
-
-// //Процент забитых к вствор
-// const fieldGoalPercentageHost =
-//   (goalHost[0] / shotOnGoalHost[0] +
-//     goalHost[1] / shotOnGoalHost[1] +
-//     goalHost[2] / shotOnGoalHost[2] +
-//     goalHost[3] / shotOnGoalHost[3] +
-//     goalHost[4] / shotOnGoalHost[4] +
-//     goalHost[5] / shotOnGoalHost[5]) /
-//   6;
-
-// //Процент забитых к вствор
-// const fieldGoalPercentageGuest =
-//   (goalGuest[0] / shotOnGoalGuest[0] +
-//     goalGuest[1] / shotOnGoalGuest[1] +
-//     goalGuest[2] / shotOnGoalGuest[2] +
-//     goalGuest[3] / shotOnGoalGuest[3] +
-//     goalGuest[4] / shotOnGoalGuest[4] +
-//     goalGuest[5] / shotOnGoalGuest[5]) /
-//   6;
-
-// // Хозяева Средние забитые броски за 6 матчей /Средние забитые удары в створ за 6 матчей P.S M27-название ячейки
-// const M27 = middleTotalShotsForSixMatches / middleShotsOnGoalHostSixMatches;
-
-// //Хозяева Средние пропущенные броски за 6 матчей/Средние пропущенные удары в створ за 6 матчей P.S N27-название ячейки
-// const N27 =
-//   middleMissedShotsForSixMatches / missedMiddleShotsOnGoalHostSixMatches;
-
-// //Гости Средние забитые броски за 6 матчей /Средние забитые удары в створ за 6 матчей P.S M28-название ячейки
-// const M28 =
-//   middleTotalShotsForSixMatchesGuest / middleShotsOnGoalGuestSixMatches;
-
-// //Гости Средние пропущенные броски за 6 матчей/Средние пропущенные удары в створ за 6 матчей P.S N28-название ячейки
-// const N28 =
-//   middleMissedShotsForSixMatchesGuest / missedMiddleShotsOnGoalGuestSixMatches;
-
-// //Хозяева D10
-// const host = individtotalShotsHost / M27;
-// //Гости
-// const guest = individtotalShotsGuest / M28;
-
-// //К соотношению атаки
-// const toTheRatioOfAttackHost = host * valueShotsOnGoalHostAttack;
-// const toTheRatioOfAttackGuest = guest * valueShotsOnGoalGuestAttack;
-
-// //Среднее результативность в лиге/Среднее забитое за 6 матчей M4
-// const M4host = middleResultLeagueHost / middleForSixMAtchesHost;
-
-// //Среднее результативность в лиге/Среднее забитое за 6 матчей M5
-// const M5guest = middleResultLeagueGuest / middleForSixMAtchesGuest;
-
-// //ИТБ к ценности нападения
-// const itbToTheValueOfTheAttackHost = individTotalHost / M4host;
-// const itbToTheValueOfTheAttackGuest = individTotalGuest / M5guest;
-
-// //F10=Индивидуальный тотал(удары, хозява)/N28
-// const F10 = individtotalShotsHost / N28;
-// //F11=Индивидуальный тотал(удары, гости)/N27
-// const F11 = individtotalShotsGuest / N27;
-
-// //Атака H13
-// const attackHost = F10 * fieldGoalPercentageHost;
-// //Атака H14
-// const attackGuest = F11 * fieldGoalPercentageGuest;
-// //Атака H13*Ценность удары в створ защита хоз
-// const I13 = attackHost * valueShotsOnGoalGuestSave;
-// //Атака H14*Ценность удары в створ защита гости
-// const I14 = attackGuest * valueShotsOnGoalHostSave;
-
-// //S4, S5 =Средняя результативность лиги/Среднее пропущенное за 6 матчей
-// const S4host = middleResultLeagueGuest / middleMissedForSixMatchesHost;
-// const S5guest = middleResultLeagueGuest / middleMissedForSixMatches;
-
-// //К ценности защиты противника
-// const valueOfTheEnemysDefenseHost = attackHost / S5guest;
-// const valueOfTheEnemysDefenseGuest = attackGuest / S4host;
-
-// //H8 ИТБ к ценности нападения/К ценности защиты противника
-// const H8host = valueOfTheEnemysDefenseHost / itbToTheValueOfTheAttackHost;
-// const H8guest = valueOfTheEnemysDefenseGuest / itbToTheValueOfTheAttackGuest;
-
-// //Тренд
-// const trandHost = toTheRatioOfAttackHost / H8host;
-// const trandGuest = toTheRatioOfAttackGuest / H8guest;
-
-// //B14 = B18/S16(индивидуальный тотал)
-
-// //E15 =Индивидуальный тотал ГОЛЫ ХОЗЯЕВА/M4
-// const E15host = individTotalHost / M4host;
-// const E16guest = individTotalGuest / M5guest;
-
-// //F15
-// const F15host = toTheRatioOfAttackHost / S5guest;
-// const F16guest = toTheRatioOfAttackGuest / S4host;
-
-// //D15/D16
-// const D15host = E15host / F15host;
-// const D16guest = E16guest / F16guest;
-
-// //H16 =Индивидуальный тотал голы хозяева /s5
-// const h16 = individTotalHost / S5guest;
-// const h15 = individTotalGuest / S4host;
-
-// //i16 =k14/m5 k14=j19*m14 j19=z9/n27 m14 =t2/t21
-
-// const J19 = individtotalShotsGuest / N27;
-// const m14 =
-//   middleMissedForSixMatchesHost / missedMiddleShotsOnGoalHostSixMatches;
-
-// //Пропустят хозяева
-// const k14 = J19 * m14;
-
-// //i16
-// const i16 = k14 / M5guest;
-
-// const H16 = individTotalHost / S5guest;
-
-// const g16 = H16 / i16;
-
-// const c19 = D16guest / g16;
-
-// //B15 = тренд /d15
-// const B15 = trandHost * D15host;
-
-// const B18 = B15 / c19;
-
-// const A18 = B18 / individTotalHost;
-
-// /////////
-// const B13 = trandHost / A18; ////Показатель Хозяев
-// /////////
-
-// // B14=E14/A19 A19=B19/s17 B19=B16/C18 B16 = E14*D16
-
-// const B16 = trandGuest * D16guest;
-
-// //C18 = D15/g15 G15=H15/i15 h15 = s17/s4 i15 = k15/m4 k15 =j18*m15 J18 =z8/n28 m15 = t3/t22
-
-// const m15 = middleMissedForSixMatches / missedMiddleShotsOnGoalGuestSixMatches;
-
-// const J18 = individtotalShotsHost / N28;
-
-// const K15 = J18 * m15;
-
-// const I15 = K15 / M4host;
-
-// const G15 = h15 / I15;
-
-// const C18 = D15host / G15;
-
-// const B19 = B16 / C18;
-
-// const A19 = B19 / individTotalGuest;
-
-// ////
-// const B14 = trandGuest / A19; ///Показатель гости
-// ////
-// //стабилизатор хозяева
-// //f13=e13*c13 c13 = l18/e13 l18=k15/j11 j11 =l10/k11 l10=h10/m4
-
-// const h10 = F10 * battingAverageGuest;
-
-// const l10 = h10 / M4host;
-
-// const k11 = attackHost / S5guest;
-
-// const j11 = l10 / k11;
-
-// const l18 = K15 / j11;
-
-// const c13 = l18 / trandHost;
-
-// ////////
-// const f13 = trandHost * c13; /////Стабилизатор Хозяева
-// ////////
-
-// ////
-// //const f14=E14*C14, c14=l17/e14 l17=k14/j10 j10=l11/k10
-
-// const h11 = F11 * battingAverageHost;
-
-// const l11 = h11 / M5guest;
-
-// const k10 = attackGuest / S4host;
-
-// const j10 = l11 / k10;
-
-// const l17 = k14 / j10;
-
-// const c14 = l17 / trandGuest;
-
-// ///////
-// const f14 = trandGuest * c14; /////Стабилизатор гости
-// //////
-
-// ///Трендовый показатель хозяева
-
-// const c43 = f13 / A19;
-// ////
-
-// ///Трендовый показатель гости
-
-// const c44 = f14 / A18;
-
-// /////// Якорный показатель хозяева
-// const e43 = (c43 / resultLeagueGuest) * B13;
-
-// /////Якорный показатель гости
-// const e44 = (c44 / resultLeagueHost) * B14;
-
-// function IndicatorHosts() {
-//   return trandHost / A18;
-// }
-
-// function IndicatorGuest() {
-//   return trandGuest / A19;
-// }
-
-// function stabilizerHost() {
-//   return trandHost * c13;
-// }
-
-// function stabilizerGuest() {
-//   return trandGuest * c14;
-// }
-
-// function anchorIndicatorHost() {
-//   return (c43 / resultLeagueGuest) * B13;
-// }
-
-// function anchorIndicatorGuest() {
-//   return (c44 / resultLeagueHost) * B14;
-// }
-
-// export {
-//   IndicatorHosts,
-//   IndicatorGuest,
-//   stabilizerHost,
-//   stabilizerGuest,
-//   anchorIndicatorHost,
-//   anchorIndicatorGuest,
-// };
