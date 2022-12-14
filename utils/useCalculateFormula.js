@@ -80,8 +80,6 @@ function useCalculateFormule(eventId) {
           currentMatch?.AWAY_PARTICIPANT_NAME_ONE
       );
 
-      console.log(teamResultAway);
-
       function getGoalForSixMAtch(arr, a, b) {
         if (firstPeriod) {
           return arr[a]
@@ -177,7 +175,7 @@ function useCalculateFormule(eventId) {
         1,
         1
       );
-      console.log(secondMatchGoalAway);
+
       const thirdMatchGoalAway = getGoalForSixMAtchAway(
         checkTeamNameAway,
         2,
@@ -5752,7 +5750,7 @@ function useCalculateFormule(eventId) {
         secondMatchBlockedShotAwayEnemy +
         thirdMatchBlockedShotAwayEnemy +
         fouthMatchBlockedShotAwayEnemy;
-      console.log(missedBlockedShotsForFourMatchAway);
+
       const missedBlockedShotsForSixMatchAway =
         missedBlockedShotsForFourMatchAway +
         fivesMatchBlockedShotAwayEnemy +
@@ -6548,7 +6546,11 @@ function useCalculateFormule(eventId) {
         },
       }
     );
-
+    console.log(
+      response.data.DATA.filter(
+        (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
+      )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
+    );
     setTeamResultAway(
       response.data.DATA?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
     );
