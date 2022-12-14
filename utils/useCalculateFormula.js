@@ -80,6 +80,8 @@ function useCalculateFormule(eventId) {
           currentMatch?.AWAY_PARTICIPANT_NAME_ONE
       );
 
+      console.log(teamResultAway);
+
       function getGoalForSixMAtch(arr, a, b) {
         if (firstPeriod) {
           return arr[a]
@@ -131,18 +133,18 @@ function useCalculateFormule(eventId) {
       function getGoalForSixMAtchAway(arr, a, b) {
         if (firstPeriod) {
           return arr[a]
-            ? teamResultAway?.[b]?.HOME_SCORE_PART_1
-            : teamResultAway?.[b]?.AWAY_SCORE_PART_1;
+            ? teamResultAway?.[b]?.AWAY_SCORE_PART_1
+            : teamResultAway?.[b]?.HOME_SCORE_PART_1;
         }
         if (secondPeriod) {
           return arr[a]
-            ? teamResultAway?.[b]?.HOME_SCORE_PART_2
-            : teamResultAway?.[b]?.AWAY_SCORE_PART_2;
+            ? teamResultAway?.[b]?.AWAY_SCORE_PART_2
+            : teamResultAway?.[b]?.HOME_SCORE_PART_2;
         }
         if (thirdPeriod) {
           return arr[a]
-            ? teamResultAway?.[b]?.HOME_SCORE_PART_3
-            : teamResultAway?.[b]?.AWAY_SCORE_PART_3;
+            ? teamResultAway?.[b]?.AWAY_SCORE_PART_3
+            : teamResultAway?.[b]?.HOME_SCORE_PART_3;
         }
       }
 
@@ -169,11 +171,13 @@ function useCalculateFormule(eventId) {
         0,
         0
       );
+
       const secondMatchGoalAway = getGoalForSixMAtchAway(
         checkTeamNameAway,
         1,
         1
       );
+      console.log(secondMatchGoalAway);
       const thirdMatchGoalAway = getGoalForSixMAtchAway(
         checkTeamNameAway,
         2,
@@ -3890,10 +3894,10 @@ function useCalculateFormule(eventId) {
               }, 0)
           : checkTeamSideAway[a]
           ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_HOME);
+              return sum + Number(obj?.VALUE_AWAY);
             }, 0)
           : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_AWAY);
+              return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
 
@@ -4635,7 +4639,6 @@ function useCalculateFormule(eventId) {
         cornerShotsHomeForFourMatches +
         fivesMatchCornerShotHome +
         sixMatchCornerShotHomeHome;
-      console.log(sixMatchCornerShotHomeHome);
       const cornerShotsAwayForFourMatches =
         firstMatchCornerShotAway +
         secondMatchCornerShotAway +
@@ -5678,10 +5681,10 @@ function useCalculateFormule(eventId) {
               }, 0)
           : checkTeamSideAway[a]
           ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_AWAY);
+              return sum + Number(obj?.VALUE_HOME);
             }, 0)
           : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
-              return sum + Number(obj?.VALUE_HOME);
+              return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
 
@@ -5749,7 +5752,7 @@ function useCalculateFormule(eventId) {
         secondMatchBlockedShotAwayEnemy +
         thirdMatchBlockedShotAwayEnemy +
         fouthMatchBlockedShotAwayEnemy;
-
+      console.log(missedBlockedShotsForFourMatchAway);
       const missedBlockedShotsForSixMatchAway =
         missedBlockedShotsForFourMatchAway +
         fivesMatchBlockedShotAwayEnemy +
@@ -6236,8 +6239,8 @@ function useCalculateFormule(eventId) {
     }
   }
 
-  const statsAll = calculateAllStats();
-  // const firstTime = calculateStats("1-й тайм");
+  // const statsAll = calculateAllStats();
+  const firstTime = calculateStats("1-й тайм");
   // const secondTime = calculateStats("2-й тайм");
   // const firstPeriod = calculateStats("1-й период");
   // const secondPeriod = calculateStats("2-й период");
@@ -6610,8 +6613,8 @@ function useCalculateFormule(eventId) {
     month,
     tournament,
     previosMatchHome,
-    statsAll,
-    // firstTime,
+    // statsAll,
+    firstTime,
     // secondTime,
     // firstPeriod,
     // secondPeriod,
