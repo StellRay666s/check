@@ -12,6 +12,11 @@ export default function Login() {
   const isAuth = useSelector((state) => state.user.isAuth);
   const tariffs = useSelector((state) => state.user.user.tariffs);
 
+  function logout() {
+    localStorage.setItem("token", "");
+    dispatch(clearUser());
+  }
+
   const tariffsList = [
     { title: "Премиум тариф" },
     { title: "Партнерский тариф" },
@@ -50,9 +55,7 @@ export default function Login() {
                 {link.title}
               </Dropdown.Item>
             ))}
-            <Dropdown.Item onClick={() => dispatch(clearUser())}>
-              Выйти
-            </Dropdown.Item>
+            <Dropdown.Item onClick={() => logout()}>Выйти</Dropdown.Item>
           </div>
         )}
       </Dropdown.Menu>

@@ -21,8 +21,6 @@ export default function Home() {
   const leag = useSelector((state) => state.league);
   const TEMPLATE_ID = leag?.leag?.map((item) => item.TEMPLATE_ID);
 
-  console.log(tomorrowMatches);
-
   async function todayEvents() {
     const response = await axios.get(
       "https://flashlive-sports.p.rapidapi.com/v1/events/list",

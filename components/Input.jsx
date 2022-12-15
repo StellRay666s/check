@@ -7,10 +7,12 @@ function Input({
   placeholder,
   value,
   setValue,
+  verifyPassword,
 }) {
   return (
     <div className="auth-item position-relative">
       <input
+        style={{ border: verifyPassword && "1px solid red" }}
         value={value}
         type={
           type != "password"

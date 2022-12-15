@@ -7,10 +7,16 @@ import { useTogglePassword } from "../hooks/useTogglePassword";
 
 import CheckBox from "./CheckBox";
 
-export default function RegistrationEmail({ onClick }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
+export default function RegistrationEmail({
+  onClick,
+  registration,
+  password,
+  email,
+  repeatPassword,
+  setEmail,
+  setPassword,
+  setRepeatPassword,
+}) {
   const { passwordShow, togglePasswordVisiblity } = useTogglePassword();
 
   function fieldChecked() {
@@ -27,7 +33,13 @@ export default function RegistrationEmail({ onClick }) {
     }
   }
 
-  console.log(fieldChecked());
+  function verifyPassword() {
+    if (repeatPassword != password) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   return (
     <div className="login_block">
@@ -41,6 +53,7 @@ export default function RegistrationEmail({ onClick }) {
             setValue={setEmail}
           />
           <Input
+            verifyPassword={verifyPassword()}
             placeholder={"Введите пароль"}
             type={"password"}
             togglePasswordVisiblity={togglePasswordVisiblity}
@@ -49,6 +62,7 @@ export default function RegistrationEmail({ onClick }) {
             setValue={setPassword}
           />
           <Input
+            verifyPassword={verifyPassword()}
             placeholder={"Повторите пароль"}
             type={"password"}
             togglePasswordVisiblity={togglePasswordVisiblity}
@@ -59,7 +73,7 @@ export default function RegistrationEmail({ onClick }) {
           <button
             type="submit"
             disabled={fieldChecked()}
-            onClick={() => console.log(1)}
+            onClick={() => registration(email, password)}
             className="btn btn_auth-registration d-flex align-items-center justify-content-center mx-auto"
           >
             Зарегистрироваться
