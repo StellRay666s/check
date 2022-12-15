@@ -21,8 +21,6 @@ export default function Registration() {
             ) : (
               <RegistrationEmail onClick={switchChoiceRegistr} />
             )}
-
-
           </div>
         </div>
       </main>

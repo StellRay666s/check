@@ -2585,7 +2585,9 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 .auth-item {
   margin-bottom: 20px;
 }
-
+.error{
+  border: 2px solid #fa0808!important;
+}
 .auth-item input {
   width: 100%;
   height: 42px;
