@@ -6238,11 +6238,11 @@ function useCalculateFormule(eventId) {
   }
 
   const statsAll = calculateAllStats();
-  // const firstTime = calculateStats("1-й тайм");
-  // const secondTime = calculateStats("2-й тайм");
-  // const firstPeriod = calculateStats("1-й период");
-  // const secondPeriod = calculateStats("2-й период");
-  // const thirdPeriod = calculateStats("3-й период");
+  const firstTime = calculateStats("1-й тайм");
+  const secondTime = calculateStats("2-й тайм");
+  const firstPeriod = calculateStats("1-й период");
+  const secondPeriod = calculateStats("2-й период");
+  const thirdPeriod = calculateStats("3-й период");
 
   function getDateFromTimeStamp() {
     const time = currentMatch?.START_TIME;
@@ -6261,11 +6261,11 @@ function useCalculateFormule(eventId) {
     return date;
   }
 
-  async function getCurrentMatch(id) {
+  async function getCurrentMatch(id, eventId) {
     const response = await axios.get(
       "https://flashlive-sports.p.rapidapi.com/v1/events/data",
       {
-        params: { event_id: id, locale: "ru_RU" },
+        params: { event_id: id || eventId, locale: "ru_RU" },
         headers: {
           "X-RapidAPI-Key":
             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
@@ -6619,11 +6619,11 @@ function useCalculateFormule(eventId) {
     tournament,
     previosMatchHome,
     statsAll,
-    // firstTime,
-    // secondTime,
-    // firstPeriod,
-    // secondPeriod,
-    // thirdPeriod,
+    firstTime,
+    secondTime,
+    firstPeriod,
+    secondPeriod,
+    thirdPeriod,
   };
 }
 

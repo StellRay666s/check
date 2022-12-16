@@ -1,9 +1,10 @@
 import React, { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { MainLayout } from "../layouts/MainLayout";
 import Sidebar from "../components/sidebar";
 import { Overlay } from "react-bootstrap";
 import { Tooltip } from "react-bootstrap";
+import { setUser } from "../redux/slices/userSlice";
 import { useWindowSize } from "../hooks/useWindowSize";
 import "swiper/css";
 import axios from "axios";
@@ -25,27 +26,29 @@ export default function Account() {
   const user = useSelector((state) => state.user.user);
   const isAuth = useSelector((state) => state.user.isAuth);
   const token = typeof window !== "undefined" && localStorage.getItem("token");
+  const dispatch = useDispatch();
+  // async function changeProfileData() {
+  //   const response = await axios.patch(
+  //     "http://localhost:8000/chandeDataProfile",
+  //     {
+  //       name: name,
+  //       lastname: lastname,
+  //       email: email,
+  //       phone: phone,
+  //     },
+  //     {
+  //       headers: {
+  //         authorization: token,
+  //       },
+  //     }
+  //   );
 
-  async function changeProfileData() {
-    const response = await axios.patch(
-      "http://localhost:8000/chandeDataProfile",
-      {
-        name: name,
-        lastname: lastname,
-        email: email,
-        phone: phone,
-      },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-  }
+  //   console.log(response.data);
+  // }
 
-  if (!isAuth) {
-    router.push("/");
-  }
+  // if (!isAuth) {
+  //   router.push("/");
+  // }
 
   React.useEffect(() => {
     setEmail(user.email);
@@ -269,7 +272,7 @@ export default function Account() {
                             </label>
                           </div>
                           <button
-                            onClick={() => changeProfileData()}
+                            onClick={() => console.log(1)}
                             className={`btn profil-save`}
                           >
                             Сохранить

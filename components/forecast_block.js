@@ -36,7 +36,8 @@ export default function ForecastBlock({
             <img src="../images/football-icon.svg" alt="" />
             <span>Футбол</span>
           </button>
-          {day === "сегодня" ? (
+
+          {day === "завтра" ? (
             ""
           ) : (
             <button
@@ -69,7 +70,7 @@ export default function ForecastBlock({
         ) : (
           <div className={`forecast-tab-content`}>
             <div className={`forecast-table d-flex flex-column`}>
-              {hocceyMatches?.[0].map((item) => (
+              {hocceyMatches[0]?.map((item) => (
                 <MatchPlate
                   key={item.EVENT_ID}
                   logoTeamAway={item.AWAY_IMAGES}

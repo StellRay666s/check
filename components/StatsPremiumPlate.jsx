@@ -7,6 +7,22 @@ function StatsPremiumPlate({
   trendIndicator,
   anchorIndicator,
 }) {
+  function calculateGrowth() {
+    if (indicator < stabilizator && stabilizator < trendIndicator) {
+      const floor = Math.floor(indicator);
+      const floor2 = Math.floor(anchorIndicator);
+
+      return floor === floor2 ? `${floor}Б` : "Нет ставки";
+    } else if (indicator > stabilizator && stabilizator > trendIndicator) {
+      const ceil = Math.ceil(indicator);
+      const floor2 = Math.ceil(anchorIndicator);
+
+      return ceil < floor2 ? `Нет ставки` : `${ceil}М`;
+    } else {
+      return "Нет ставки";
+    }
+  }
+
   return (
     <div className={`table-premium-item table-item d-flex flex-column`}>
       <div
@@ -55,7 +71,7 @@ function StatsPremiumPlate({
           <div
             className={`result-cell result-cell_big d-flex align-items-center justify-content-center mx-auto`}
           >
-            ###
+            {calculateGrowth()}
           </div>
           <span>Прогноз</span>
         </div>
@@ -73,9 +89,7 @@ function StatsPremiumPlate({
         >
           <div
             className={`result-cell result-cell_big result-cell_gold d-flex align-items-center justify-content-center mx-auto`}
-          >
-            2.2 M
-          </div>
+          ></div>
           <span>Результат</span>
         </div>
       </div>
