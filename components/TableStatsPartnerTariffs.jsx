@@ -17,11 +17,11 @@ function TableStatsPartnerTariffs({ logoHome, logoAway, stats }) {
             Показатели
           </div>
           <div className={`table-partner-column table-column text-center`}>
-            Стабилизатор
-          </div>
-          <div className={`table-partner-column table-column text-center`}>
             Трендовый показатель
           </div>
+          <div
+            className={`table-partner-column table-column text-center`}
+          ></div>
         </div>
         <div className="table-partner-body">
           <StatsPartnerPlate

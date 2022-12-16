@@ -131,18 +131,18 @@ function useCalculateFormule(eventId) {
       function getGoalForSixMAtchAway(arr, a, b) {
         if (firstPeriod) {
           return arr[a]
-            ? teamResultAway?.[b]?.AWAY_SCORE_PART_1
-            : teamResultAway?.[b]?.HOME_SCORE_PART_1;
+            ? teamResultAway?.[b]?.HOME_SCORE_PART_1
+            : teamResultAway?.[b]?.AWAY_SCORE_PART_1;
         }
         if (secondPeriod) {
           return arr[a]
-            ? teamResultAway?.[b]?.AWAY_SCORE_PART_2
-            : teamResultAway?.[b]?.HOME_SCORE_PART_2;
+            ? teamResultAway?.[b]?.HOME_SCORE_PART_2
+            : teamResultAway?.[b]?.AWAY_SCORE_PART_2;
         }
         if (thirdPeriod) {
           return arr[a]
-            ? teamResultAway?.[b]?.AWAY_SCORE_PART_3
-            : teamResultAway?.[b]?.HOME_SCORE_PART_3;
+            ? teamResultAway?.[b]?.HOME_SCORE_PART_3
+            : teamResultAway?.[b]?.AWAY_SCORE_PART_3;
         }
       }
 
@@ -3313,7 +3313,7 @@ function useCalculateFormule(eventId) {
             ? sum + Number(match?.KY || match?.AWAY_SCORE_FULL)
             : sum + Number(match?.KX || match?.HOME_SCORE_FULL);
         }, 0);
-
+      console.log(misedForFourMatchAway);
       const middleMissedForFourMatcesHome = misedForFourMatchHome / 4;
       const middleMissedForFourMatcesAway = misedForFourMatchAway / 4;
 
@@ -6011,7 +6011,7 @@ function useCalculateFormule(eventId) {
           fivesMatchPassRateAwayEnemy +
           sixMatchPassRateAwayEnemy) /
         6;
-
+      console.log(missedRateAway);
       //За все периоды
       // Ценность удары в створ НАПАДЕНИЕ
       const shotToGoalRatioAttackHome =
@@ -6237,12 +6237,12 @@ function useCalculateFormule(eventId) {
     }
   }
 
-  // const statsAll = calculateAllStats();
+  const statsAll = calculateAllStats();
   const firstTime = calculateStats("1-й тайм");
-  // const secondTime = calculateStats("2-й тайм");
-  // const firstPeriod = calculateStats("1-й период");
-  // const secondPeriod = calculateStats("2-й период");
-  // const thirdPeriod = calculateStats("3-й период");
+  const secondTime = calculateStats("2-й тайм");
+  const firstPeriod = calculateStats("1-й период");
+  const secondPeriod = calculateStats("2-й период");
+  const thirdPeriod = calculateStats("3-й период");
 
   function getDateFromTimeStamp() {
     const time = currentMatch?.START_TIME;
@@ -6261,11 +6261,11 @@ function useCalculateFormule(eventId) {
     return date;
   }
 
-  async function getCurrentMatch(id) {
+  async function getCurrentMatch(id, eventId) {
     const response = await axios.get(
       "https://flashlive-sports.p.rapidapi.com/v1/events/data",
       {
-        params: { event_id: id, locale: "ru_RU" },
+        params: { event_id: id || eventId, locale: "ru_RU" },
         headers: {
           "X-RapidAPI-Key":
             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
@@ -6551,8 +6551,11 @@ function useCalculateFormule(eventId) {
         (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
       )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
     );
+
     setTeamResultAway(
-      response.data.DATA?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
+      response.data.DATA.filter(
+        (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
+      )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
     );
 
     if (response) {
@@ -6574,9 +6577,9 @@ function useCalculateFormule(eventId) {
       );
 
       setTeamResultHome(
-        response.data.DATA?.[0].EVENTS.sort(
-          (a, b) => b.START_TIME - a.START_TIME
-        )
+        response.data.DATA.filter(
+          (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
+        )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
       );
     }
   }
@@ -6615,12 +6618,12 @@ function useCalculateFormule(eventId) {
     month,
     tournament,
     previosMatchHome,
-    // statsAll,
+    statsAll,
     firstTime,
-    // secondTime,
-    // firstPeriod,
-    // secondPeriod,
-    // thirdPeriod,
+    secondTime,
+    firstPeriod,
+    secondPeriod,
+    thirdPeriod,
   };
 }
 

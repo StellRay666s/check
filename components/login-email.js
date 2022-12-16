@@ -5,21 +5,22 @@ import Input from "./Input";
 export default function LoginEmail({
   changeLoginChoice,
   changePassword,
-  login,
+  email,
   setLogin,
   password,
   setPassword,
   passwordShow,
   togglePasswordVisiblity,
+  login,
 }) {
   return (
     <div className="login_block">
       <h1 className="auth-title text-center _medium">Вход</h1>
       <div className="auth-page-content w-100 mx-auto">
         <Input
-          value={login}
+          value={email}
           setValue={setLogin}
-          placeholder={"Логин"}
+          placeholder={"Эл.Почта"}
           type={"text"}
         />
         <Input
@@ -30,7 +31,10 @@ export default function LoginEmail({
           placeholder={"Пароль"}
           type={"password"}
         />
-        <button className="btn btn_auth-registration d-flex align-items-center justify-content-center mx-auto">
+        <button
+          onClick={() => login()}
+          className="btn btn_auth-registration d-flex align-items-center justify-content-center mx-auto"
+        >
           Войти
         </button>
         <button

@@ -717,6 +717,18 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
   background-position: 0 -390px, 100% -145px;
 }
 
+.main-content2 {
+  background: url(/images/main_bg-left.png), url(/images/main_bg-right.png), #516072;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+.email_text {
+  color: white;
+}
+
 .main-content {
   padding: 70px 0;
 }
@@ -2007,7 +2019,7 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
   height: 35px;
   border-radius: 2px;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 15px;
   text-align: center;
   letter-spacing: 0.01em;
   color: #ffffff;
@@ -3744,6 +3756,12 @@ label.checkbox #agree {
 
   .sidebar-news {
     order: 7;
+  }
+
+  .verify_email {
+    background-color: #516072;
+    width: 100px;
+    height: 100px;
   }
 
   .popular-leagues {

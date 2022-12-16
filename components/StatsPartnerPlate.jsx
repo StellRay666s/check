@@ -50,7 +50,9 @@ function StatsPartnerPlate({ logo, indicator, stabilizer, trendIndicator }) {
           <div
             className={`result-cell result-cell_big result-cell_gold d-flex align-items-center justify-content-center mx-auto`}
           >
-            2.2 M
+            {indicator > trendIndicator
+              ? `${Math.ceil(indicator)}М`
+              : `${Math.floor(indicator)}Б`}
           </div>
           <span>Результат</span>
         </div>

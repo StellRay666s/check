@@ -21,8 +21,6 @@ export default function Home() {
   const leag = useSelector((state) => state.league);
   const TEMPLATE_ID = leag?.leag?.map((item) => item.TEMPLATE_ID);
 
-  console.log(tomorrowMatches);
-
   async function todayEvents() {
     const response = await axios.get(
       "https://flashlive-sports.p.rapidapi.com/v1/events/list",
@@ -48,7 +46,7 @@ export default function Home() {
           locale: "ru_RU",
           sport_id: "4",
           indent_days: "0",
-          timezone: "-3",
+          timezone: "+3",
         },
         headers: {
           "X-RapidAPI-Key":
@@ -58,9 +56,9 @@ export default function Home() {
       }
     );
 
-    // setTodayHockeyMatches(
-    //   response2.data.DATA.filter((item) => item.NAME === "США: НХЛ")
-    // );
+    setTodayHockeyMatches(
+      response2.data.DATA.filter((item) => item.NAME === "США: НХЛ")
+    );
 
     setTodayMatches(
       response.data.DATA.filter((item) =>
@@ -109,9 +107,9 @@ export default function Home() {
       }
     );
 
-    setTomorrowMatchesHockey(
-      response2.data.DATA.filter((item) => item.NAME === "США: НХЛ")
-    );
+    // setTomorrowMatchesHockey(
+    //   response2.data.DATA.filter((item) => item.NAME === "США: НХЛ")
+    // );
   }
 
   const footmallTodayMatches = todayMatchces.flatMap((item) => item.EVENTS);
@@ -119,7 +117,8 @@ export default function Home() {
     (item) => item.EVENTS
   );
 
-  const hockeyTomorrow = tomorrowMatchesHockey.map((item) => item.EVENTS);
+  const hockeyToday = todayHockeyMatches.map((item) => item.EVENTS);
+  console.log(hockeyToday);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -156,13 +155,13 @@ export default function Home() {
             <div className={`main-column d-flex flex-column`}>
               <ForecastBlock
                 day={"сегодня"}
-                // hocceyMatches={hockeyToday}
+                hocceyMatches={hockeyToday}
                 footballMatches={footmallTodayMatches}
               />
               {isVisible && <SidebarTariffs />}
               <ForecastBlock
                 footballMatches={footballTommorowMAtches}
-                hocceyMatches={hockeyTomorrow}
+                // hocceyMatches={hockeyTomorrow}
                 day={"завтра"}
               />
               <MainTriggersBlock />

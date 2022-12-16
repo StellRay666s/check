@@ -1,18 +1,61 @@
 import React, { useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { MainLayout } from "../layouts/MainLayout";
 import Sidebar from "../components/sidebar";
 import { Overlay } from "react-bootstrap";
 import { Tooltip } from "react-bootstrap";
+import { setUser } from "../redux/slices/userSlice";
 import { useWindowSize } from "../hooks/useWindowSize";
 import "swiper/css";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function Account() {
   const [activeAccountTab, setActiveAccountTab] = useState("profil");
   const [passwordShow, setPasswordShow] = useState(false);
   const { width } = useWindowSize();
+  const router = useRouter();
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
   const ref = useRef(null);
+
+  const [name, setName] = React.useState("");
+  const [lastname, setLastName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+  const user = useSelector((state) => state.user.user);
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const token = typeof window !== "undefined" && localStorage.getItem("token");
+  const dispatch = useDispatch();
+  // async function changeProfileData() {
+  //   const response = await axios.patch(
+  //     "http://localhost:8000/chandeDataProfile",
+  //     {
+  //       name: name,
+  //       lastname: lastname,
+  //       email: email,
+  //       phone: phone,
+  //     },
+  //     {
+  //       headers: {
+  //         authorization: token,
+  //       },
+  //     }
+  //   );
+
+  //   console.log(response.data);
+  // }
+
+  // if (!isAuth) {
+  //   router.push("/");
+  // }
+
+  React.useEffect(() => {
+    setEmail(user.email);
+    setPhone(user.phone);
+    setName(user.name);
+    setLastName(user.lastname);
+  }, [user]);
 
   const handleProfil = () => {
     setActiveAccountTab("profil");
@@ -108,7 +151,8 @@ export default function Account() {
                                 <input
                                   className={`profil-info-input`}
                                   type="text"
-                                  value="Николаевский"
+                                  onChange={(e) => setLastName(e.target.value)}
+                                  value={lastname}
                                 />
                               </div>
                             </label>
@@ -121,8 +165,9 @@ export default function Account() {
                               <div className="profil-input-item">
                                 <input
                                   className={`profil-info-input`}
+                                  onChange={(e) => setName(e.target.value)}
                                   type="text"
-                                  value="Константин"
+                                  value={name}
                                 />
                               </div>
                             </label>
@@ -150,8 +195,9 @@ export default function Account() {
                               <div className="profil-input-item">
                                 <input
                                   className={`profil-info-input`}
+                                  onChange={(e) => setPhone(e.target.value)}
                                   type="text"
-                                  value="+7 968 756-66-65"
+                                  value={phone}
                                 />
                               </div>
                             </label>
@@ -164,8 +210,9 @@ export default function Account() {
                               <div className="profil-input-item">
                                 <input
                                   className={`profil-info-input`}
+                                  onChange={(e) => setEmail(e.target.value)}
                                   type="email"
-                                  value="studio@is-art.ru"
+                                  value={email}
                                 />
                               </div>
                             </label>
@@ -224,7 +271,10 @@ export default function Account() {
                               </div>
                             </label>
                           </div>
-                          <button className={`btn profil-save`}>
+                          <button
+                            onClick={() => console.log(1)}
+                            className={`btn profil-save`}
+                          >
                             Сохранить
                           </button>
                         </div>
