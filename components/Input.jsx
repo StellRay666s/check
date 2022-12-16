@@ -1,6 +1,7 @@
 import React from "react";
 
 function Input({
+
   togglePasswordVisiblity,
   passwordShow,
   type,
@@ -33,14 +34,14 @@ function Input({
           className={`toggle-vis d-flex align-items-center justify-content-center position-absolute`}
         >
           {passwordShow ? (
-            <img src="../images/hide.svg" alt="" />
+              <img src="../images/hide.svg" alt=""/>
           ) : (
-            <img src="../images/show.svg" alt="" />
+              <img src="../images/show.svg" alt=""/>
           )}
         </span>
-      )}
-    </div>
-  );
+            )}
+        </div>
+    );
 }
 
 export default Input;

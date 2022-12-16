@@ -5,3 +5,13 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+
+module.exports = {
+  reactStrictMode: true,
+  env: {
+    url: process.env.URI,
+  },
+  experimental: {
+    scrollRestoration: true,
+  },
+}

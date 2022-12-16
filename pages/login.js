@@ -35,13 +35,13 @@ export default function Login() {
     }
   }
 
-  function changeLoginChoice() {
-    setChoiceLogin(!choiceLogin);
-  }
+    function changeLoginChoice() {
+        setChoiceLogin(!choiceLogin);
+    }
 
-  function changePassword() {
-    setRemovePassword(!removePassword);
-  }
+    function changePassword() {
+        setRemovePassword(!removePassword);
+    }
 
   return (
     <MainLayout title={"Авторизация"}>
