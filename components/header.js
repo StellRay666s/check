@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 
 import {
   setActiveMainMenu,

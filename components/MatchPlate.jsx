@@ -16,22 +16,8 @@ function MatchPlate({
   const datteObject = new Date(milleSeconds);
   const hour = datteObject.toLocaleString("en-UK", { hour: "numeric" });
   const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
-  function getData() {
-    axios.get("https://flashlive-sports.p.rapidapi.com/v1/events/data", {
-      params: { event_id: eventId, locale: "ru_RU" },
-      headers: {
-        "X-RapidAPI-Key": "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-        "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-      },
-    });
-  }
-  React.useEffect(() => {
-    if (getData) {
-      getData();
-    }
-  }, []);
 
-  console.log(Boolean(getData()));
+  React.useEffect(() => {}, []);
 
   return (
     <Link href={`/match/${eventId}`}>

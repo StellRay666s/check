@@ -9,12 +9,17 @@ import { switchTariffs } from "../redux/slices/userSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.user.isAuth);
-  const tariffs = useSelector((state) => state.user.user.tariffs);
-
+  const isAuth = useSelector((state) => state.user?.isAuth);
+  const tariffs = useSelector((state) => state.user.user?.tariffs);
+  const [active, setActive] = React.useState();
   function logout() {
     localStorage.setItem("token", "");
     dispatch(clearUser());
+  }
+
+  function changeTariffs(index, link) {
+    setActive(index);
+    dispatch(switchTariffs(link));
   }
 
   const tariffsList = [
@@ -46,13 +51,13 @@ export default function Login() {
             <Dropdown.Item>
               <Link href="/account">Перейти в профиль</Link>
             </Dropdown.Item>
-            {tariffsList.map((link, index) => (
+            {tariffs.map((link, index) => (
               <Dropdown.Item
-                onClick={() => dispatch(switchTariffs(index))}
-                className={tariffs === index && `active position-relative`}
+                onClick={() => changeTariffs(index, link)}
+                className={active === index && `active position-relative`}
                 key={index}
               >
-                {link.title}
+                {link}
               </Dropdown.Item>
             ))}
             <Dropdown.Item onClick={() => logout()}>Выйти</Dropdown.Item>

@@ -6,6 +6,7 @@ import Footer from "../components/footer";
 import { setUser } from "../redux/slices/userSlice";
 
 import axios from "axios";
+import { axiosClient } from "../axiosClient";
 export const MainLayout = ({
   children,
   title = "Title",
@@ -18,22 +19,23 @@ export const MainLayout = ({
   const isAuth = useSelector((state) => state.user.isAuth);
   const dispatch = useDispatch();
 
-  // async function getMe() {
-  //   if (isAuth) {
-  //     const response = await axios.get("http://localhost:8000/getMe", {
-  //       headers: {
-  //         authorization: token,
-  //       },
-  //     });
-  //     if (response.status === 200) {
-  //       dispatch(setUser(response.data));
-  //     }
-  //   }
-  // }
+  async function getMe() {
+    if (!isAuth) {
+      const response = await axios.get("http://localhost:8000/getMe", {
+        headers: {
+          authorization: token,
+        },
+      });
 
-  // React.useEffect(() => {
-  //   getMe();
-  // }, []);
+      if (response.status === 200) {
+        dispatch(setUser(response.data));
+      }
+    }
+  }
+
+  React.useEffect(() => {
+    getMe();
+  }, [isAuth]);
 
   return (
     <>

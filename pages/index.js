@@ -45,8 +45,8 @@ export default function Home() {
         params: {
           locale: "ru_RU",
           sport_id: "4",
-          indent_days: "0",
-          timezone: "+3",
+          indent_days: "1",
+          timezone: "3",
         },
         headers: {
           "X-RapidAPI-Key":

@@ -31,17 +31,17 @@ export default function Login() {
     if (response.status) {
       router.push("/account");
       localStorage.setItem("token", response.data.token);
-      dispatch(setUser(response.data.checkUser));
+      dispatch(setUser(response.data.user));
     }
   }
 
-    function changeLoginChoice() {
-        setChoiceLogin(!choiceLogin);
-    }
+  function changeLoginChoice() {
+    setChoiceLogin(!choiceLogin);
+  }
 
-    function changePassword() {
-        setRemovePassword(!removePassword);
-    }
+  function changePassword() {
+    setRemovePassword(!removePassword);
+  }
 
   return (
     <MainLayout title={"Авторизация"}>

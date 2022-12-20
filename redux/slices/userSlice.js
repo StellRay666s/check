@@ -8,6 +8,11 @@ const initialState = {
     email: "",
     tariffs: 0,
   },
+
+  tariffs: {
+    name: "Базовый",
+  },
+
   isAuth: false,
 };
 
@@ -23,7 +28,7 @@ export const userSlice = createSlice({
       (state.user = []), (state.isAuth = false);
     },
     switchTariffs(state, action) {
-      state.user.tariffs = action.payload;
+      state.tariffs = action.payload;
     },
   },
 });

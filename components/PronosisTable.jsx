@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import MatchPlate from "./MatchPlate";
-import axios from "axios";
 
 function PronosisTable({
   matches = [],

@@ -7,8 +7,9 @@ import { Tooltip } from "react-bootstrap";
 import { setUser } from "../redux/slices/userSlice";
 import { useWindowSize } from "../hooks/useWindowSize";
 import "swiper/css";
-import axios from "axios";
+import { axiosClient } from "../axiosClient";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function Account() {
   const [activeAccountTab, setActiveAccountTab] = useState("profil");
@@ -18,44 +19,89 @@ export default function Account() {
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
   const ref = useRef(null);
-
   const [name, setName] = React.useState("");
   const [lastname, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const user = useSelector((state) => state.user.user);
   const isAuth = useSelector((state) => state.user.isAuth);
-  const token = typeof window !== "undefined" && localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+
+
+  const [oldPassword, setOldPassword] = React.useState("");
+  const [newPassword, setNewPassword] = React.useState("");
+
+
+
   const dispatch = useDispatch();
-  // async function changeProfileData() {
-  //   const response = await axios.patch(
-  //     "http://localhost:8000/chandeDataProfile",
-  //     {
-  //       name: name,
-  //       lastname: lastname,
-  //       email: email,
-  //       phone: phone,
-  //     },
-  //     {
-  //       headers: {
-  //         authorization: token,
-  //       },
-  //     }
-  //   );
 
-  //   console.log(response.data);
-  // }
+  async function changePassword() {
+    try {
+      await axios.patch(
+        "http://localhost:8000/changePassword",
+        // {
+        //   name: name,
+        //   lastname: lastname,
+        //   email: email,
+        //   phone: phone,
+        // },
+        {
+          headers: {
+            authorization: `Bearer${token}`,
+          },
+        }
+      );
+    } catch (err) { }
+  }
 
-  // if (!isAuth) {
-  //   router.push("/");
-  // }
+  async function changeProfileData() {
+    if (oldPassword === "" && newPassword === "") {
+      const response = await axios.patch(
+        "http://localhost:8000/chandeDataProfile",
+        {
+          name: name,
+          lastname: lastname,
+          email: email,
+          phone: phone,
+        },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+    }
+    await changePassword();
+  }
+
+  async function byTariffs() {
+    const response = await axios.post("http://localhost:8000/buyTariffs",
+      {
+
+      },
+      {
+        headers: {
+          'authorization': `Bearer ${token}`,
+        }
+      },);
+
+    console.log(response);
+  }
 
   React.useEffect(() => {
-    setEmail(user.email);
-    setPhone(user.phone);
-    setName(user.name);
-    setLastName(user.lastname);
+    setEmail(user?.email);
+    setPhone(user?.phone);
+    setName(user?.name);
+    setLastName(user?.lastname);
   }, [user]);
+
+  React.useEffect(() => {
+    if (!token) {
+      router.push("/");
+    }
+  }, [isAuth]);
+
+  React.useEffect(() => { }, []);
 
   const handleProfil = () => {
     setActiveAccountTab("profil");
@@ -92,27 +138,24 @@ export default function Account() {
                   >
                     <button
                       onClick={handleProfil}
-                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${
-                        activeAccountTab === "profil" ? "active" : ""
-                      }`}
+                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${activeAccountTab === "profil" ? "active" : ""
+                        }`}
                     >
                       <img src="../images/profil-icon.svg" alt="" />
                       <span>Профиль</span>
                     </button>
                     <button
                       onClick={handlePremium}
-                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${
-                        activeAccountTab === "premium" ? "active" : ""
-                      }`}
+                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${activeAccountTab === "premium" ? "active" : ""
+                        }`}
                     >
                       <img src="../images/premium-icon.svg" alt="" />
                       <span>Премиум</span>
                     </button>
                     <button
                       onClick={handlePartner}
-                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${
-                        activeAccountTab === "partner" ? "active" : ""
-                      }`}
+                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${activeAccountTab === "partner" ? "active" : ""
+                        }`}
                     >
                       <img src="../images/partner-icon.svg" alt="" />
                       <span>Партнерка</span>
@@ -230,7 +273,10 @@ export default function Account() {
                                 <input
                                   className={`profil-info-password`}
                                   type={passwordShow ? "text" : "password"}
-                                  value="querty123"
+                                  value={oldPassword}
+                                  onChange={(e) =>
+                                    setOldPassword(e.target.value)
+                                  }
                                 />
                                 <span
                                   role="button"
@@ -255,7 +301,10 @@ export default function Account() {
                                 <input
                                   className={`profil-info-password`}
                                   type={passwordShow ? "text" : "password"}
-                                  value="querty123"
+                                  value={newPassword}
+                                  onChange={(e) =>
+                                    setNewPassword(e.target.value)
+                                  }
                                 />
                                 <span
                                   role="button"
@@ -272,7 +321,7 @@ export default function Account() {
                             </label>
                           </div>
                           <button
-                            onClick={() => console.log(1)}
+                            onClick={() => changePassword()}
                             className={`btn profil-save`}
                           >
                             Сохранить
@@ -319,6 +368,7 @@ export default function Account() {
                             </div>
                           </div>
                           <button
+                            onClick={() => byTariffs()}
                             className={`btn btn_tariff-buy btn_account-tariff-buy`}
                           >
                             Купить тариф
@@ -331,9 +381,8 @@ export default function Account() {
                             Специальное предложение
                             <div ref={ref}>
                               <span
-                                className={`btn-help d-block p-0 ${
-                                  show ? "active" : ""
-                                }`}
+                                className={`btn-help d-block p-0 ${show ? "active" : ""
+                                  }`}
                                 onClick={handleClick}
                               >
                                 <svg
@@ -378,9 +427,8 @@ export default function Account() {
                               <Overlay
                                 show={show}
                                 target={target}
-                                placement={`${
-                                  width >= 1339 ? "right-start" : "top"
-                                }`}
+                                placement={`${width >= 1339 ? "right-start" : "top"
+                                  }`}
                                 container={ref}
                               >
                                 <Tooltip
