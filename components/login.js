@@ -11,7 +11,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user?.isAuth);
   const tariffs = useSelector((state) => state.user.user?.tariffs);
-  const [active, setActive] = React.useState();
+  const [active, setActive] = React.useState(0);
   function logout() {
     localStorage.setItem("token", "");
     dispatch(clearUser());
@@ -51,7 +51,7 @@ export default function Login() {
             <Dropdown.Item>
               <Link href="/account">Перейти в профиль</Link>
             </Dropdown.Item>
-            {tariffs.map((link, index) => (
+            {tariffs?.map((link, index) => (
               <Dropdown.Item
                 onClick={() => changeTariffs(index, link)}
                 className={active === index && `active position-relative`}

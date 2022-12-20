@@ -15,8 +15,6 @@ export default function FootballLeagues() {
   const dispatch = useDispatch();
   const leag = useSelector((state) => state.league);
 
-  console.log(leag);
-
   React.useEffect(() => {
     dispatch(fetchLeagues());
   }, []);

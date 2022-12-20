@@ -2,8 +2,6 @@ import React from "react";
 import StatsPartnerPlate from "./StatsPartnerPlate";
 
 function TableStatsPartnerTariffs({ logoHome, logoAway, stats }) {
-  console.log(stats);
-
   return (
     <div className={`match-tab-content`}>
       <div className={`match-forecast-table-partner mx-auto`}>

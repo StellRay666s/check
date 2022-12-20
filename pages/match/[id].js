@@ -42,6 +42,9 @@ export default function Match() {
   const handletime3 = () => {
     setActiveForecastTab("time3");
   };
+
+  React.useEffect(() => {}, [tariffs]);
+
   return (
     <MainLayout title={"Футбольные лиги"}>
       <main>

@@ -3313,7 +3313,7 @@ function useCalculateFormule(eventId) {
             ? sum + Number(match?.KY || match?.AWAY_SCORE_FULL)
             : sum + Number(match?.KX || match?.HOME_SCORE_FULL);
         }, 0);
-      console.log(misedForFourMatchAway);
+
       const middleMissedForFourMatcesHome = misedForFourMatchHome / 4;
       const middleMissedForFourMatcesAway = misedForFourMatchAway / 4;
 
@@ -6011,7 +6011,7 @@ function useCalculateFormule(eventId) {
           fivesMatchPassRateAwayEnemy +
           sixMatchPassRateAwayEnemy) /
         6;
-      console.log(missedRateAway);
+
       //За все периоды
       // Ценность удары в створ НАПАДЕНИЕ
       const shotToGoalRatioAttackHome =
@@ -6545,11 +6545,6 @@ function useCalculateFormule(eventId) {
           "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
         },
       }
-    );
-    console.log(
-      response.data.DATA.filter(
-        (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
-      )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
     );
 
     setTeamResultAway(

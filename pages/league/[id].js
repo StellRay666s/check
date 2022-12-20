@@ -18,8 +18,6 @@ export default function League() {
   const [isLoad, setIsLoad] = React.useState(false);
   const [tomorrowMatches, setTomorrowMatches] = React.useState([]);
 
-  console.log(todayMatches);
-
   const { query } = useRouter();
 
   async function getMatchOneLeag() {
@@ -69,13 +67,10 @@ export default function League() {
 
     setIsLoad(true);
   }
-  console.log(tomorrowMatches);
 
   React.useEffect(() => {
     getMatchOneLeag();
   }, [query]);
-
-  console.log(tomorrowMatches);
 
   return (
     <MainLayout title={"Лига"}>

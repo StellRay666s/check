@@ -9,7 +9,6 @@ function PronosisTable({
   seasonName,
   titleTable,
 }) {
-  console.log(matches);
   return (
     <div className={`forecast-block`}>
       <div className={`forecast-title`}>

@@ -4,34 +4,30 @@ import { MainLayout } from "../layouts/MainLayout";
 import Sidebar from "../components/sidebar";
 import { Overlay } from "react-bootstrap";
 import { Tooltip } from "react-bootstrap";
-import { setUser } from "../redux/slices/userSlice";
 import { useWindowSize } from "../hooks/useWindowSize";
 import "swiper/css";
 import { axiosClient } from "../axiosClient";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { clearUser } from "../redux/slices/userSlice";
 
 export default function Account() {
   const [activeAccountTab, setActiveAccountTab] = useState("profil");
   const [passwordShow, setPasswordShow] = useState(false);
-  const { width } = useWindowSize();
+  const [token, setToken] = React.useState("");
   const router = useRouter();
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
-  const ref = useRef(null);
   const [name, setName] = React.useState("");
   const [lastname, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const user = useSelector((state) => state.user.user);
   const isAuth = useSelector((state) => state.user.isAuth);
-  const token = localStorage.getItem("token");
-
+  const userTariffs = user?.tariffs.filter((item) => item === "Премиум");
 
   const [oldPassword, setOldPassword] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
-
-
 
   const dispatch = useDispatch();
 
@@ -39,30 +35,9 @@ export default function Account() {
     try {
       await axios.patch(
         "http://localhost:8000/changePassword",
-        // {
-        //   name: name,
-        //   lastname: lastname,
-        //   email: email,
-        //   phone: phone,
-        // },
         {
-          headers: {
-            authorization: `Bearer${token}`,
-          },
-        }
-      );
-    } catch (err) { }
-  }
-
-  async function changeProfileData() {
-    if (oldPassword === "" && newPassword === "") {
-      const response = await axios.patch(
-        "http://localhost:8000/chandeDataProfile",
-        {
-          name: name,
-          lastname: lastname,
-          email: email,
-          phone: phone,
+          newPassword: newPassword,
+          currentPassword: oldPassword,
         },
         {
           headers: {
@@ -70,22 +45,51 @@ export default function Account() {
           },
         }
       );
-    }
-    await changePassword();
+    } catch (err) {}
   }
 
-  async function byTariffs() {
-    const response = await axios.post("http://localhost:8000/buyTariffs",
+  async function changeDataProfile() {
+    const response = await axiosClient.patch(
+      "http://localhost:8000/chandeDataProfile",
       {
-
+        name: name,
+        lastname: lastname,
+        email: email,
+        phone: phone,
       },
       {
         headers: {
-          'authorization': `Bearer ${token}`,
-        }
-      },);
+          authorization: token,
+        },
+      }
+    );
+  }
 
-    console.log(response);
+  async function saveData() {
+    if (oldPassword.length === 0 && newPassword.length === 0) {
+      changeDataProfile();
+    } else {
+      changeDataProfile();
+      changePassword();
+    }
+  }
+
+  function logout() {
+    router.push("/");
+    localStorage.setItem("token", "");
+    dispatch(clearUser());
+  }
+
+  async function byTariffs() {
+    const response = await axios.post(
+      "http://localhost:8000/buyTariffs",
+      {},
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
   }
 
   React.useEffect(() => {
@@ -96,12 +100,13 @@ export default function Account() {
   }, [user]);
 
   React.useEffect(() => {
-    if (!token) {
+    setToken(localStorage.getItem("token"));
+    if (!isAuth) {
       router.push("/");
     }
   }, [isAuth]);
 
-  React.useEffect(() => { }, []);
+  React.useEffect(() => {}, []);
 
   const handleProfil = () => {
     setActiveAccountTab("profil");
@@ -138,24 +143,27 @@ export default function Account() {
                   >
                     <button
                       onClick={handleProfil}
-                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${activeAccountTab === "profil" ? "active" : ""
-                        }`}
+                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${
+                        activeAccountTab === "profil" ? "active" : ""
+                      }`}
                     >
                       <img src="../images/profil-icon.svg" alt="" />
                       <span>Профиль</span>
                     </button>
                     <button
                       onClick={handlePremium}
-                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${activeAccountTab === "premium" ? "active" : ""
-                        }`}
+                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${
+                        activeAccountTab === "premium" ? "active" : ""
+                      }`}
                     >
                       <img src="../images/premium-icon.svg" alt="" />
                       <span>Премиум</span>
                     </button>
                     <button
                       onClick={handlePartner}
-                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${activeAccountTab === "partner" ? "active" : ""
-                        }`}
+                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${
+                        activeAccountTab === "partner" ? "active" : ""
+                      }`}
                     >
                       <img src="../images/partner-icon.svg" alt="" />
                       <span>Партнерка</span>
@@ -321,14 +329,17 @@ export default function Account() {
                             </label>
                           </div>
                           <button
-                            onClick={() => changePassword()}
+                            onClick={() => saveData()}
                             className={`btn profil-save`}
                           >
                             Сохранить
                           </button>
                         </div>
                         <div className={`profil-control`}>
-                          <button className={`btn btn_profil-control d-block`}>
+                          <button
+                            onClick={() => logout()}
+                            className={`btn btn_profil-control d-block`}
+                          >
                             Выйти
                           </button>
                           <button className={`btn btn_profil-control d-block`}>
@@ -368,21 +379,25 @@ export default function Account() {
                             </div>
                           </div>
                           <button
+                            disabled={
+                              userTariffs[0] === "Премиум" ? true : false
+                            }
                             onClick={() => byTariffs()}
                             className={`btn btn_tariff-buy btn_account-tariff-buy`}
                           >
                             Купить тариф
                           </button>
                         </div>
-                        <div className={`special-offer`}>
+                        {/* <div className={`special-offer`}>
                           <div
                             className={`special-offer-name d-flex align-items-center`}
                           >
                             Специальное предложение
                             <div ref={ref}>
                               <span
-                                className={`btn-help d-block p-0 ${show ? "active" : ""
-                                  }`}
+                                className={`btn-help d-block p-0 ${
+                                  show ? "active" : ""
+                                }`}
                                 onClick={handleClick}
                               >
                                 <svg
@@ -427,8 +442,9 @@ export default function Account() {
                               <Overlay
                                 show={show}
                                 target={target}
-                                placement={`${width >= 1339 ? "right-start" : "top"
-                                  }`}
+                                placement={`${
+                                  width >= 1339 ? "right-start" : "top"
+                                }`}
                                 container={ref}
                               >
                                 <Tooltip
@@ -483,7 +499,7 @@ export default function Account() {
                           >
                             купить тариф
                           </button>
-                        </div>
+                        </div> */}
                         <div className={`about-tariff seo-text`}>
                           <h2>О тарифе</h2>
                           <p>

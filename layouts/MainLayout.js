@@ -20,8 +20,8 @@ export const MainLayout = ({
   const dispatch = useDispatch();
 
   async function getMe() {
-    if (!isAuth) {
-      const response = await axios.get("http://localhost:8000/getMe", {
+    if (token) {
+      const response = await axiosClient.get("http://localhost:8000/getMe", {
         headers: {
           authorization: token,
         },

@@ -2,9 +2,19 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { MainLayout } from "../layouts/MainLayout";
 import Breadcrumbs from "../components/breadcrumbs";
+import axios from "axios";
 
 export default function News() {
-  const news = [1, 2, 3, 4, 5];
+  const [news, setNews] = React.useState([]);
+
+  async function getNews() {
+    const response = await axios.get("http://localhost:8000/news");
+    setNews(response.data);
+  }
+
+  React.useEffect(() => {
+    getNews();
+  }, []);
 
   return (
     <MainLayout title={"Футбольные лиги"}>
@@ -19,17 +29,17 @@ export default function News() {
           <div className={`container mx-auto`}>
             <div className={`main-column`}>
               <div className="news-archive-content d-flex justify-content-between">
-                {news.map((index) => (
-                  <Link key={index} href="/single-news">
+                {news.map((item, index) => (
+                  <Link key={index} href={`/single-news/${item.id}`}>
                     <a className="news-item">
                       <div className="news-item-image position-relative">
-                        <img src="../images/news.jpg" alt="" />
+                        <img
+                          src={`http://localhost:8000${item.image}`}
+                          alt=""
+                        />
                       </div>
                       <div className="news-item-info">
-                        <h4 className="news-item-name">
-                          3,5 миллиона прибыли на «Аталанте» и самый стабильный
-                          юзер проекта
-                        </h4>
+                        <h4 className="news-item-name">{item.title}</h4>
                         <div className="news-item-date">18.09.2022</div>
                       </div>
                     </a>

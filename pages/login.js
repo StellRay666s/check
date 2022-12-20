@@ -27,7 +27,7 @@ export default function Login() {
       email: email,
       password: password,
     });
-    console.log(response.data);
+
     if (response.status) {
       router.push("/account");
       localStorage.setItem("token", response.data.token);

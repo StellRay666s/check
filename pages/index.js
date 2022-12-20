@@ -118,7 +118,7 @@ export default function Home() {
   );
 
   const hockeyToday = todayHockeyMatches.map((item) => item.EVENTS);
-  console.log(hockeyToday);
+
   const dispatch = useDispatch();
 
   React.useEffect(() => {
