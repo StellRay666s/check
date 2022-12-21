@@ -21,7 +21,7 @@ export const MainLayout = ({
 
   async function getMe() {
     if (token) {
-      const response = await axiosClient.get("http://localhost:8000/getMe", {
+      const response = await axiosClient.get("hhttps://api.check-bets.online/getMe", {
         headers: {
           authorization: token,
         },
@@ -34,7 +34,7 @@ export const MainLayout = ({
   }
 
   React.useEffect(() => {
-    getMe();
+    // getMe();
   }, [isAuth]);
 
   return (

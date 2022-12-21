@@ -17,7 +17,7 @@ export default function FootballLeagues() {
 
   React.useEffect(() => {
     dispatch(fetchLeagues());
-  }, []);
+  }, [dispatch]);
 
   return (
     <MainLayout title={"Футбольные лиги"}>
@@ -34,7 +34,7 @@ export default function FootballLeagues() {
               <div className={`leagues-lists d-grid`}>
                 <div className={`leagues-list-column`}>
                   {leag.leag?.slice(0, 23).map((item, index) => (
-                    <Link href={`/league/${item.ACTUAL_TOURNAMENT_SEASON_ID}`}>
+                    <Link key={index} href={`/league/${item.ACTUAL_TOURNAMENT_SEASON_ID}`}>
                       <a className={`league-item d-flex align-items-center`}>
                         <div className="league-icon">
                           <img src={"../images/league.png"} alt="" />
@@ -46,7 +46,7 @@ export default function FootballLeagues() {
                 </div>
                 <div className={`leagues-list-column`}>
                   {leag?.leag?.slice(24, 45).map((item, index) => (
-                    <Link href={`league/${item.id}`}>
+                    <Link key={index} href={`league/${item.id}`}>
                       <a className={`league-item d-flex align-items-center`}>
                         <div className="league-icon">
                           <img src="../images/league.png" alt="" />

@@ -10,7 +10,9 @@ import { switchTariffs } from "../redux/slices/userSlice";
 export default function Login() {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user?.isAuth);
-  const tariffs = useSelector((state) => state.user.user?.tariffs);
+  const tariffsUser = useSelector((state) => state.user.user.tariffs);
+  const tariffs = useSelector((state) => state.user.tariffs)
+  console.log(tariffs)
   const [active, setActive] = React.useState(0);
   function logout() {
     localStorage.setItem("token", "");
@@ -20,13 +22,16 @@ export default function Login() {
   function changeTariffs(index, link) {
     setActive(index);
     dispatch(switchTariffs(link));
+    setActive(tariffs.indexOf(link))
   }
+
 
   const tariffsList = [
     { title: "Премиум тариф" },
     { title: "Партнерский тариф" },
     { title: "Базовый тариф" },
   ];
+
 
   return (
     <Dropdown>
@@ -36,7 +41,7 @@ export default function Login() {
         </div>
       </Dropdown.Toggle>
       <Dropdown.Menu align={`end`} className={`login-menu`}>
-        {isAuth === false ? (
+        {isAuth === true ? (
           <div>
             <Dropdown.Item>
               <Link href="/login">Авторизоваться</Link>
@@ -45,16 +50,25 @@ export default function Login() {
             <Dropdown.Item>
               <Link href="/registration">Зарегистрироваться</Link>
             </Dropdown.Item>
+            {tariffsUser?.map((link, index) => (
+              <Dropdown.Item
+                onClick={() => changeTariffs(index, link)}
+                className={tariffs === link && `active position-relative`}
+                key={index}
+              >
+                {link}
+              </Dropdown.Item>
+            ))}
           </div>
         ) : (
           <div>
             <Dropdown.Item>
               <Link href="/account">Перейти в профиль</Link>
             </Dropdown.Item>
-            {tariffs?.map((link, index) => (
+            {tariffsUser?.map((link, index) => (
               <Dropdown.Item
                 onClick={() => changeTariffs(index, link)}
-                className={active === index && `active position-relative`}
+                className={tariffs[0] === link && `active position-relative`}
                 key={index}
               >
                 {link}

@@ -13,6 +13,7 @@ function useCalculateFormule(eventId) {
   const [statsForSixMatchesHome, setStatsForSixMatchesHome] = React.useState(
     []
   );
+
   const [statsForFourMatchesHome, setStatsForFourMatchesHome] = React.useState(
     []
   );
@@ -127,6 +128,8 @@ function useCalculateFormule(eventId) {
         Number(secondMatchGoalHome) +
         Number(thirdMatchGoalHome) +
         Number(fourhMatchGoalHome);
+
+
 
       function getGoalForSixMAtchAway(arr, a, b) {
         if (firstPeriod) {
@@ -394,27 +397,27 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? arr2[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
           : arr2[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
 
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_HOME);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
 
@@ -427,28 +430,28 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? arr2[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
           : arr2[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
 
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_AWAY);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
 
@@ -460,37 +463,37 @@ function useCalculateFormule(eventId) {
       function getBaseStatsAway(a, b, c, d, e, arr, arr2) {
         return arr2[a]
           ? arr
-              .slice(d, e)
-              .filter((item) => item !== undefined)
+            .slice(d, e)
+            .filter((item) => item !== undefined)
 
-              .reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
+            .reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
           : arr
-              .slice(d, e)
-              .filter((item) => item !== undefined)
+            .slice(d, e)
+            .filter((item) => item !== undefined)
 
-              .reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0);
+            .reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0);
       }
 
       function getBaseStatsEnemyAway(a, b, c, d, e, arr, arr2) {
         return !arr2[a]
           ? arr
-              .slice(d, e)
-              .filter((item) => item !== undefined)
+            .slice(d, e)
+            .filter((item) => item !== undefined)
 
-              .reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
+            .reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
           : arr
-              .slice(d, e)
-              .filter((item) => item !== undefined)
+            .slice(d, e)
+            .filter((item) => item !== undefined)
 
-              .reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0);
+            .reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0);
       }
 
       const firstMatchCornerShotAwayEnemy = getBaseStatsEnemyAway(
@@ -2119,16 +2122,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-            : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+            : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+          : checkTeamSideHome[a]
+            ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -2156,20 +2159,22 @@ function useCalculateFormule(eventId) {
         fivesMatchShotsOnTarget +
         sixMatchShotsOnTarget;
 
+
+
       function getShotsOnTargetHomeEnemy(a, b, c, d, e) {
         return tournament.NAME === "США: НХЛ"
           ? !checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideHome[a]
+            ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -2255,16 +2260,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? !checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideAway[a]
+            ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -2296,16 +2301,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-            : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+            : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+          : checkTeamSideAway[a]
+            ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -2412,16 +2417,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideAway[a]
+            ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -2438,6 +2443,8 @@ function useCalculateFormule(eventId) {
 
       const sixMatchBlockedShotHomeAway = getShottsOnBlockedAway(5, 5, 6, 5, 6);
 
+
+
       const blockedShotsForFourMatchAway =
         firstMatchBlockedShotAway +
         secondMatchBlockedShotAway +
@@ -2453,16 +2460,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
             : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideAway[a]
+            ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -2526,6 +2533,9 @@ function useCalculateFormule(eventId) {
         fivesMatchBlockedShotAwayEnemy +
         sixMatchBlockedShotAwayEnemy;
 
+
+
+
       const blockedShotsHome = statsForPeriodsHome.map(
         (item) =>
           item.ITEMS.filter(
@@ -2537,16 +2547,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
             : blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideHome[a]
+            ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -2577,16 +2587,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideHome[a]
+            ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -3418,16 +3428,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-            : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+            : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+          : checkTeamSideHome[a]
+            ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -3459,16 +3469,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? !checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideHome[a]
+            ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -3553,16 +3563,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-            : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+            : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+          : checkTeamSideAway[a]
+            ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -3606,16 +3616,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : !checkTeamSideAway[a]
-          ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+          : !checkTeamSideAway[a]
+            ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -3721,16 +3731,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
             : blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideHome[a]
+            ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -3768,16 +3778,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? !checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-            : blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+            : blockedShotsHome.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+          : checkTeamSideHome[a]
+            ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -3885,16 +3895,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? !checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-            : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+            : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+          : checkTeamSideAway[a]
+            ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -4269,25 +4279,25 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? arr2?.[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
           : arr2?.[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_HOME);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
@@ -4299,26 +4309,26 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? arr2?.[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
           : arr2?.[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_AWAY);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
@@ -4330,26 +4340,26 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? arr2?.[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
           : arr2?.[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_AWAY);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
@@ -4361,26 +4371,26 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? arr2?.[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
           : arr2?.[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_HOME);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
@@ -5672,16 +5682,16 @@ function useCalculateFormule(eventId) {
         return tournament.NAME === "США: НХЛ"
           ? !checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-            : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+            : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+          : checkTeamSideAway[a]
+            ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -6302,7 +6312,6 @@ function useCalculateFormule(eventId) {
   }
 
   // )
-
   async function getStatsHome(previosMatchHome) {
     const response1 = await axios.get(
       "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
@@ -6603,7 +6612,7 @@ function useCalculateFormule(eventId) {
     }, 5000);
   }, [previosMatchHome]);
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => { }, []);
 
   return {
     currentMatch,

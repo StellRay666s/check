@@ -6,12 +6,14 @@ const initialState = {
     lastname: "",
     phone: null,
     email: "",
-    tariffs: 0,
+    tariffs: [],
   },
 
-  tariffs: {
-    name: "Базовый",
-  },
+  tariffs: [
+    "Базовый",
+    "Премиум",
+    "Партнерский"
+  ],
 
   isAuth: false,
 };
@@ -25,10 +27,10 @@ export const userSlice = createSlice({
       state.isAuth = true;
     },
     clearUser(state) {
-      (state.user = []), (state.isAuth = false);
+      (state.user = initialState), (state.isAuth = false);
     },
     switchTariffs(state, action) {
-      state.tariffs = action.payload;
+      state.tariffs = [action.payload]
     },
   },
 });

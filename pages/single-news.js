@@ -18,7 +18,7 @@ export default function SingleNews() {
                 хоккей и футбольные еврокубки
               </h1>
               <div className="single-news-date">18.09.2022</div>
-              <div className="single-news-content">
+              {/* <div className="single-news-content">
                 <p>
                   «Армейское» дерби КХЛ, футбольные еврокубки и матч открытия
                   сезона НХЛ в Праге. Проживаем плодотворную неделю и поднимаем
@@ -96,7 +96,7 @@ export default function SingleNews() {
                   Хаг сам перебрался на «Олд Траффорд» и забрал с собой Энтони и
                   Лисандро Мартинеса.
                 </p>
-              </div>
+              </div> */}
             </div>
             <Sidebar />
           </div>

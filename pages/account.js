@@ -34,7 +34,7 @@ export default function Account() {
   async function changePassword() {
     try {
       await axios.patch(
-        "http://localhost:8000/changePassword",
+        "https://api.check-bets.online/changePassword",
         {
           newPassword: newPassword,
           currentPassword: oldPassword,
@@ -45,12 +45,12 @@ export default function Account() {
           },
         }
       );
-    } catch (err) {}
+    } catch (err) { }
   }
 
   async function changeDataProfile() {
     const response = await axiosClient.patch(
-      "http://localhost:8000/chandeDataProfile",
+      "https://api.check-bets.online/chandeDataProfile",
       {
         name: name,
         lastname: lastname,
@@ -106,7 +106,7 @@ export default function Account() {
     }
   }, [isAuth]);
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => { }, []);
 
   const handleProfil = () => {
     setActiveAccountTab("profil");
@@ -143,27 +143,24 @@ export default function Account() {
                   >
                     <button
                       onClick={handleProfil}
-                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${
-                        activeAccountTab === "profil" ? "active" : ""
-                      }`}
+                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${activeAccountTab === "profil" ? "active" : ""
+                        }`}
                     >
                       <img src="../images/profil-icon.svg" alt="" />
                       <span>Профиль</span>
                     </button>
                     <button
                       onClick={handlePremium}
-                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${
-                        activeAccountTab === "premium" ? "active" : ""
-                      }`}
+                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${activeAccountTab === "premium" ? "active" : ""
+                        }`}
                     >
                       <img src="../images/premium-icon.svg" alt="" />
                       <span>Премиум</span>
                     </button>
                     <button
                       onClick={handlePartner}
-                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${
-                        activeAccountTab === "partner" ? "active" : ""
-                      }`}
+                      className={`btn account-tab-button d-flex align-items-center justify-content-center position-relative ${activeAccountTab === "partner" ? "active" : ""
+                        }`}
                     >
                       <img src="../images/partner-icon.svg" alt="" />
                       <span>Партнерка</span>

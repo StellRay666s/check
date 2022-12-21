@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { setUser } from "../redux/slices/userSlice";
 import { useTogglePassword } from "../hooks/useTogglePassword";
 import axios from "axios";
+import { axiosClient } from "../axiosClient";
 
 export default function Login() {
   const [choiceLogin, setChoiceLogin] = React.useState(true);
@@ -23,16 +24,16 @@ export default function Login() {
   const router = useRouter();
 
   async function login() {
-    const response = await axios.post("http://localhost:8000/login", {
+    const response = await axiosClient.post("https://api.check-bets.online/login", {
       email: email,
       password: password,
     });
 
-    if (response.status) {
-      router.push("/account");
-      localStorage.setItem("token", response.data.token);
-      dispatch(setUser(response.data.user));
-    }
+    // if (response.status) {
+    //   router.push("/account");
+    //   localStorage.setItem("token", response.data.token);
+    //   dispatch(setUser(response.data.user));
+    // }
   }
 
   function changeLoginChoice() {

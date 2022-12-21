@@ -15,6 +15,9 @@ import { useCalculateFormule } from "../../utils/useCalculateFormula";
 export default function Match() {
   const [activeForecastTab, setActiveForecastTab] = useState("match");
   const tariffs = useSelector((state) => state.user.tariffs);
+
+
+
   const {
     currentMatch,
     hour,
@@ -43,7 +46,7 @@ export default function Match() {
     setActiveForecastTab("time3");
   };
 
-  React.useEffect(() => {}, [tariffs]);
+  React.useEffect(() => { }, [tariffs]);
 
   return (
     <MainLayout title={"Футбольные лиги"}>
@@ -108,7 +111,7 @@ export default function Match() {
                   </h3>
                 </div>
               </div>
-              {(tariffs === "Базовый" && (
+              {(tariffs[0] === "Базовый" && (
                 <TableBaseTariffs
                   activeForecastTab={activeForecastTab}
                   logoHome={currentMatch?.HOME_IMAGES[0].replace(
@@ -133,7 +136,7 @@ export default function Match() {
                   thirdPeriod={thirdPeriod}
                 />
               )) ||
-                (tariffs === "Премиум" && (
+                (tariffs[0] === "Премиум" && (
                   <TablePremiumTariffs
                     logoHome={currentMatch?.HOME_IMAGES[0].replace(
                       "flashscore",
@@ -157,7 +160,7 @@ export default function Match() {
                     handletime3={handletime3}
                   />
                 )) ||
-                (tariffs === "Партнерский" && (
+                (tariffs[0] === "Партнерский" && (
                   <TablePartnerTariffs
                     logoHome={currentMatch?.HOME_IMAGES[0].replace(
                       "flashscore",

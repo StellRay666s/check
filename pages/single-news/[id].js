@@ -36,11 +36,11 @@ export default function SingleNews() {
           <div className={`container mx-auto d-grid`}>
             <div className={`main-column`}>
               <h1 className={`pages-title single-news-title m-0`}>{title}</h1>
-              <div className="single-news-date">18.09.2022</div>
+              <div className="single-news-date">{date}</div>
               <div className="single-news-content">
                 <p>{description}</p>
                 <img src={`http://localhost:8000${image}`} alt="" />
-                <h2>3 октября. КХЛ. ЦСКА - СКА</h2>
+                {/* <h2>3 октября. КХЛ. ЦСКА - СКА</h2>
                 <p>
                   Несомненно - это главный хоккейный матч игрового дня в
                   понедельник. СКА из Санкт-Петербурга возглавляет единую
@@ -108,7 +108,7 @@ export default function SingleNews() {
                   карманы деньгами, но исхудал по ростеру. Экс-тренер Эрик тен
                   Хаг сам перебрался на «Олд Траффорд» и забрал с собой Энтони и
                   Лисандро Мартинеса.
-                </p>
+                </p> */}
               </div>
             </div>
             <Sidebar />
