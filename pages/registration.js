@@ -12,7 +12,7 @@ export default function Registration() {
   const [repeatPassword, setRepeatPassword] = React.useState("");
   const router = useRouter();
 
-  console.log(process.env.URL)
+
   async function registerEmail(email, password) {
     const response = await axios.post(`${process.env.URL}/registration`, {
       email: email,
@@ -20,7 +20,7 @@ export default function Registration() {
     });
 
     if (response.status) {
-      router.push("/verifyEmail");
+      router.push("/login");
     }
   }
 

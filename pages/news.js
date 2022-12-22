@@ -5,7 +5,7 @@ import Breadcrumbs from "../components/breadcrumbs";
 import axios from "axios";
 
 export default function News() {
-  const [news, setNews] = React.useState([]);
+  // const [news, setNews] = React.useState([]);
 
   async function getNews() {
     const response = await axios.get("http://localhost:8000/news");
@@ -13,7 +13,7 @@ export default function News() {
   }
 
   React.useEffect(() => {
-    getNews();
+    // getNews();
   }, []);
 
   return (
@@ -29,7 +29,7 @@ export default function News() {
           <div className={`container mx-auto`}>
             <div className={`main-column`}>
               <div className="news-archive-content d-flex justify-content-between">
-                {news.map((item, index) => (
+                {/* {news != [] && news.map((item, index) => (
                   <Link key={index} href={`/single-news/${item.id}`}>
                     <a className="news-item">
                       <div className="news-item-image position-relative">
@@ -44,7 +44,7 @@ export default function News() {
                       </div>
                     </a>
                   </Link>
-                ))}
+                ))} */}
               </div>
               <button
                 className={`main-button btn_load-news d-flex align-items-center justify-content-between position-relative mx-auto`}

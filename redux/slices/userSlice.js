@@ -11,8 +11,7 @@ const initialState = {
 
   tariffs: [
     "Базовый",
-    "Премиум",
-    "Партнерский"
+
   ],
 
   isAuth: false,

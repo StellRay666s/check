@@ -34,7 +34,7 @@ export default function Account() {
   async function changePassword() {
     try {
       await axios.patch(
-        "https://api.check-bets.online/changePassword",
+        `${process.env.URL}/changePassword`,
         {
           newPassword: newPassword,
           currentPassword: oldPassword,
@@ -50,7 +50,7 @@ export default function Account() {
 
   async function changeDataProfile() {
     const response = await axiosClient.patch(
-      "https://api.check-bets.online/chandeDataProfile",
+      `${process.env.URL}/chandeDataProfile`,
       {
         name: name,
         lastname: lastname,
@@ -82,7 +82,7 @@ export default function Account() {
 
   async function byTariffs() {
     const response = await axios.post(
-      "http://localhost:8000/buyTariffs",
+      `${process.env.URL}/buyTariffs`,
       {},
       {
         headers: {

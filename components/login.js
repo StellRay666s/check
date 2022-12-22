@@ -41,7 +41,7 @@ export default function Login() {
         </div>
       </Dropdown.Toggle>
       <Dropdown.Menu align={`end`} className={`login-menu`}>
-        {isAuth === true ? (
+        {isAuth === false ? (
           <div>
             <Dropdown.Item>
               <Link href="/login">Авторизоваться</Link>
