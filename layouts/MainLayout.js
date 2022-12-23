@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { setUser } from "../redux/slices/userSlice";
+import { fetchMatches } from "../redux/slices/matchesSlice";
 
 import axios from "axios";
 import { axiosClient } from "../axiosClient";
@@ -35,6 +36,7 @@ export const MainLayout = ({
 
   React.useEffect(() => {
     getMe();
+    dispatch(fetchMatches())
   }, [isAuth]);
 
   return (

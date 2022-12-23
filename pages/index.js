@@ -14,110 +14,30 @@ import axios from "axios";
 
 export default function Home() {
   const [isVisible, setIsVisible] = React.useState(false);
-  const [todayMatchces, setTodayMatches] = React.useState([]);
-  const [todayHockeyMatches, setTodayHockeyMatches] = React.useState([]);
-  const [tomorrowMatches, setTomorrowMatches] = React.useState([]);
-  const [tomorrowMatchesHockey, setTomorrowMatchesHockey] = React.useState([]);
   const leag = useSelector((state) => state.league);
-  const TEMPLATE_ID = leag?.leag?.map((item) => item.TEMPLATE_ID);
+  const todayFootball = useSelector(state => state.matches.todayFootball)
 
-  async function todayEvents() {
-    const response = await axios.get(
-      "https://flashlive-sports.p.rapidapi.com/v1/events/list",
-      {
-        params: {
-          locale: "ru_RU",
-          sport_id: "1",
-          indent_days: "0",
-          timezone: "-3",
-        },
+  const eventId = todayFootball.map(item => item.EVENT_ID)
+  const [prewMatches, setPrewMatches] = React.useState([])
+
+  console.log(prewMatches)
+  async function getPrevMatch() {
+    for (const a of eventId) {
+      const response = await axios.get('https://flashlive-sports.p.rapidapi.com/v1/events/h2h', {
+        params: { event_id: a, locale: "ru_RU" },
         headers: {
           "X-RapidAPI-Key":
             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
           "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
         },
+      })
+      if (response.status === 200) {
+        return prewMatches.push(response.data.DATA.map(item => item[0]))
       }
-    );
+    }
 
-    const response2 = await axios.get(
-      "https://flashlive-sports.p.rapidapi.com/v1/events/list",
-      {
-        params: {
-          locale: "ru_RU",
-          sport_id: "4",
-          indent_days: "1",
-          timezone: "3",
-        },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-        },
-      }
-    );
-
-    setTodayHockeyMatches(
-      response2.data.DATA.filter((item) => item.NAME === "США: НХЛ")
-    );
-
-    setTodayMatches(
-      response.data.DATA.filter((item) =>
-        TEMPLATE_ID?.includes(item.TEMPLATE_ID)
-      )
-    );
   }
 
-  async function tommorowEvents() {
-    const response = await axios.get(
-      "https://flashlive-sports.p.rapidapi.com/v1/events/list",
-      {
-        params: {
-          locale: "ru_RU",
-          sport_id: "1",
-          indent_days: "1",
-          timezone: "-3",
-        },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-        },
-      }
-    );
-    setTomorrowMatches(
-      response.data.DATA.filter((item) =>
-        TEMPLATE_ID?.includes(item.TEMPLATE_ID)
-      )
-    );
-
-    const response2 = await axios.get(
-      "https://flashlive-sports.p.rapidapi.com/v1/events/list",
-      {
-        params: {
-          locale: "ru_RU",
-          sport_id: "4",
-          indent_days: "1",
-          timezone: "3",
-        },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-        },
-      }
-    );
-
-    // setTomorrowMatchesHockey(
-    //   response2.data.DATA.filter((item) => item.NAME === "США: НХЛ")
-    // );
-  }
-
-  const footmallTodayMatches = todayMatchces.flatMap((item) => item.EVENTS);
-  const footballTommorowMAtches = tomorrowMatches.flatMap(
-    (item) => item.EVENTS
-  );
-
-  const hockeyToday = todayHockeyMatches.map((item) => item.EVENTS);
 
   const dispatch = useDispatch();
 
@@ -135,15 +55,8 @@ export default function Home() {
   }, []);
 
   React.useEffect(() => {
-    if (dispatch) {
-      setTimeout(() => {
-        todayEvents();
-      }, 1000);
-      setTimeout(() => {
-        tommorowEvents(), 1500;
-      });
-    }
-  }, [leag.leag]);
+    getPrevMatch()
+  }, []);
 
   return (
     <MainLayout title={"Главная"}>
@@ -155,12 +68,12 @@ export default function Home() {
             <div className={`main-column d-flex flex-column`}>
               <ForecastBlock
                 day={"сегодня"}
-                hocceyMatches={hockeyToday}
-                footballMatches={footmallTodayMatches}
+                hocceyMatches={[]}
+                footballMatches={todayFootball}
               />
               {isVisible && <SidebarTariffs />}
               <ForecastBlock
-                footballMatches={footballTommorowMAtches}
+                footballMatches={[]}
                 // hocceyMatches={hockeyTomorrow}
                 day={"завтра"}
               />

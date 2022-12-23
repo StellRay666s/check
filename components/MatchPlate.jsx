@@ -17,6 +17,8 @@ function MatchPlate({
   const hour = datteObject.toLocaleString("en-UK", { hour: "numeric" });
   const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
 
+  const arr = [];
+
   React.useEffect(() => {}, []);
 
   return (
@@ -38,7 +40,10 @@ function MatchPlate({
             <div className={`forecast-item-team-logo`}>
               <img
                 className={`w-100 h-100`}
-                src={logoTeamHome?.[0].replace("flashscore", "flashscorekz")}
+                src={logoTeamHome
+                  .replace("{", "")
+                  .replace("}", "")
+                  .replace("flashscore", "flashscorekz")}
                 alt=""
               />
             </div>
@@ -61,7 +66,10 @@ function MatchPlate({
             <div className={`forecast-item-team-logo`}>
               <img
                 className={`w-100 h-100`}
-                src={logoTeamAway?.[0].replace("flashscore", "flashscorekz")}
+                src={logoTeamAway
+                  .replace("{", "")
+                  .replace("}", "")
+                  .replace("flashscore", "flashscorekz")}
                 alt=""
               />
             </div>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import MatchPlate from "./MatchPlate";
 
 export default function ForecastBlock({
-  footballMatches,
+  footballMatches = [],
   hocceyMatches = [],
   day,
 }) {
@@ -19,6 +19,7 @@ export default function ForecastBlock({
   const handlehockey = () => {
     setActiveForecastTab("hockey");
   };
+  console.log(footballMatches)
 
   return (
     <div className={`forecast-block`}>
@@ -28,9 +29,8 @@ export default function ForecastBlock({
       <div className={`forecast-tabs`}>
         <div className={`forecast-tabs-buttons d-flex align-items-center`}>
           <button
-            className={`btn tab-button d-flex align-items-center justify-content-center ${
-              activeForecastTab === "football" ? "active" : ""
-            }`}
+            className={`btn tab-button d-flex align-items-center justify-content-center ${activeForecastTab === "football" ? "active" : ""
+              }`}
             onClick={handlefootball}
           >
             <img src="../images/football-icon.svg" alt="" />
@@ -41,9 +41,8 @@ export default function ForecastBlock({
             ""
           ) : (
             <button
-              className={`btn tab-button d-flex align-items-center justify-content-center ${
-                activeForecastTab === "hockey" ? "active" : ""
-              }`}
+              className={`btn tab-button d-flex align-items-center justify-content-center ${activeForecastTab === "hockey" ? "active" : ""
+                }`}
               onClick={handlehockey}
             >
               <img src="../images/hockey-icon.svg" alt="" />
