@@ -12,7 +12,6 @@ export default function Login() {
   const isAuth = useSelector((state) => state.user?.isAuth);
   const tariffsUser = useSelector((state) => state.user.user.tariffs);
   const tariffs = useSelector((state) => state.user.tariffs)
-  console.log(tariffs)
   const [active, setActive] = React.useState(0);
   function logout() {
     localStorage.setItem("token", "");

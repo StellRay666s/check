@@ -16,10 +16,10 @@ function MatchPlate({
   const datteObject = new Date(milleSeconds);
   const hour = datteObject.toLocaleString("en-UK", { hour: "numeric" });
   const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
-
+  const [prevMatchesHome, setPrevMactchHome] = React.useState([]);
+  const [prevMatchesAway, setPrevMactchAway] = React.useState([]);
+  const v = useCalculateFormule(prevMatchesHome, prevMatchesAway, eventId);
   const arr = [];
-
-  React.useEffect(() => {}, []);
 
   return (
     <Link href={`/match/${eventId}`}>

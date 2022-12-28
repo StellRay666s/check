@@ -3,26 +3,25 @@
 import React from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
-function useCalculateFormule(eventId) {
+function useCalculateFormule(prevMatchesHome, prevMatchesAway, eventId) {
   const { query } = useRouter();
   const [currentMatch, setCurrentMatch] = React.useState();
   const [previosMatchHome, setPreviosMatchHome] = React.useState([]);
   const [previosMatchAway, setPreviosMatchAway] = React.useState([]);
   const [tournament, setTournament] = React.useState();
-  const [statsForSixMatchesHome, setStatsForSixMatchesHome] = React.useState(
-    []
-  );
+  const leag = useSelector(state => state.league.leag)
+  const leagName = leag?.map(item => item.LEAGUE_NAME)
 
-  const [statsForFourMatchesHome, setStatsForFourMatchesHome] = React.useState(
+
+  const [statsForSixMatchesHome, setStatsForSixMatchesHome] = React.useState(
     []
   );
   const [statsForSixMatchesAway, setStatsForSixMatchesAway] = React.useState(
     []
   );
-  const [statsForFourMatchesAway, setStatsForFourMatchesAway] = React.useState(
-    []
-  );
+
   const [teamResultAway, setTeamResultAway] = React.useState([]);
   const [teamResultHome, setTeamResultHome] = React.useState([]);
 
@@ -394,7 +393,7 @@ function useCalculateFormule(eventId) {
       );
 
       function getBaseStats(a, b, c, d, e, arr, arr2) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? arr2[a]
             ? arr
               .slice(b, c)
@@ -427,7 +426,7 @@ function useCalculateFormule(eventId) {
       }
 
       function getBaseStatsEnemy(a, b, c, d, e, arr, arr2) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? arr2[a]
             ? arr
               .slice(b, c)
@@ -2119,7 +2118,7 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnTargetHome(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
@@ -2162,7 +2161,7 @@ function useCalculateFormule(eventId) {
 
 
       function getShotsOnTargetHomeEnemy(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? !checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
@@ -2257,7 +2256,7 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnTargetAway(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? !checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
@@ -2298,7 +2297,7 @@ function useCalculateFormule(eventId) {
         sixMatchShotsOnTargetAway;
 
       function getShottsOnTargetAwayEnemy(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
@@ -2414,7 +2413,7 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnBlockedAway(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
@@ -2457,7 +2456,7 @@ function useCalculateFormule(eventId) {
         sixMatchBlockedShotHomeAway;
 
       function getShottsOnBlockedAwayEnemy(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
@@ -2544,7 +2543,7 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnBlockedHome(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
@@ -2584,7 +2583,7 @@ function useCalculateFormule(eventId) {
         sixMatchBlockedShotHome;
 
       function getShottsOnBlockedHomeEnemy(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
@@ -3237,7 +3236,7 @@ function useCalculateFormule(eventId) {
     if (currentMatch) {
       const countGameHome = previosMatchHome.length;
       const countGameAway = previosMatchAway.length;
-
+      console.log(previosMatchHome)
       //Забито в лиге
       const goalsInTheLeagHome = previosMatchHome.reduce((sum, match) => {
         return sum + Number(match?.KX || match?.HOME_SCORE_FULL);
@@ -3260,6 +3259,7 @@ function useCalculateFormule(eventId) {
       const middleMissInLeagHome = missedInLeagHome / countGameHome;
       const middleMissInLeagAway = missedInLeagAway / countGameAway;
 
+
       //Забито за 4 матча
       const goalsForFourMatchHome = previosMatchHome
         .slice(0, 4)
@@ -3276,6 +3276,7 @@ function useCalculateFormule(eventId) {
             ? sum + Number(match?.KX || match?.HOME_SCORE_FULL)
             : sum + Number(match?.KY || match?.AWAY_SCORE_FULL);
         }, 0);
+
 
       const middleGoalForFourMatchesHome = goalsForFourMatchHome / 4;
       const middleGoalForFourMatchesAway = goalsForFourMatchAway / 4;
@@ -3425,7 +3426,7 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnTargetHome(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
@@ -3466,7 +3467,7 @@ function useCalculateFormule(eventId) {
         sixMatchShotsOnTarget;
 
       function getShotsOnTargetHomeEnemy(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? !checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
@@ -3560,7 +3561,7 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnTargetAway(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
@@ -3613,7 +3614,7 @@ function useCalculateFormule(eventId) {
         sixMatchShotsOnTargetAway;
 
       function getShottsOnTargetAwayEnemy(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
@@ -3728,7 +3729,7 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnBlockedHome(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
@@ -3775,7 +3776,7 @@ function useCalculateFormule(eventId) {
         sixMatchBlockedShotHome;
 
       function getShottsOnBlockedHomeEnemy(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? !checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
@@ -3892,7 +3893,7 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnBlockedAway(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? !checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
@@ -4276,7 +4277,7 @@ function useCalculateFormule(eventId) {
       );
 
       function getBaseStats(a, b, c, d, e, arr, arr2) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? arr2?.[a]
             ? arr
               .slice(b, c)
@@ -4306,7 +4307,7 @@ function useCalculateFormule(eventId) {
       }
 
       function getBaseStatsEnemy(a, b, c, d, e, arr, arr2) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? arr2?.[a]
             ? arr
               .slice(b, c)
@@ -4337,7 +4338,7 @@ function useCalculateFormule(eventId) {
       }
 
       function getBaseStatsAway(a, b, c, d, e, arr, arr2) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? arr2?.[a]
             ? arr
               .slice(b, c)
@@ -4368,7 +4369,7 @@ function useCalculateFormule(eventId) {
       }
 
       function getBaseStatsEnemyAway(a, b, c, d, e, arr, arr2) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? arr2?.[a]
             ? arr
               .slice(b, c)
@@ -5679,7 +5680,7 @@ function useCalculateFormule(eventId) {
         (injuriesYellowCardHome + injuriesYellowCardAway) / 2;
 
       function getShottsOnBlockedAwayEnemy(a, b, c, d, e) {
-        return tournament.NAME === "США: НХЛ"
+        return tournament === "США: НХЛ"
           ? !checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
@@ -6244,15 +6245,79 @@ function useCalculateFormule(eventId) {
         twiMinutsIndividTotalHome,
         twoMinutsIndividTotalAway,
       };
+
+
     }
+
   }
 
-  const statsAll = calculateAllStats();
-  const firstTime = calculateStats("1-й тайм");
-  const secondTime = calculateStats("2-й тайм");
-  const firstPeriod = calculateStats("1-й период");
-  const secondPeriod = calculateStats("2-й период");
-  const thirdPeriod = calculateStats("3-й период");
+
+
+
+
+
+  if (previosMatchHome?.length != 0 && previosMatchAway?.length != 0) {
+    var statsAll = calculateAllStats();
+    var firstTime = calculateStats("1-й тайм");
+    var secondTime = calculateStats("2-й тайм");
+    var firstPeriod = calculateStats("1-й период");
+    var secondPeriod = calculateStats("2-й период");
+    var thirdPeriod = calculateStats("3-й период");
+  }
+
+
+  async function getPrevMatch() {
+    const { data } = await axios.get(
+      `http://localhost:8000/getPrevsMatch?event_id=${eventId}`
+    );
+    setPreviosMatchHome(data.matchHome);
+    setPreviosMatchAway(data.matchAway);
+  }
+
+  React.useEffect(() => {
+    if (previosMatchHome.length === 0) {
+      getPrevMatch(eventId)
+    }
+
+  }, []);
+
+
+  async function getStatsHome(previosMatchHome) {
+    const response = await axios.post('http://localhost:8000/stats', {
+      id: [previosMatchHome?.[0]?.EVENT_ID, previosMatchHome?.[1]?.EVENT_ID, previosMatchHome?.[2]?.EVENT_ID, previosMatchHome?.[3]?.EVENT_ID, previosMatchHome?.[4]?.EVENT_ID, previosMatchHome?.[5]?.EVENT_ID]
+
+    })
+    setStatsForSixMatchesHome(response.data)
+
+  }
+
+  async function getStatsAway(previosMatchAway) {
+    const response = await axios.post('http://localhost:8000/statsAway', {
+      id: [previosMatchAway?.[0]?.EVENT_ID, previosMatchAway?.[1]?.EVENT_ID, previosMatchAway?.[2]?.EVENT_ID, previosMatchAway?.[3]?.EVENT_ID, previosMatchAway?.[4]?.EVENT_ID, previosMatchAway?.[5]?.EVENT_ID]
+
+    })
+    setStatsForSixMatchesAway(response.data)
+
+
+  }
+
+
+  React.useEffect(() => { console.log(previosMatchHome.length != 0) }, [])
+
+
+  // React.useEffect(() => {
+  //   if (previosMatchHome.length != 0 && previosMatchAway.length != 0) {
+  //     getStatsHome(previosMatchHome)
+  //     getStatsAway(previosMatchAway)
+  //   }
+  //   console.log(previosMatchHome)
+  // }, [])
+
+
+  React.useEffect(() => {
+
+  }, [])
+
 
   function getDateFromTimeStamp() {
     const time = currentMatch?.START_TIME;
@@ -6271,348 +6336,348 @@ function useCalculateFormule(eventId) {
     return date;
   }
 
-  async function getCurrentMatch(id, eventId) {
-    const response = await axios.get(
-      "https://flashlive-sports.p.rapidapi.com/v1/events/data",
-      {
-        params: { event_id: id || eventId, locale: "ru_RU" },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-        },
-      }
-    );
-    setCurrentMatch(response.data.DATA.EVENT);
-    setTournament(response.data.DATA.TOURNAMENT);
-  }
+  // async function getCurrentMatch(id, eventId) {
+  //   const response = await axios.get(
+  //     "https://flashlive-sports.p.rapidapi.com/v1/events/data",
+  //     {
+  //       params: { event_id: id || eventId, locale: "ru_RU" },
+  //       headers: {
+  //         "X-RapidAPI-Key":
+  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //       },
+  //     }
+  //   );
+  //   setCurrentMatch(response.data.DATA.EVENT);
+  //   setTournament(response.data.DATA.TOURNAMENT);
+  // }
 
-  async function getPrevMatches(currentMatch) {
-    const response = await axios.get(
-      "https://flashlive-sports.p.rapidapi.com/v1/events/h2h",
-      {
-        params: { event_id: currentMatch?.EVENT_ID, locale: "ru_RU" },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-        },
-      }
-    );
-    setPreviosMatchHome(
-      response.data.DATA[0]?.GROUPS[0].ITEMS.filter(
-        (item) => item.EVENT_NAME === tournament.NAME_PART_2
-      )
-    );
-    setPreviosMatchAway(
-      response.data.DATA[0]?.GROUPS[1].ITEMS.filter(
-        (item) => item.EVENT_NAME === tournament.NAME_PART_2
-      )
-    );
-  }
+  // async function getPrevMatches(currentMatch) {
+  //   const response = await axios.get(
+  //     "https://flashlive-sports.p.rapidapi.com/v1/events/h2h",
+  //     {
+  //       params: { event_id: currentMatch?.EVENT_ID, locale: "ru_RU" },
+  //       headers: {
+  //         "X-RapidAPI-Key":
+  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //       },
+  //     }
+  //   );
+  //   setPreviosMatchHome(
+  //     response.data.DATA[0]?.GROUPS[0].ITEMS.filter(
+  //       (item) => item.EVENT_NAME === tournament_PART_2
+  //     )
+  //   );
+  //   setPreviosMatchAway(
+  //     response.data.DATA[0]?.GROUPS[1].ITEMS.filter(
+  //       (item) => item.EVENT_NAME === tournament_PART_2
+  //     )
+  //   );
+  // }
 
-  // )
-  async function getStatsHome(previosMatchHome) {
-    const response1 = await axios.get(
-      "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-      {
-        params: {
-          locale: "ru_RU",
-          event_id: previosMatchHome[0]?.EVENT_ID,
-        },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-        },
-      }
-    );
-    const firstMatch = response1.data.DATA;
+  // // )
+  // async function getStatsHome(previosMatchHome) {
+  //   const response1 = await axios.get(
+  //     "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //     {
+  //       params: {
+  //         locale: "ru_RU",
+  //         event_id: previosMatchHome[0]?.EVENT_ID,
+  //       },
+  //       headers: {
+  //         "X-RapidAPI-Key":
+  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //       },
+  //     }
+  //   );
+  //   const firstMatch = response1.data.DATA;
 
-    if (firstMatch) {
-      const response2 = await axios.get(
-        "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-        {
-          params: {
-            locale: "ru_RU",
-            event_id: previosMatchHome[1]?.EVENT_ID,
-          },
-          headers: {
-            "X-RapidAPI-Key":
-              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-            "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-          },
-        }
-      );
-      const secondMatch = response2.data.DATA;
+  //   if (firstMatch) {
+  //     const response2 = await axios.get(
+  //       "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //       {
+  //         params: {
+  //           locale: "ru_RU",
+  //           event_id: previosMatchHome[1]?.EVENT_ID,
+  //         },
+  //         headers: {
+  //           "X-RapidAPI-Key":
+  //             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //           "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //         },
+  //       }
+  //     );
+  //     const secondMatch = response2.data.DATA;
 
-      if (secondMatch) {
-        const response3 = await axios.get(
-          "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-          {
-            params: {
-              locale: "ru_RU",
-              event_id: previosMatchHome[2]?.EVENT_ID,
-            },
-            headers: {
-              "X-RapidAPI-Key":
-                "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-              "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-            },
-          }
-        );
-        const thirdMatch = response3.data.DATA;
-        if (thirdMatch) {
-          const response4 = await axios.get(
-            "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-            {
-              params: {
-                locale: "ru_RU",
-                event_id: previosMatchHome[3]?.EVENT_ID,
-              },
-              headers: {
-                "X-RapidAPI-Key":
-                  "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-                "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-              },
-            }
-          );
-          const fouthMatch = response4.data.DATA;
-          if (fouthMatch) {
-            const response5 = await axios.get(
-              "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-              {
-                params: {
-                  locale: "ru_RU",
-                  event_id: previosMatchHome[4]?.EVENT_ID,
-                },
-                headers: {
-                  "X-RapidAPI-Key":
-                    "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-                  "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-                },
-              }
-            );
-            const fifthMatch = response5.data.DATA;
-            if (fifthMatch) {
-              const response6 = await axios.get(
-                "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-                {
-                  params: {
-                    locale: "ru_RU",
-                    event_id: previosMatchHome[5]?.EVENT_ID,
-                  },
-                  headers: {
-                    "X-RapidAPI-Key":
-                      "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-                    "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-                  },
-                }
-              );
-              const sixMatch = response6.data.DATA;
-              const matches = firstMatch.concat(
-                secondMatch.concat(
-                  thirdMatch.concat(
-                    fouthMatch.concat(fifthMatch.concat(sixMatch))
-                  )
-                )
-              );
-              setStatsForSixMatchesHome(matches);
-            }
-          }
-        }
-      }
-    }
-  }
+  //     if (secondMatch) {
+  //       const response3 = await axios.get(
+  //         "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //         {
+  //           params: {
+  //             locale: "ru_RU",
+  //             event_id: previosMatchHome[2]?.EVENT_ID,
+  //           },
+  //           headers: {
+  //             "X-RapidAPI-Key":
+  //               "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //             "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //           },
+  //         }
+  //       );
+  //       const thirdMatch = response3.data.DATA;
+  //       if (thirdMatch) {
+  //         const response4 = await axios.get(
+  //           "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //           {
+  //             params: {
+  //               locale: "ru_RU",
+  //               event_id: previosMatchHome[3]?.EVENT_ID,
+  //             },
+  //             headers: {
+  //               "X-RapidAPI-Key":
+  //                 "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //               "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //             },
+  //           }
+  //         );
+  //         const fouthMatch = response4.data.DATA;
+  //         if (fouthMatch) {
+  //           const response5 = await axios.get(
+  //             "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //             {
+  //               params: {
+  //                 locale: "ru_RU",
+  //                 event_id: previosMatchHome[4]?.EVENT_ID,
+  //               },
+  //               headers: {
+  //                 "X-RapidAPI-Key":
+  //                   "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //                 "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //               },
+  //             }
+  //           );
+  //           const fifthMatch = response5.data.DATA;
+  //           if (fifthMatch) {
+  //             const response6 = await axios.get(
+  //               "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //               {
+  //                 params: {
+  //                   locale: "ru_RU",
+  //                   event_id: previosMatchHome[5]?.EVENT_ID,
+  //                 },
+  //                 headers: {
+  //                   "X-RapidAPI-Key":
+  //                     "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //                   "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //                 },
+  //               }
+  //             );
+  //             const sixMatch = response6.data.DATA;
+  //             const matches = firstMatch.concat(
+  //               secondMatch.concat(
+  //                 thirdMatch.concat(
+  //                   fouthMatch.concat(fifthMatch.concat(sixMatch))
+  //                 )
+  //               )
+  //             );
+  //             setStatsForSixMatchesHome(matches);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
-  async function getStatsAway(previosMatchAway) {
-    const response1 = await axios.get(
-      "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-      {
-        params: {
-          locale: "ru_RU",
-          event_id: previosMatchAway[0]?.EVENT_ID,
-        },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-        },
-      }
-    );
-    const firstMatch = response1.data.DATA;
+  // async function getStatsAway(previosMatchAway) {
+  //   const response1 = await axios.get(
+  //     "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //     {
+  //       params: {
+  //         locale: "ru_RU",
+  //         event_id: previosMatchAway[0]?.EVENT_ID,
+  //       },
+  //       headers: {
+  //         "X-RapidAPI-Key":
+  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //       },
+  //     }
+  //   );
+  //   const firstMatch = response1.data.DATA;
 
-    if (firstMatch) {
-      const response2 = await axios.get(
-        "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-        {
-          params: {
-            locale: "ru_RU",
-            event_id: previosMatchAway[1]?.EVENT_ID,
-          },
-          headers: {
-            "X-RapidAPI-Key":
-              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-            "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-          },
-        }
-      );
-      const secondMatch = response2.data.DATA;
+  //   if (firstMatch) {
+  //     const response2 = await axios.get(
+  //       "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //       {
+  //         params: {
+  //           locale: "ru_RU",
+  //           event_id: previosMatchAway[1]?.EVENT_ID,
+  //         },
+  //         headers: {
+  //           "X-RapidAPI-Key":
+  //             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //           "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //         },
+  //       }
+  //     );
+  //     const secondMatch = response2.data.DATA;
 
-      if (secondMatch) {
-        const response3 = await axios.get(
-          "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-          {
-            params: {
-              locale: "ru_RU",
-              event_id: previosMatchAway[2]?.EVENT_ID,
-            },
-            headers: {
-              "X-RapidAPI-Key":
-                "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-              "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-            },
-          }
-        );
-        const thirdMatch = response3.data.DATA;
-        if (thirdMatch) {
-          const response4 = await axios.get(
-            "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-            {
-              params: {
-                locale: "ru_RU",
-                event_id: previosMatchAway[3]?.EVENT_ID,
-              },
-              headers: {
-                "X-RapidAPI-Key":
-                  "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-                "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-              },
-            }
-          );
-          const fouthMatch = response4.data.DATA;
-          if (fouthMatch) {
-            const response5 = await axios.get(
-              "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-              {
-                params: {
-                  locale: "ru_RU",
-                  event_id: previosMatchAway[4]?.EVENT_ID,
-                },
-                headers: {
-                  "X-RapidAPI-Key":
-                    "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-                  "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-                },
-              }
-            );
-            const fifthMatch = response5.data.DATA;
-            if (fifthMatch) {
-              const response6 = await axios.get(
-                "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-                {
-                  params: {
-                    locale: "ru_RU",
-                    event_id: previosMatchAway[5]?.EVENT_ID,
-                  },
-                  headers: {
-                    "X-RapidAPI-Key":
-                      "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-                    "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-                  },
-                }
-              );
-              const sixMatch = response6.data.DATA;
-              const matches = firstMatch.concat(
-                secondMatch.concat(
-                  thirdMatch.concat(
-                    fouthMatch.concat(fifthMatch.concat(sixMatch))
-                  )
-                )
-              );
-              setStatsForSixMatchesAway(matches);
-            }
-          }
-        }
-      }
-    }
-  }
+  //     if (secondMatch) {
+  //       const response3 = await axios.get(
+  //         "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //         {
+  //           params: {
+  //             locale: "ru_RU",
+  //             event_id: previosMatchAway[2]?.EVENT_ID,
+  //           },
+  //           headers: {
+  //             "X-RapidAPI-Key":
+  //               "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //             "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //           },
+  //         }
+  //       );
+  //       const thirdMatch = response3.data.DATA;
+  //       if (thirdMatch) {
+  //         const response4 = await axios.get(
+  //           "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //           {
+  //             params: {
+  //               locale: "ru_RU",
+  //               event_id: previosMatchAway[3]?.EVENT_ID,
+  //             },
+  //             headers: {
+  //               "X-RapidAPI-Key":
+  //                 "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //               "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //             },
+  //           }
+  //         );
+  //         const fouthMatch = response4.data.DATA;
+  //         if (fouthMatch) {
+  //           const response5 = await axios.get(
+  //             "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //             {
+  //               params: {
+  //                 locale: "ru_RU",
+  //                 event_id: previosMatchAway[4]?.EVENT_ID,
+  //               },
+  //               headers: {
+  //                 "X-RapidAPI-Key":
+  //                   "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //                 "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //               },
+  //             }
+  //           );
+  //           const fifthMatch = response5.data.DATA;
+  //           if (fifthMatch) {
+  //             const response6 = await axios.get(
+  //               "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
+  //               {
+  //                 params: {
+  //                   locale: "ru_RU",
+  //                   event_id: previosMatchAway[5]?.EVENT_ID,
+  //                 },
+  //                 headers: {
+  //                   "X-RapidAPI-Key":
+  //                     "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //                   "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //                 },
+  //               }
+  //             );
+  //             const sixMatch = response6.data.DATA;
+  //             const matches = firstMatch.concat(
+  //               secondMatch.concat(
+  //                 thirdMatch.concat(
+  //                   fouthMatch.concat(fifthMatch.concat(sixMatch))
+  //                 )
+  //               )
+  //             );
+  //             setStatsForSixMatchesAway(matches);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
-  async function getTeamsResult() {
-    const response = await axios.get(
-      "https://flashlive-sports.p.rapidapi.com/v1/teams/results",
-      {
-        params: {
-          locale: "ru_RU",
-          team_id: currentMatch?.AWAY_PARTICIPANT_IDS?.[0],
-          sport_id: "4",
-          page: "1",
-        },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-        },
-      }
-    );
+  // async function getTeamsResult() {
+  //   const response = await axios.get(
+  //     "https://flashlive-sports.p.rapidapi.com/v1/teams/results",
+  //     {
+  //       params: {
+  //         locale: "ru_RU",
+  //         team_id: currentMatch?.AWAY_PARTICIPANT_IDS?.[0],
+  //         sport_id: "4",
+  //         page: "1",
+  //       },
+  //       headers: {
+  //         "X-RapidAPI-Key":
+  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //       },
+  //     }
+  //   );
 
-    setTeamResultAway(
-      response.data.DATA.filter(
-        (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
-      )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
-    );
+  //   setTeamResultAway(
+  //     response.data.DATA.filter(
+  //       (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
+  //     )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
+  //   );
 
-    if (response) {
-      const response = await axios.get(
-        "https://flashlive-sports.p.rapidapi.com/v1/teams/results",
-        {
-          params: {
-            locale: "ru_RU",
-            team_id: currentMatch?.HOME_PARTICIPANT_IDS?.[0],
-            sport_id: "4",
-            page: "1",
-          },
-          headers: {
-            "X-RapidAPI-Key":
-              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-            "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-          },
-        }
-      );
+  //   if (response) {
+  //     const response = await axios.get(
+  //       "https://flashlive-sports.p.rapidapi.com/v1/teams/results",
+  //       {
+  //         params: {
+  //           locale: "ru_RU",
+  //           team_id: currentMatch?.HOME_PARTICIPANT_IDS?.[0],
+  //           sport_id: "4",
+  //           page: "1",
+  //         },
+  //         headers: {
+  //           "X-RapidAPI-Key":
+  //             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+  //           "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+  //         },
+  //       }
+  //     );
 
-      setTeamResultHome(
-        response.data.DATA.filter(
-          (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
-        )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
-      );
-    }
-  }
+  //     setTeamResultHome(
+  //       response.data.DATA.filter(
+  //         (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
+  //       )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
+  //     );
+  //   }
+  // }
 
-  React.useEffect(() => {
-    if (query.id && !currentMatch) {
-      getCurrentMatch(query.id);
-    }
-    if (currentMatch) {
-      getPrevMatches(currentMatch);
-      getDateFromTimeStamp(previosMatchHome);
-      getTeamsResult();
-    }
-  }, [query.id, currentMatch]);
+  // React.useEffect(() => {
+  //   // if (query.id && !currentMatch) {
+  //   //   getCurrentMatch(query.id);
+  //   // }
+  //   // if (currentMatch) {
+  //   //   getPrevMatches(currentMatch);
+  //   //   getDateFromTimeStamp(previosMatchHome);
+  //   //   getTeamsResult();
+  //   // }
+  // }, [query.id, currentMatch]);
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      if (previosMatchHome.length != 0) {
-        getStatsHome(previosMatchHome);
-      }
-    }, 3000);
-    setTimeout(() => {
-      if (previosMatchAway.length != 0) {
-        getStatsAway(previosMatchAway);
-      }
-    }, 5000);
-  }, [previosMatchHome]);
+  // React.useEffect(() => {
+  //   // setTimeout(() => {
+  //   //   if (previosMatchHome.length != 0) {
+  //   //     getStatsHome(previosMatchHome);
+  //   //   }
+  //   // }, 3000);
+  //   // setTimeout(() => {
+  //   //   if (previosMatchAway.length != 0) {
+  //   //     getStatsAway(previosMatchAway);
+  //   //   }
+  //   // }, 5000);
+  // }, [previosMatchHome]);
 
-  React.useEffect(() => { }, []);
+  // React.useEffect(() => { }, []);
 
   return {
     currentMatch,

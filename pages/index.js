@@ -20,23 +20,6 @@ export default function Home() {
   const eventId = todayFootball.map(item => item.EVENT_ID)
   const [prewMatches, setPrewMatches] = React.useState([])
 
-  console.log(prewMatches)
-  async function getPrevMatch() {
-    for (const a of eventId) {
-      const response = await axios.get('https://flashlive-sports.p.rapidapi.com/v1/events/h2h', {
-        params: { event_id: a, locale: "ru_RU" },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-        },
-      })
-      if (response.status === 200) {
-        return prewMatches.push(response.data.DATA.map(item => item[0]))
-      }
-    }
-
-  }
 
 
   const dispatch = useDispatch();
@@ -54,9 +37,7 @@ export default function Home() {
     dispatch(fetchLeagues());
   }, []);
 
-  React.useEffect(() => {
-    getPrevMatch()
-  }, []);
+
 
   return (
     <MainLayout title={"Главная"}>

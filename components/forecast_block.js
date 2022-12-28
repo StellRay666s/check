@@ -19,7 +19,7 @@ export default function ForecastBlock({
   const handlehockey = () => {
     setActiveForecastTab("hockey");
   };
-  console.log(footballMatches)
+
 
   return (
     <div className={`forecast-block`}>
