@@ -20,56 +20,14 @@ export default function League() {
 
   const { query } = useRouter();
 
-  async function getMatchOneLeag() {
-    const reponse = await axios.get(
-      "https://flashlive-sports.p.rapidapi.com/v1/events/list",
-      {
-        params: {
-          locale: "ru_RU",
-          sport_id: "1",
-          indent_days: "0",
-          timezone: "3",
-        },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-        },
-      }
+  function getMatchLeag() {
+    const { data } = axios.get(
+      `http://localhost:8000/getFilterMatch?id=${query.id}`
     );
-
-    setIsLoad(true);
-
-    setTodayMatches(
-      reponse.data.DATA.filter((item) => item.TOURNAMENT_ID === query.id)
-    );
-
-    const reponse2 = await axios.get(
-      "https://flashlive-sports.p.rapidapi.com/v1/events/list",
-      {
-        params: {
-          locale: "ru_RU",
-          sport_id: "1",
-          indent_days: "2",
-          timezone: "3",
-        },
-        headers: {
-          "X-RapidAPI-Key":
-            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-        },
-      }
-    );
-
-    setTomorrowMatches(
-      reponse2.data.DATA.filter((item) => item.TOURNAMENT_ID === query.id)
-    );
-
-    setIsLoad(true);
   }
 
   React.useEffect(() => {
-    getMatchOneLeag();
+    getMatchLeag();
   }, [query]);
 
   return (

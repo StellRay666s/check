@@ -34,7 +34,7 @@ export default function FootballLeagues() {
               <div className={`leagues-lists d-grid`}>
                 <div className={`leagues-list-column`}>
                   {leag.leag?.slice(0, 23).map((item, index) => (
-                    <Link key={index} href={`/league/${item.ACTUAL_TOURNAMENT_SEASON_ID}`}>
+                    <Link key={index} href={`/league/${item.TEMPLATE_ID}`}>
                       <a className={`league-item d-flex align-items-center`}>
                         <div className="league-icon">
                           <img src={"../images/league.png"} alt="" />

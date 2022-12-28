@@ -16,11 +16,9 @@ function MatchPlate({
   const datteObject = new Date(milleSeconds);
   const hour = datteObject.toLocaleString("en-UK", { hour: "numeric" });
   const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
-  const [prevMatchesHome, setPrevMactchHome] = React.useState([]);
-  const [prevMatchesAway, setPrevMactchAway] = React.useState([]);
-  const v = useCalculateFormule(prevMatchesHome, prevMatchesAway, eventId);
-  const arr = [];
+  const v = useCalculateFormule(eventId);
 
+  console.log(v.statsAll);
   return (
     <Link href={`/match/${eventId}`}>
       <a className={`forecast-item d-flex align-items-center`}>
@@ -41,7 +39,7 @@ function MatchPlate({
               <img
                 className={`w-100 h-100`}
                 src={logoTeamHome
-                  .replace("{", "")
+                  ?.replace("{", "")
                   .replace("}", "")
                   .replace("flashscore", "flashscorekz")}
                 alt=""
@@ -52,12 +50,12 @@ function MatchPlate({
             <div
               className={`forecast-item-num d-flex align-items-center justify-content-center`}
             >
-              {/* {totalMatchWithoutInjuriesHome} */}
+              {v.statsAll?.individTotalHomeGoal.toFixed(2)}
             </div>
             <div
               className={`forecast-item-num d-flex align-items-center justify-content-center`}
             >
-              {/* {totalMatchWithoutInjuriesGuest} */}
+              {v.statsAll?.individTotalAwayGoal.toFixed(2)}
             </div>
           </div>
           <div
@@ -67,7 +65,7 @@ function MatchPlate({
               <img
                 className={`w-100 h-100`}
                 src={logoTeamAway
-                  .replace("{", "")
+                  ?.replace("{", "")
                   .replace("}", "")
                   .replace("flashscore", "flashscorekz")}
                 alt=""
