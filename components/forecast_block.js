@@ -69,7 +69,7 @@ export default function ForecastBlock({
         ) : (
           <div className={`forecast-tab-content`}>
             <div className={`forecast-table d-flex flex-column`}>
-              {hocceyMatches[0]?.map((item) => (
+              {hocceyMatches?.map((item) => (
                 <MatchPlate
                   key={item.EVENT_ID}
                   logoTeamAway={item.AWAY_IMAGES}

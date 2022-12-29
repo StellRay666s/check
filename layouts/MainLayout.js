@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { setUser } from "../redux/slices/userSlice";
-import { fetchMatches } from "../redux/slices/matchesSlice";
+import { fetchMatches, fetchMatchesHockey } from "../redux/slices/matchesSlice";
 
 import axios from "axios";
 import { axiosClient } from "../axiosClient";
+import { fetchLeagues } from "../redux/slices/leagueSlice";
 export const MainLayout = ({
   children,
   title = "Title",
@@ -39,6 +40,11 @@ export const MainLayout = ({
     dispatch(fetchMatches())
   }, [isAuth]);
 
+
+  React.useEffect(() => {
+    dispatch(fetchLeagues())
+    dispatch(fetchMatchesHockey())
+  }, [])
   return (
     <>
       <Head>

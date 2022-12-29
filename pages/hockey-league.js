@@ -49,10 +49,12 @@ function HockeyLeague() {
       setTommorowMatches(
         response2.data.DATA.filter((item) => item.NAME === "США: НХЛ")
       );
+
+      console.log(response)
       setTodayMatches(
         response.data.DATA.filter((item) => item.NAME === "США: НХЛ")
       );
-    } catch (err) {}
+    } catch (err) { }
   }
 
   React.useEffect(() => {

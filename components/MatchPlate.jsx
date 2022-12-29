@@ -1,5 +1,8 @@
 import React from "react";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { setCurrentLeag } from "../redux/slices/leagueSlice";
 import { useCalculateFormule } from "../utils/useCalculateFormula";
 import axios from "axios";
 function MatchPlate({
@@ -11,6 +14,8 @@ function MatchPlate({
   eventId,
   NAME_PART_2,
 }) {
+  const { query } = useRouter();
+  const dispatch = useDispatch();
   const time = timeStamp;
   const milleSeconds = time * 1000;
   const datteObject = new Date(milleSeconds);
@@ -18,7 +23,10 @@ function MatchPlate({
   const minute = datteObject.toLocaleString("en-UK", { minute: "numeric" });
   const v = useCalculateFormule(eventId);
 
-  console.log(v.statsAll);
+  React.useEffect(() => {
+    dispatch(setCurrentLeag(query.id));
+  }, [query.id]);
+
   return (
     <Link href={`/match/${eventId}`}>
       <a className={`forecast-item d-flex align-items-center`}>
@@ -38,8 +46,8 @@ function MatchPlate({
             <div className={`forecast-item-team-logo`}>
               <img
                 className={`w-100 h-100`}
-                src={logoTeamHome
-                  ?.replace("{", "")
+                src={logoTeamHome[0]
+                  .replace("{", "")
                   .replace("}", "")
                   .replace("flashscore", "flashscorekz")}
                 alt=""
@@ -64,7 +72,7 @@ function MatchPlate({
             <div className={`forecast-item-team-logo`}>
               <img
                 className={`w-100 h-100`}
-                src={logoTeamAway
+                src={logoTeamAway[0]
                   ?.replace("{", "")
                   .replace("}", "")
                   .replace("flashscore", "flashscorekz")}

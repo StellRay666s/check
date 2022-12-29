@@ -10,14 +10,11 @@ import { fetchLeagues } from "../redux/slices/leagueSlice";
 import "swiper/css";
 
 export default function FootballLeagues() {
-  const [countries, setCountries] = React.useState([]);
 
-  const dispatch = useDispatch();
   const leag = useSelector((state) => state.league);
 
-  React.useEffect(() => {
-    dispatch(fetchLeagues());
-  }, [dispatch]);
+
+
 
   return (
     <MainLayout title={"Футбольные лиги"}>
@@ -46,7 +43,7 @@ export default function FootballLeagues() {
                 </div>
                 <div className={`leagues-list-column`}>
                   {leag?.leag?.slice(24, 45).map((item, index) => (
-                    <Link key={index} href={`league/${item.id}`}>
+                    <Link key={index} href={`league/${item.TEMPLATE_ID}`}>
                       <a className={`league-item d-flex align-items-center`}>
                         <div className="league-icon">
                           <img src="../images/league.png" alt="" />

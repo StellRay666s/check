@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import HowItWork from "../components/how-it-work";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
 import MainSlider from "../components/main-slider";
 import { MainLayout } from "../layouts/MainLayout";
 import ForecastBlock from "../components/forecast_block";
@@ -9,20 +10,22 @@ import MainTriggersBlock from "../components/main-triggers_block";
 import Sidebar from "../components/sidebar";
 import "swiper/css";
 import SidebarTariffs from "../components/sidebar/sidebar-tariffs";
-import { fetchLeagues } from "../redux/slices/leagueSlice";
+
 import axios from "axios";
 
 export default function Home() {
   const [isVisible, setIsVisible] = React.useState(false);
   const leag = useSelector((state) => state.league);
   const todayFootball = useSelector(state => state.matches.todayFootball)
+  const todayHockey = useSelector(state => state.matches.todayHockey)
 
-  const eventId = todayFootball.map(item => item.EVENT_ID)
-  const [prewMatches, setPrewMatches] = React.useState([])
+  console.log(todayHockey)
 
 
+  const [todayMatch, setTodayMatches] = React.useState([])
+  const [todayHockeyMatch, setHockeyMatches] = React.useState([])
 
-  const dispatch = useDispatch();
+
 
   React.useEffect(() => {
     function resize() {
@@ -34,9 +37,13 @@ export default function Home() {
       }
     }
     window.addEventListener("resize", resize);
-    dispatch(fetchLeagues());
+
   }, []);
 
+  React.useEffect(() => {
+    setTodayMatches(todayFootball?.flatMap(item => item.EVENTS))
+    setHockeyMatches(todayHockey?.flatMap(item => item.EVENTS))
+  }, [todayFootball])
 
 
   return (
@@ -49,8 +56,8 @@ export default function Home() {
             <div className={`main-column d-flex flex-column`}>
               <ForecastBlock
                 day={"сегодня"}
-                hocceyMatches={[]}
-                footballMatches={todayFootball}
+                hocceyMatches={todayHockeyMatch}
+                footballMatches={todayMatch}
               />
               {isVisible && <SidebarTariffs />}
               <ForecastBlock

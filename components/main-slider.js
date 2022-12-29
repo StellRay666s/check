@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Navigation, Pagination } from "swiper";
 import { useSwitchPhrase } from "../hooks/useSwitchPhrase";
 
+
 export default function MainSlider() {
   const { isLoad } = useSwitchPhrase();
 
@@ -16,7 +17,7 @@ export default function MainSlider() {
         spaceBetween={0}
         slidesPerView={1}
       >
-        <SwiperSlide style={{ backgroundImage: "url(../images/slide.jpg)" }}>
+        <SwiperSlide style={{ backgroundImage: "url(../images/Crisrmas_slide.png)" }}>
           <div className="container-max mx-auto">
             <div className="main-slider-info position-relative">
               <div className="main-slider-name">

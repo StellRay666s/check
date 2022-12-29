@@ -9,6 +9,7 @@ function PronosisTable({
   seasonName,
   titleTable,
 }) {
+  console.log(matches);
   return (
     <div className={`forecast-block`}>
       <div className={`forecast-title`}>
@@ -27,8 +28,9 @@ function PronosisTable({
           </div>
         </div>
         <div className={`forecast-table d-flex flex-column`}>
-          {matches[0]?.EVENTS.filter((item) => item.STAGE === "SCHEDULED").map(
-            (item, index) => (
+          {matches
+            .filter((item) => item.STAGE === "SCHEDULED")
+            .map((item, index) => (
               <MatchPlate
                 nameAway={item.AWAY_NAME}
                 nameHome={item.HOME_NAME}
@@ -40,8 +42,7 @@ function PronosisTable({
                 logoTeamAway={item.AWAY_IMAGES}
                 timeStamp={item.START_TIME}
               />
-            )
-          )}
+            ))}
         </div>
       </div>
     </div>

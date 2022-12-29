@@ -12,7 +12,11 @@ function useCalculateFormule(eventId) {
   const [previosMatchAway, setPreviosMatchAway] = React.useState([]);
   const [tournament, setTournament] = React.useState();
   const leag = useSelector((state) => state.league.leag);
+  const leagId = useSelector(state => state.league.currentId)
   const leagName = leag?.map((item) => item.LEAGUE_NAME);
+
+  const match = useSelector(state => state.matches.todayFootball)
+
 
   const [statsForSixMatchesHome, setStatsForSixMatchesHome] = React.useState(
     []
@@ -20,6 +24,11 @@ function useCalculateFormule(eventId) {
   const [statsForSixMatchesAway, setStatsForSixMatchesAway] = React.useState(
     []
   );
+
+  React.useEffect(() => {
+    console.log(statsForSixMatchesHome)
+
+  })
 
   const [teamResultAway, setTeamResultAway] = React.useState([]);
   const [teamResultHome, setTeamResultHome] = React.useState([]);
@@ -389,30 +398,30 @@ function useCalculateFormule(eventId) {
       );
 
       function getBaseStats(a, b, c, d, e, arr, arr2) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? arr2[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
           : arr2[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
 
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_HOME);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
 
@@ -422,31 +431,31 @@ function useCalculateFormule(eventId) {
       }
 
       function getBaseStatsEnemy(a, b, c, d, e, arr, arr2) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? arr2[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
           : arr2[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
 
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_AWAY);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
 
@@ -458,37 +467,37 @@ function useCalculateFormule(eventId) {
       function getBaseStatsAway(a, b, c, d, e, arr, arr2) {
         return arr2[a]
           ? arr
-              .slice(d, e)
-              .filter((item) => item !== undefined)
+            .slice(d, e)
+            .filter((item) => item !== undefined)
 
-              .reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
+            .reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
           : arr
-              .slice(d, e)
-              .filter((item) => item !== undefined)
+            .slice(d, e)
+            .filter((item) => item !== undefined)
 
-              .reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0);
+            .reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0);
       }
 
       function getBaseStatsEnemyAway(a, b, c, d, e, arr, arr2) {
         return !arr2[a]
           ? arr
-              .slice(d, e)
-              .filter((item) => item !== undefined)
+            .slice(d, e)
+            .filter((item) => item !== undefined)
 
-              .reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
+            .reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
           : arr
-              .slice(d, e)
-              .filter((item) => item !== undefined)
+            .slice(d, e)
+            .filter((item) => item !== undefined)
 
-              .reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0);
+            .reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0);
       }
 
       const firstMatchCornerShotAwayEnemy = getBaseStatsEnemyAway(
@@ -2114,19 +2123,19 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnTargetHome(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-            : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+            : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+          : checkTeamSideHome[a]
+            ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -2155,19 +2164,19 @@ function useCalculateFormule(eventId) {
         sixMatchShotsOnTarget;
 
       function getShotsOnTargetHomeEnemy(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? !checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideHome[a]
+            ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -2250,19 +2259,19 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnTargetAway(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? !checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideAway[a]
+            ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -2291,19 +2300,19 @@ function useCalculateFormule(eventId) {
         sixMatchShotsOnTargetAway;
 
       function getShottsOnTargetAwayEnemy(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-            : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+            : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+          : checkTeamSideAway[a]
+            ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -2407,19 +2416,19 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnBlockedAway(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideAway[a]
+            ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -2448,19 +2457,19 @@ function useCalculateFormule(eventId) {
         sixMatchBlockedShotHomeAway;
 
       function getShottsOnBlockedAwayEnemy(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
             : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideAway[a]
+            ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -2532,19 +2541,19 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnBlockedHome(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
             : blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideHome[a]
+            ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -2572,19 +2581,19 @@ function useCalculateFormule(eventId) {
         sixMatchBlockedShotHome;
 
       function getShottsOnBlockedHomeEnemy(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideHome[a]
+            ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -3413,19 +3422,19 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnTargetHome(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-            : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+            : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+          : checkTeamSideHome[a]
+            ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -3454,19 +3463,19 @@ function useCalculateFormule(eventId) {
         sixMatchShotsOnTarget;
 
       function getShotsOnTargetHomeEnemy(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? !checkTeamSideHome[a]
             ? shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : shotsOnTargetHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideHome[a]
+            ? shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : shotsOnTargetHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -3548,19 +3557,19 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnTargetAway(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-            : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+            : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+          : checkTeamSideAway[a]
+            ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -3601,19 +3610,19 @@ function useCalculateFormule(eventId) {
         sixMatchShotsOnTargetAway;
 
       function getShottsOnTargetAwayEnemy(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? checkTeamSideAway[a]
             ? shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
             : shotsOnTargetAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : !checkTeamSideAway[a]
-          ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+          : !checkTeamSideAway[a]
+            ? shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : shotsOnTargetAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -3716,19 +3725,19 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnBlockedHome(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
             : blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+          : checkTeamSideHome[a]
+            ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -3763,19 +3772,19 @@ function useCalculateFormule(eventId) {
         sixMatchBlockedShotHome;
 
       function getShottsOnBlockedHomeEnemy(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? !checkTeamSideHome[a]
             ? blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-            : blockedShotsHome.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideHome[a]
-          ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+            : blockedShotsHome.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+          : checkTeamSideHome[a]
+            ? blockedShotsHome.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : blockedShotsHome.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -3880,19 +3889,19 @@ function useCalculateFormule(eventId) {
       );
 
       function getShottsOnBlockedAway(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? !checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-            : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0)
-          : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+            : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+          : checkTeamSideAway[a]
+            ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+            : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0);
       }
@@ -4264,28 +4273,28 @@ function useCalculateFormule(eventId) {
       );
 
       function getBaseStats(a, b, c, d, e, arr, arr2) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? arr2?.[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
           : arr2?.[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_HOME);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
@@ -4294,29 +4303,29 @@ function useCalculateFormule(eventId) {
       }
 
       function getBaseStatsEnemy(a, b, c, d, e, arr, arr2) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? arr2?.[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
           : arr2?.[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_AWAY);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
@@ -4325,29 +4334,29 @@ function useCalculateFormule(eventId) {
       }
 
       function getBaseStatsAway(a, b, c, d, e, arr, arr2) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? arr2?.[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
           : arr2?.[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_AWAY);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
@@ -4356,29 +4365,29 @@ function useCalculateFormule(eventId) {
       }
 
       function getBaseStatsEnemyAway(a, b, c, d, e, arr, arr2) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? arr2?.[a]
             ? arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
 
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_HOME);
-                }, 0)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_HOME);
+              }, 0)
             : arr
-                .slice(b, c)
-                .filter((item) => item !== undefined)
-                .reduce((sum, obj) => {
-                  return sum + Number(obj?.VALUE_AWAY);
-                }, 0)
+              .slice(b, c)
+              .filter((item) => item !== undefined)
+              .reduce((sum, obj) => {
+                return sum + Number(obj?.VALUE_AWAY);
+              }, 0)
           : arr2?.[a]
-          ? arr
+            ? arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
                 return sum + Number(obj?.VALUE_HOME);
               }, 0)
-          : arr
+            : arr
               .slice(d, e)
               .filter((item) => item !== undefined)
               .reduce((sum, obj) => {
@@ -5667,19 +5676,19 @@ function useCalculateFormule(eventId) {
         (injuriesYellowCardHome + injuriesYellowCardAway) / 2;
 
       function getShottsOnBlockedAwayEnemy(a, b, c, d, e) {
-        return tournament === "США: НХЛ"
+        return tournament?.NAME === "США: НХЛ"
           ? !checkTeamSideAway[a]
             ? blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_HOME);
-              }, 0)
-            : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
-                return sum + Number(obj?.VALUE_AWAY);
-              }, 0)
-          : checkTeamSideAway[a]
-          ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_HOME);
             }, 0)
-          : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+            : blockedShotsAway.slice(b, c).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_AWAY);
+            }, 0)
+          : checkTeamSideAway[a]
+            ? blockedShotsAway.slice(d, e).reduce((sum, obj) => {
+              return sum + Number(obj?.VALUE_HOME);
+            }, 0)
+            : blockedShotsAway.slice(d, e).reduce((sum, obj) => {
               return sum + Number(obj?.VALUE_AWAY);
             }, 0);
       }
@@ -6244,42 +6253,205 @@ function useCalculateFormule(eventId) {
 
   async function getPrevMatch(eventId) {
     const { data } = await axios.get(
-      `http://localhost:8000/getPrevsMatch?event_id=${eventId}`
+      `http://localhost:8000/getPrevsMatch?event_id=${eventId === '' ? query.id : eventId}`
     );
     setPreviosMatchHome(data.matchHome);
     setPreviosMatchAway(data.matchesAway);
   }
 
+
   React.useEffect(() => {
-    getPrevMatch(eventId);
-  }, [eventId]);
+    getPrevMatch(eventId || query.id);
+  }, [eventId, query.id]);
 
   async function getStatsHome(previosMatchHome) {
     const response = await axios.post("http://localhost:8000/stats", {
       id: [
         previosMatchHome?.[0]?.EVENT_ID,
-        previosMatchHome?.[1]?.EVENT_ID,
-        previosMatchHome?.[2]?.EVENT_ID,
-        previosMatchHome?.[3]?.EVENT_ID,
-        previosMatchHome?.[4]?.EVENT_ID,
-        previosMatchHome?.[5]?.EVENT_ID,
+        // previosMatchHome?.[1]?.EVENT_ID,
+        // previosMatchHome?.[2]?.EVENT_ID,
+        // previosMatchHome?.[3]?.EVENT_ID,
+        // previosMatchHome?.[4]?.EVENT_ID,
+        // previosMatchHome?.[5]?.EVENT_ID,
       ],
     });
-    setStatsForSixMatchesHome(response.data.flatMap((item) => item));
+
+    const stats = response.data.flatMap(item => item)
+
+    if (response) {
+      const response1 = await axios.post("http://localhost:8000/stats", {
+        id: [
+          // previosMatchHome?.[0]?.EVENT_ID,
+          previosMatchHome?.[1]?.EVENT_ID,
+          // previosMatchHome?.[2]?.EVENT_ID,
+          // previosMatchHome?.[3]?.EVENT_ID,
+          // previosMatchHome?.[4]?.EVENT_ID,
+          // previosMatchHome?.[5]?.EVENT_ID,
+        ],
+      });
+      const stats1 = response1.data.flatMap(item => item)
+
+      if (response1) {
+        const response2 = await axios.post("http://localhost:8000/stats", {
+          id: [
+            // previosMatchHome?.[0]?.EVENT_ID,
+            // previosMatchHome?.[1]?.EVENT_ID,
+            previosMatchHome?.[2]?.EVENT_ID,
+            // previosMatchHome?.[3]?.EVENT_ID,
+            // previosMatchHome?.[4]?.EVENT_ID,
+            // previosMatchHome?.[5]?.EVENT_ID,
+          ],
+        });
+        const stats2 = response2.data.flatMap(item => item)
+
+        if (response2) {
+          const response3 = await axios.post("http://localhost:8000/stats", {
+            id: [
+              // previosMatchHome?.[0]?.EVENT_ID,
+              // previosMatchHome?.[1]?.EVENT_ID,
+              // previosMatchHome?.[2]?.EVENT_ID,
+              previosMatchHome?.[3]?.EVENT_ID,
+              // previosMatchHome?.[4]?.EVENT_ID,
+              // previosMatchHome?.[5]?.EVENT_ID,
+            ],
+          });
+
+          const stats3 = response3.data.flatMap(item => item)
+
+          if (response3) {
+            const response4 = await axios.post("http://localhost:8000/stats", {
+              id: [
+                // previosMatchHome?.[0]?.EVENT_ID,
+                // previosMatchHome?.[1]?.EVENT_ID,
+                // previosMatchHome?.[2]?.EVENT_ID,
+                // previosMatchHome?.[3]?.EVENT_ID,
+                previosMatchHome?.[4]?.EVENT_ID,
+                // previosMatchHome?.[5]?.EVENT_ID,
+              ],
+            });
+            const stats4 = response4.data.flatMap(item => item)
+            if (response4) {
+              const response5 = await axios.post("http://localhost:8000/stats", {
+                id: [
+                  // previosMatchHome?.[0]?.EVENT_ID,
+                  // previosMatchHome?.[1]?.EVENT_ID,
+                  // previosMatchHome?.[2]?.EVENT_ID,
+                  // previosMatchHome?.[3]?.EVENT_ID,
+                  // previosMatchHome?.[4]?.EVENT_ID,
+                  previosMatchHome?.[5]?.EVENT_ID,
+                ],
+              });
+              const stats5 = response5.data.flatMap(item => item)
+
+              setStatsForSixMatchesHome(stats.concat(stats1.concat(stats2.concat(stats3.concat(stats4.concat(stats5))))));
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+
+
   }
+
 
   async function getStatsAway(previosMatchAway) {
     const response = await axios.post("http://localhost:8000/statsAway", {
       id: [
         previosMatchAway?.[0]?.EVENT_ID,
-        previosMatchAway?.[1]?.EVENT_ID,
-        previosMatchAway?.[2]?.EVENT_ID,
-        previosMatchAway?.[3]?.EVENT_ID,
-        previosMatchAway?.[4]?.EVENT_ID,
-        previosMatchAway?.[5]?.EVENT_ID,
+        // previosMatchHome?.[1]?.EVENT_ID,
+        // previosMatchHome?.[2]?.EVENT_ID,
+        // previosMatchHome?.[3]?.EVENT_ID,
+        // previosMatchHome?.[4]?.EVENT_ID,
+        // previosMatchHome?.[5]?.EVENT_ID,
       ],
     });
-    setStatsForSixMatchesAway(response.data.flatMap((item) => item));
+
+    const stats = response.data.flatMap(item => item)
+
+    if (response) {
+      const response1 = await axios.post("http://localhost:8000/statsAway", {
+        id: [
+          // previosMatchHome?.[0]?.EVENT_ID,
+          previosMatchAway?.[1]?.EVENT_ID,
+          // previosMatchHome?.[2]?.EVENT_ID,
+          // previosMatchHome?.[3]?.EVENT_ID,
+          // previosMatchHome?.[4]?.EVENT_ID,
+          // previosMatchHome?.[5]?.EVENT_ID,
+        ],
+      });
+      const stats1 = response1.data.flatMap(item => item)
+
+      if (response1) {
+        const response2 = await axios.post("http://localhost:8000/statsAway", {
+          id: [
+            // previosMatchHome?.[0]?.EVENT_ID,
+            // previosMatchHome?.[1]?.EVENT_ID,
+            previosMatchAway?.[2]?.EVENT_ID,
+            // previosMatchHome?.[3]?.EVENT_ID,
+            // previosMatchHome?.[4]?.EVENT_ID,
+            // previosMatchHome?.[5]?.EVENT_ID,
+          ],
+        });
+        const stats2 = response2.data.flatMap(item => item)
+
+        if (response2) {
+          const response3 = await axios.post("http://localhost:8000/statsAway", {
+            id: [
+              // previosMatchHome?.[0]?.EVENT_ID,
+              // previosMatchHome?.[1]?.EVENT_ID,
+              // previosMatchHome?.[2]?.EVENT_ID,
+              previosMatchAway?.[3]?.EVENT_ID,
+              // previosMatchHome?.[4]?.EVENT_ID,
+              // previosMatchHome?.[5]?.EVENT_ID,
+            ],
+          });
+
+          const stats3 = response3.data.flatMap(item => item)
+
+          if (response3) {
+            const response4 = await axios.post("http://localhost:8000/statsAway", {
+              id: [
+                // previosMatchHome?.[0]?.EVENT_ID,
+                // previosMatchHome?.[1]?.EVENT_ID,
+                // previosMatchHome?.[2]?.EVENT_ID,
+                // previosMatchHome?.[3]?.EVENT_ID,
+                previosMatchAway?.[4]?.EVENT_ID,
+                // previosMatchHome?.[5]?.EVENT_ID,
+              ],
+            });
+            const stats4 = response4.data.flatMap(item => item)
+            if (response4) {
+              const response5 = await axios.post("http://localhost:8000/statsAway", {
+                id: [
+                  // previosMatchHome?.[0]?.EVENT_ID,
+                  // previosMatchHome?.[1]?.EVENT_ID,
+                  // previosMatchHome?.[2]?.EVENT_ID,
+                  // previosMatchHome?.[3]?.EVENT_ID,
+                  // previosMatchHome?.[4]?.EVENT_ID,
+                  previosMatchAway?.[5]?.EVENT_ID,
+                ],
+              });
+              const stats5 = response5.data.flatMap(item => item)
+
+              setStatsForSixMatchesAway(stats.concat(stats1.concat(stats2.concat(stats3.concat(stats4.concat(stats5))))));
+
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+    console.log(statsForSixMatchesAway)
+
   }
 
   React.useEffect(() => {
@@ -6287,7 +6459,7 @@ function useCalculateFormule(eventId) {
       getStatsHome(previosMatchHome);
       getStatsAway(previosMatchAway);
     }
-  }, []);
+  }, [previosMatchHome, previosMatchAway]);
 
   // React.useEffect(() => {}, []);
 
@@ -6308,333 +6480,85 @@ function useCalculateFormule(eventId) {
     return date;
   }
 
-  // async function getCurrentMatch(id, eventId) {
-  //   const response = await axios.get(
-  //     "https://flashlive-sports.p.rapidapi.com/v1/events/data",
-  //     {
-  //       params: { event_id: id || eventId, locale: "ru_RU" },
-  //       headers: {
-  //         "X-RapidAPI-Key":
-  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //       },
-  //     }
-  //   );
-  //   setCurrentMatch(response.data.DATA.EVENT);
-  //   setTournament(response.data.DATA.TOURNAMENT);
-  // }
+  async function getCurrentMatch(id, eventId) {
+    const response = await axios.get(
+      "https://flashlive-sports.p.rapidapi.com/v1/events/data",
+      {
+        params: { event_id: id || eventId, locale: "ru_RU" },
+        headers: {
+          "X-RapidAPI-Key":
+            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+        },
+      }
+    );
+    setCurrentMatch(response.data.DATA.EVENT);
+    setTournament(response.data.DATA.TOURNAMENT);
+  }
 
-  // async function getPrevMatches(currentMatch) {
-  //   const response = await axios.get(
-  //     "https://flashlive-sports.p.rapidapi.com/v1/events/h2h",
-  //     {
-  //       params: { event_id: currentMatch?.EVENT_ID, locale: "ru_RU" },
-  //       headers: {
-  //         "X-RapidAPI-Key":
-  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //       },
-  //     }
-  //   );
-  //   setPreviosMatchHome(
-  //     response.data.DATA[0]?.GROUPS[0].ITEMS.filter(
-  //       (item) => item.EVENT_NAME === tournament_PART_2
-  //     )
-  //   );
-  //   setPreviosMatchAway(
-  //     response.data.DATA[0]?.GROUPS[1].ITEMS.filter(
-  //       (item) => item.EVENT_NAME === tournament_PART_2
-  //     )
-  //   );
-  // }
+  async function getTeamsResult() {
+    const response = await axios.get(
+      "https://flashlive-sports.p.rapidapi.com/v1/teams/results",
+      {
+        params: {
+          locale: "ru_RU",
+          team_id: currentMatch?.AWAY_PARTICIPANT_IDS?.[0],
+          sport_id: "4",
+          page: "1",
+        },
+        headers: {
+          "X-RapidAPI-Key":
+            "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+          "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+        },
+      }
+    );
 
-  // // )
-  // async function getStatsHome(previosMatchHome) {
-  //   const response1 = await axios.get(
-  //     "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //     {
-  //       params: {
-  //         locale: "ru_RU",
-  //         event_id: previosMatchHome[0]?.EVENT_ID,
-  //       },
-  //       headers: {
-  //         "X-RapidAPI-Key":
-  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //       },
-  //     }
-  //   );
-  //   const firstMatch = response1.data.DATA;
+    setTeamResultAway(
+      response.data.DATA.filter(
+        (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
+      )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
+    );
 
-  //   if (firstMatch) {
-  //     const response2 = await axios.get(
-  //       "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //       {
-  //         params: {
-  //           locale: "ru_RU",
-  //           event_id: previosMatchHome[1]?.EVENT_ID,
-  //         },
-  //         headers: {
-  //           "X-RapidAPI-Key":
-  //             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //           "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //         },
-  //       }
-  //     );
-  //     const secondMatch = response2.data.DATA;
 
-  //     if (secondMatch) {
-  //       const response3 = await axios.get(
-  //         "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //         {
-  //           params: {
-  //             locale: "ru_RU",
-  //             event_id: previosMatchHome[2]?.EVENT_ID,
-  //           },
-  //           headers: {
-  //             "X-RapidAPI-Key":
-  //               "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //             "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //           },
-  //         }
-  //       );
-  //       const thirdMatch = response3.data.DATA;
-  //       if (thirdMatch) {
-  //         const response4 = await axios.get(
-  //           "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //           {
-  //             params: {
-  //               locale: "ru_RU",
-  //               event_id: previosMatchHome[3]?.EVENT_ID,
-  //             },
-  //             headers: {
-  //               "X-RapidAPI-Key":
-  //                 "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //               "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //             },
-  //           }
-  //         );
-  //         const fouthMatch = response4.data.DATA;
-  //         if (fouthMatch) {
-  //           const response5 = await axios.get(
-  //             "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //             {
-  //               params: {
-  //                 locale: "ru_RU",
-  //                 event_id: previosMatchHome[4]?.EVENT_ID,
-  //               },
-  //               headers: {
-  //                 "X-RapidAPI-Key":
-  //                   "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //                 "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //               },
-  //             }
-  //           );
-  //           const fifthMatch = response5.data.DATA;
-  //           if (fifthMatch) {
-  //             const response6 = await axios.get(
-  //               "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //               {
-  //                 params: {
-  //                   locale: "ru_RU",
-  //                   event_id: previosMatchHome[5]?.EVENT_ID,
-  //                 },
-  //                 headers: {
-  //                   "X-RapidAPI-Key":
-  //                     "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //                   "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //                 },
-  //               }
-  //             );
-  //             const sixMatch = response6.data.DATA;
-  //             const matches = firstMatch.concat(
-  //               secondMatch.concat(
-  //                 thirdMatch.concat(
-  //                   fouthMatch.concat(fifthMatch.concat(sixMatch))
-  //                 )
-  //               )
-  //             );
-  //             setStatsForSixMatchesHome(matches);
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 
-  // async function getStatsAway(previosMatchAway) {
-  //   const response1 = await axios.get(
-  //     "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //     {
-  //       params: {
-  //         locale: "ru_RU",
-  //         event_id: previosMatchAway[0]?.EVENT_ID,
-  //       },
-  //       headers: {
-  //         "X-RapidAPI-Key":
-  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //       },
-  //     }
-  //   );
-  //   const firstMatch = response1.data.DATA;
 
-  //   if (firstMatch) {
-  //     const response2 = await axios.get(
-  //       "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //       {
-  //         params: {
-  //           locale: "ru_RU",
-  //           event_id: previosMatchAway[1]?.EVENT_ID,
-  //         },
-  //         headers: {
-  //           "X-RapidAPI-Key":
-  //             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //           "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //         },
-  //       }
-  //     );
-  //     const secondMatch = response2.data.DATA;
+    if (response) {
+      const response = await axios.get(
+        "https://flashlive-sports.p.rapidapi.com/v1/teams/results",
+        {
+          params: {
+            locale: "ru_RU",
+            team_id: currentMatch?.HOME_PARTICIPANT_IDS?.[0],
+            sport_id: "4",
+            page: "1",
+          },
+          headers: {
+            "X-RapidAPI-Key":
+              "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
+            "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
+          },
+        }
+      );
 
-  //     if (secondMatch) {
-  //       const response3 = await axios.get(
-  //         "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //         {
-  //           params: {
-  //             locale: "ru_RU",
-  //             event_id: previosMatchAway[2]?.EVENT_ID,
-  //           },
-  //           headers: {
-  //             "X-RapidAPI-Key":
-  //               "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //             "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //           },
-  //         }
-  //       );
-  //       const thirdMatch = response3.data.DATA;
-  //       if (thirdMatch) {
-  //         const response4 = await axios.get(
-  //           "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //           {
-  //             params: {
-  //               locale: "ru_RU",
-  //               event_id: previosMatchAway[3]?.EVENT_ID,
-  //             },
-  //             headers: {
-  //               "X-RapidAPI-Key":
-  //                 "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //               "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //             },
-  //           }
-  //         );
-  //         const fouthMatch = response4.data.DATA;
-  //         if (fouthMatch) {
-  //           const response5 = await axios.get(
-  //             "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //             {
-  //               params: {
-  //                 locale: "ru_RU",
-  //                 event_id: previosMatchAway[4]?.EVENT_ID,
-  //               },
-  //               headers: {
-  //                 "X-RapidAPI-Key":
-  //                   "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //                 "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //               },
-  //             }
-  //           );
-  //           const fifthMatch = response5.data.DATA;
-  //           if (fifthMatch) {
-  //             const response6 = await axios.get(
-  //               "https://flashlive-sports.p.rapidapi.com/v1/events/statistics",
-  //               {
-  //                 params: {
-  //                   locale: "ru_RU",
-  //                   event_id: previosMatchAway[5]?.EVENT_ID,
-  //                 },
-  //                 headers: {
-  //                   "X-RapidAPI-Key":
-  //                     "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //                   "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //                 },
-  //               }
-  //             );
-  //             const sixMatch = response6.data.DATA;
-  //             const matches = firstMatch.concat(
-  //               secondMatch.concat(
-  //                 thirdMatch.concat(
-  //                   fouthMatch.concat(fifthMatch.concat(sixMatch))
-  //                 )
-  //               )
-  //             );
-  //             setStatsForSixMatchesAway(matches);
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+      setTeamResultHome(
+        response.data.DATA.filter(
+          (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
+        )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
+      );
+    }
+  }
 
-  // async function getTeamsResult() {
-  //   const response = await axios.get(
-  //     "https://flashlive-sports.p.rapidapi.com/v1/teams/results",
-  //     {
-  //       params: {
-  //         locale: "ru_RU",
-  //         team_id: currentMatch?.AWAY_PARTICIPANT_IDS?.[0],
-  //         sport_id: "4",
-  //         page: "1",
-  //       },
-  //       headers: {
-  //         "X-RapidAPI-Key":
-  //           "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //         "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //       },
-  //     }
-  //   );
-
-  //   setTeamResultAway(
-  //     response.data.DATA.filter(
-  //       (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
-  //     )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
-  //   );
-
-  //   if (response) {
-  //     const response = await axios.get(
-  //       "https://flashlive-sports.p.rapidapi.com/v1/teams/results",
-  //       {
-  //         params: {
-  //           locale: "ru_RU",
-  //           team_id: currentMatch?.HOME_PARTICIPANT_IDS?.[0],
-  //           sport_id: "4",
-  //           page: "1",
-  //         },
-  //         headers: {
-  //           "X-RapidAPI-Key":
-  //             "08e003e353msh5f64ec3ee6ecbeep151a3bjsn2b8d2f5d4103",
-  //           "X-RapidAPI-Host": "flashlive-sports.p.rapidapi.com",
-  //         },
-  //       }
-  //     );
-
-  //     setTeamResultHome(
-  //       response.data.DATA.filter(
-  //         (item) => item.TOURNAMENT_ID === tournament.TOURNAMENT_ID
-  //       )?.[0].EVENTS.sort((a, b) => b.START_TIME - a.START_TIME)
-  //     );
-  //   }
-  // }
-
-  // React.useEffect(() => {
-  //   // if (query.id && !currentMatch) {
-  //   //   getCurrentMatch(query.id);
-  //   // }
-  //   // if (currentMatch) {
-  //   //   getPrevMatches(currentMatch);
-  //   //   getDateFromTimeStamp(previosMatchHome);
-  //   //   getTeamsResult();
-  //   // }
-  // }, [query.id, currentMatch]);
+  React.useEffect(() => {
+    if (query.id && !currentMatch) {
+      getCurrentMatch(query.id);
+    }
+    if (currentMatch) {
+      // getPrevMatches(currentMatch);
+      // getDateFromTimeStamp(previosMatchHome);
+      getTeamsResult();
+    }
+  }, [query.id, currentMatch]);
 
   // React.useEffect(() => {
   //   // setTimeout(() => {

@@ -9,12 +9,21 @@ export const fetchLeagues = createAsyncThunk("match/fetchLeagues", async () => {
   return response.data
 });
 
-const initialState = {};
+const initialState = {
+
+
+  currentId: null
+};
 
 export const leaguesSlice = createSlice({
   name: "leag",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentLeag(state, action) {
+      state.currentId = action.payload
+    }
+
+  },
   extraReducers: {
     [fetchLeagues.pending]: (state) => {
       state = [];
@@ -28,4 +37,5 @@ export const leaguesSlice = createSlice({
   },
 });
 
+export const { setCurrentLeag } = leaguesSlice.actions
 export default leaguesSlice.reducer;
