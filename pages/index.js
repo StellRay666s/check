@@ -55,7 +55,7 @@ export default function Home() {
           <div className={`container mx-auto d-grid`}>
             <div className={`main-column d-flex flex-column`}>
               <ForecastBlock
-                day={"сегsодня"}
+                day={"сегодня"}
                 hocceyMatches={todayHockeyMatch}
                 footballMatches={todayMatch}
               />
