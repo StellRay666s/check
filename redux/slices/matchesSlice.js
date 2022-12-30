@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const fetchMatches = createAsyncThunk("match/fetchMatches", async () => {
     const { data } = await axios.get(
-        "http://localhost:8000/getTodaMatch",
+        `${process.env.URL}/getTodaMatch`,
     );
 
     const todayFootball = data.todayFootball
@@ -13,7 +13,7 @@ export const fetchMatches = createAsyncThunk("match/fetchMatches", async () => {
 
 export const fetchMatchesHockey = createAsyncThunk("match/fetchMatchesHockey", async () => {
     const { data } = await axios.get(
-        "http://localhost:8000/getTodaMatch",
+        `${process.env.URL}/getTodaMatch`,
     );
 
     const todayHockey = data.todayHockey

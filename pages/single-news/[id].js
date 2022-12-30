@@ -14,7 +14,7 @@ export default function SingleNews() {
 
   async function getOneNews() {
     const response = await axios.get(
-      `http://localhost:8000/news/${id.query.id}`
+      `${process.env.URL}/news/${id.query.id}`
     );
     setTitle(response.data.title);
     setDescription(response.data.description);
@@ -39,7 +39,7 @@ export default function SingleNews() {
               <div className="single-news-date">{date}</div>
               <div className="single-news-content">
                 <p>{description}</p>
-                <img src={`http://localhost:8000${image}`} alt="" />
+                <img src={`${process.env.URL}${image}`} alt="" />
                 {/* <h2>3 октября. КХЛ. ЦСКА - СКА</h2>
                 <p>
                   Несомненно - это главный хоккейный матч игрового дня в

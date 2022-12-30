@@ -8,7 +8,7 @@ export default function News() {
   // const [news, setNews] = React.useState([]);
 
   async function getNews() {
-    const response = await axios.get("http://localhost:8000/news");
+    const response = await axios.get(`${process.env.URL}/news`);
     setNews(response.data);
   }
 

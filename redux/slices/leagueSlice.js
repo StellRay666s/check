@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const fetchLeagues = createAsyncThunk("match/fetchLeagues", async () => {
   const response = await axios.get(
-    "http://localhost:8000/getLeag",
+    `${process.env.URL}/getLeag`,
   );
   return response.data
 });
