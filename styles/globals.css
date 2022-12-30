@@ -909,6 +909,12 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
   background-position: 50%;
 }
 
+@media screen and (max-width: 410px) {
+  .forecast-item-num {
+    font-size: 7px;
+  }
+}
+
 .forecast-item-num:first-child {
   background-color: #b2955f;
 }
@@ -2597,8 +2603,8 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active:after {
 .auth-item {
   margin-bottom: 20px;
 }
-.error{
-  border: 2px solid #fa0808!important;
+.error {
+  border: 2px solid #fa0808 !important;
 }
 .auth-item input {
   width: 100%;
