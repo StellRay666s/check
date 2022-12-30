@@ -4,6 +4,7 @@ import menuSlice from "./slices/menuSlice";
 import leagueSlice from "./slices/leagueSlice";
 import { userInfo } from "./userInfo/reducer";
 import matchesSlice from "./slices/matchesSlice";
+import prevMatchesSlice from "./slices/prevMatchesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     menu: menuSlice,
     league: leagueSlice,
     userInfo,
-    matches: matchesSlice
+    matches: matchesSlice,
+    prevMatches: prevMatchesSlice
   },
 });

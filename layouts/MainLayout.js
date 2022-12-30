@@ -9,6 +9,7 @@ import { fetchMatches, fetchMatchesHockey } from "../redux/slices/matchesSlice";
 import axios from "axios";
 import { axiosClient } from "../axiosClient";
 import { fetchLeagues } from "../redux/slices/leagueSlice";
+import { fetchPrewMatch } from "../redux/slices/prevMatchesSlice";
 export const MainLayout = ({
   children,
   title = "Title",
@@ -42,8 +43,9 @@ export const MainLayout = ({
 
 
   React.useEffect(() => {
-    dispatch(fetchLeagues())
-    dispatch(fetchMatchesHockey())
+    // dispatch(fetchLeagues())
+    // dispatch(fetchMatchesHockey())
+    dispatch(fetchPrewMatch())
   }, [])
   return (
     <>

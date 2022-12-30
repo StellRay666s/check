@@ -6253,7 +6253,7 @@ function useCalculateFormule(eventId) {
 
   async function getPrevMatch(eventId) {
     const { data } = await axios.get(
-      `${process.env.URL}/getPrevsMatch?event_id=${eventId === '' ? query.id : eventId}`
+      `http://localhost:8000/getPrevsMatch?event_id=${eventId === '' ? query.id : eventId}`
     );
     setPreviosMatchHome(data.matchHome);
     setPreviosMatchAway(data.matchesAway);
@@ -6265,7 +6265,7 @@ function useCalculateFormule(eventId) {
   }, [eventId, query.id]);
 
   async function getStatsHome(previosMatchHome) {
-    const response = await axios.post(`${process.env.URL}/stats`, {
+    const response = await axios.post("http://localhost:8000/stats", {
       id: [
         previosMatchHome?.[0]?.EVENT_ID,
         // previosMatchHome?.[1]?.EVENT_ID,
@@ -6279,7 +6279,7 @@ function useCalculateFormule(eventId) {
     const stats = response.data.flatMap(item => item)
 
     if (response) {
-      const response1 = await axios.post(`${process.env.URL}/stats`, {
+      const response1 = await axios.post("http://localhost:8000/stats", {
         id: [
           // previosMatchHome?.[0]?.EVENT_ID,
           previosMatchHome?.[1]?.EVENT_ID,
@@ -6292,7 +6292,7 @@ function useCalculateFormule(eventId) {
       const stats1 = response1.data.flatMap(item => item)
 
       if (response1) {
-        const response2 = await axios.post(`${process.env.URL}/stats`, {
+        const response2 = await axios.post("http://localhost:8000/stats", {
           id: [
             // previosMatchHome?.[0]?.EVENT_ID,
             // previosMatchHome?.[1]?.EVENT_ID,
@@ -6305,7 +6305,7 @@ function useCalculateFormule(eventId) {
         const stats2 = response2.data.flatMap(item => item)
 
         if (response2) {
-          const response3 = await axios.post(`${process.env.URL}/stats`, {
+          const response3 = await axios.post("http://localhost:8000/stats", {
             id: [
               // previosMatchHome?.[0]?.EVENT_ID,
               // previosMatchHome?.[1]?.EVENT_ID,
@@ -6319,7 +6319,7 @@ function useCalculateFormule(eventId) {
           const stats3 = response3.data.flatMap(item => item)
 
           if (response3) {
-            const response4 = await axios.post(`${process.env.URL}/stats`, {
+            const response4 = await axios.post("http://localhost:8000/stats", {
               id: [
                 // previosMatchHome?.[0]?.EVENT_ID,
                 // previosMatchHome?.[1]?.EVENT_ID,
@@ -6331,7 +6331,7 @@ function useCalculateFormule(eventId) {
             });
             const stats4 = response4.data.flatMap(item => item)
             if (response4) {
-              const response5 = await axios.post(`${process.env.URL}/stats`, {
+              const response5 = await axios.post("http://localhost:8000/stats", {
                 id: [
                   // previosMatchHome?.[0]?.EVENT_ID,
                   // previosMatchHome?.[1]?.EVENT_ID,
@@ -6360,7 +6360,7 @@ function useCalculateFormule(eventId) {
 
 
   async function getStatsAway(previosMatchAway) {
-    const response = await axios.post(`${process.env.URL}/statsAway`, {
+    const response = await axios.post("http://localhost:8000/statsAway", {
       id: [
         previosMatchAway?.[0]?.EVENT_ID,
         // previosMatchHome?.[1]?.EVENT_ID,
@@ -6374,7 +6374,7 @@ function useCalculateFormule(eventId) {
     const stats = response.data.flatMap(item => item)
 
     if (response) {
-      const response1 = await axios.post(`${process.env.URL}/statsAway`, {
+      const response1 = await axios.post("http://localhost:8000/statsAway", {
         id: [
           // previosMatchHome?.[0]?.EVENT_ID,
           previosMatchAway?.[1]?.EVENT_ID,
@@ -6387,7 +6387,7 @@ function useCalculateFormule(eventId) {
       const stats1 = response1.data.flatMap(item => item)
 
       if (response1) {
-        const response2 = await axios.post(`${process.env.URL}/statsAway`, {
+        const response2 = await axios.post("http://localhost:8000/statsAway", {
           id: [
             // previosMatchHome?.[0]?.EVENT_ID,
             // previosMatchHome?.[1]?.EVENT_ID,
@@ -6400,7 +6400,7 @@ function useCalculateFormule(eventId) {
         const stats2 = response2.data.flatMap(item => item)
 
         if (response2) {
-          const response3 = await axios.post(`${process.env.URL}/statsAway`, {
+          const response3 = await axios.post("http://localhost:8000/statsAway", {
             id: [
               // previosMatchHome?.[0]?.EVENT_ID,
               // previosMatchHome?.[1]?.EVENT_ID,
@@ -6414,7 +6414,7 @@ function useCalculateFormule(eventId) {
           const stats3 = response3.data.flatMap(item => item)
 
           if (response3) {
-            const response4 = await axios.post(`${process.env.URL}/statsAway`, {
+            const response4 = await axios.post("http://localhost:8000/statsAway", {
               id: [
                 // previosMatchHome?.[0]?.EVENT_ID,
                 // previosMatchHome?.[1]?.EVENT_ID,
@@ -6426,7 +6426,7 @@ function useCalculateFormule(eventId) {
             });
             const stats4 = response4.data.flatMap(item => item)
             if (response4) {
-              const response5 = await axios.post(`${process.env.URL}/statsAway`, {
+              const response5 = await axios.post("http://localhost:8000/statsAway", {
                 id: [
                   // previosMatchHome?.[0]?.EVENT_ID,
                   // previosMatchHome?.[1]?.EVENT_ID,
