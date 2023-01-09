@@ -10,6 +10,7 @@ import { axiosClient } from "../axiosClient";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { clearUser } from "../redux/slices/userSlice";
+import { sha256 } from "js-sha256";
 
 export default function Account() {
   const [activeAccountTab, setActiveAccountTab] = useState("profil");
@@ -28,7 +29,8 @@ export default function Account() {
 
   const [oldPassword, setOldPassword] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
-
+  const [paymentData, setPaymentData] = React.useState([])
+  const [tokenHash, setTokenHash] = React.useState()
   const dispatch = useDispatch();
 
   async function changePassword() {
@@ -80,17 +82,67 @@ export default function Account() {
     dispatch(clearUser());
   }
 
+
+
   async function byTariffs() {
-    const response = await axios.post(
-      `${process.env.URL}/buyTariffs`,
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    // const response = await axios.post(
+    //   `${process.env.URL}/buyTariffs`,
+    //   {},
+    //   {
+    //     headers: {
+    //       authorization: `Bearer ${token}`,
+    //     },
+    //   }
+    // );
+    const response = await axios.post('https://securepay.tinkoff.ru/v2/Init', {
+      TerminalKey: '1672048579840DEMO',
+      Amount: 200,
+      OrderId: 29,
+      Description: 'Куплено'
+    }, {
+
+    })
+    const obj = Object.assign(response.data, { Password: '7zx43i7usaeh645q' })
+    console.log(obj)
+    const arr = []
+    for (const [key, value] of Object.entries(obj)) {
+      arr.push({ key, value })
+    }
+    // .filter(item => item.key != 'PaymentURL' && item.key != 'Success' && item.key != 'ErrorCode' && item.key != 'Status' && item.key != 'PaymentId')
+    const arr2 = arr.filter(item => item.key != 'Amount' && item.key != 'PaymentURL' && item.key != 'Success' && item.key != 'ErrorCode' && item.key != 'Status' && item.key != "OrderId").sort(function (a, b) {
+
+      return (a.key < b.key) ? -1 : (a.key > b.key) ? 1 : 0;
+    }).map(item => item.value)
+
+    console.log(arr2)
+
+    setPaymentData(obj)
+    setTokenHash(sha256(arr2))
+
+
+    // router.push(response.data.PaymentURL)
+
   }
+
+
+  async function cancelBut() {
+    console.log(tokenHash)
+    const response = await axios.post('https://securepay.tinkoff.ru/v2/Cancel', {
+      TerminalKey: '1672048579840DEMO',
+      PaymentId: paymentData.PaymentId,
+      Token: tokenHash
+
+    },
+
+    )
+    console.log(response.data)
+
+  }
+  console.log(paymentData.PaymentId)
+
+
+
+
 
   React.useEffect(() => {
     setEmail(user?.email);
@@ -128,10 +180,12 @@ export default function Account() {
   return (
     <MainLayout title={"Личный кабинет"}>
       <main>
+
         <div className={`main-content pages-content`}>
           <div className={`page-header`}>
             <div className={`container mx-auto`}>
               <h1 className={`pages-title m-0`}>Аккаунт</h1>
+              <button onClick={() => cancelBut()} >Cancel</button>
             </div>
           </div>
           <div className={`container mx-auto d-grid`}>
