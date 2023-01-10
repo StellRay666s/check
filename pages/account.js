@@ -25,7 +25,7 @@ export default function Account() {
   const [phone, setPhone] = React.useState("");
   const user = useSelector((state) => state.user.user);
   const isAuth = useSelector((state) => state.user.isAuth);
-  const userTariffs = user?.tariffs.filter((item) => item === "Премиум");
+  const userTariffs = user?.tariffs?.filter((item) => item === "Премиум");
 
   const [oldPassword, setOldPassword] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
@@ -96,51 +96,69 @@ export default function Account() {
     // );
     const response = await axios.post('https://securepay.tinkoff.ru/v2/Init', {
       TerminalKey: '1672048579840DEMO',
-      Amount: 200,
-      OrderId: 29,
-      Description: 'Куплено'
+      Amount: 20000,
+      OrderId: Math.random(),
+      Description: 'Куплено',
+      // Receipt: {
+      //   Email: 'pepa1996@inbox.ru',
+      //   Taxation: 'usn_income',
+      //   Items: [
+      //     {
+      //       Name: 'Премиум тариф',
+      //       Price: 20000,
+      //       Quantity: 1,
+      //       Amount: 20000,
+      //       Tax: 'none'
+      //     }
+      //   ]
+      // }
     }, {
 
     })
-    const obj = Object.assign(response.data, { Password: '7zx43i7usaeh645q' })
-    console.log(obj)
-    const arr = []
-    for (const [key, value] of Object.entries(obj)) {
-      arr.push({ key, value })
-    }
-    // .filter(item => item.key != 'PaymentURL' && item.key != 'Success' && item.key != 'ErrorCode' && item.key != 'Status' && item.key != 'PaymentId')
-    const arr2 = arr.filter(item => item.key != 'Amount' && item.key != 'PaymentURL' && item.key != 'Success' && item.key != 'ErrorCode' && item.key != 'Status' && item.key != "OrderId").sort(function (a, b) {
+    setPaymentData(response.data)
 
-      return (a.key < b.key) ? -1 : (a.key > b.key) ? 1 : 0;
-    }).map(item => item.value)
+    // const obj = Object.assign(response.data, { Password: '7zx43i7usaeh645q' })
+    // console.log(obj)
+    // const arr = []
+    // for (const [key, value] of Object.entries(obj)) {
+    //   arr.push({ key, value })
+    // }
 
-    console.log(arr2)
-
-    setPaymentData(obj)
-    setTokenHash(sha256(arr2))
-
-
-    // router.push(response.data.PaymentURL)
-
+    if (paymentData)
+      window.open(paymentData.PaymentURL,
+      )
   }
 
 
   async function cancelBut() {
-    console.log(tokenHash)
+
+    const addPassword = Object.assign({ PaymentId: paymentData.PaymentId }, { TerminalKey: '1672048579840DEMO' }, { Password: '7zx43i7usaeh645q' })
+    const arr = []
+
+    for (const [key, value] of Object.entries(addPassword)) {
+      arr.push({ key, value })
+    }
+    console.log(addPassword)
+    const concatinate = arr.sort(function (a, b) {
+      return (a.key < b.key) ? -1 : (a.key > b.key) ? 1 : 0;
+    }).map(item => item.value).join('')
+
+    const token = sha256(concatinate)
+
+    // GetState
+    // Cancel
     const response = await axios.post('https://securepay.tinkoff.ru/v2/Cancel', {
       TerminalKey: '1672048579840DEMO',
       PaymentId: paymentData.PaymentId,
-      Token: tokenHash
+      Token: token
 
     },
 
     )
     console.log(response.data)
 
+
   }
-  console.log(paymentData.PaymentId)
-
-
 
 
 
@@ -153,12 +171,8 @@ export default function Account() {
 
   React.useEffect(() => {
     setToken(localStorage.getItem("token"));
-    if (!isAuth) {
-      router.push("/");
-    }
-  }, [isAuth]);
 
-  React.useEffect(() => { }, []);
+  }, []);
 
   const handleProfil = () => {
     setActiveAccountTab("profil");
@@ -180,7 +194,6 @@ export default function Account() {
   return (
     <MainLayout title={"Личный кабинет"}>
       <main>
-
         <div className={`main-content pages-content`}>
           <div className={`page-header`}>
             <div className={`container mx-auto`}>

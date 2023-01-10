@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import MainSlider from "../components/main-slider";
 import { MainLayout } from "../layouts/MainLayout";
 import ForecastBlock from "../components/forecast_block";
+import { fetchMatchesHockey } from "../redux/slices/matchesSlice";
+import { fetchMatches } from "../redux/slices/matchesSlice";
 import SeoBlock from "../components/seo_block";
 import MainTriggersBlock from "../components/main-triggers_block";
 import Sidebar from "../components/sidebar";

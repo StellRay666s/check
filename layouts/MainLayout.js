@@ -1,14 +1,11 @@
+import React from "react";
 import Head from "next/head";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { setUser } from "../redux/slices/userSlice";
-import { fetchMatches, fetchMatchesHockey } from "../redux/slices/matchesSlice";
 
-import axios from "axios";
 import { axiosClient } from "../axiosClient";
-import { fetchLeagues } from "../redux/slices/leagueSlice";
 import { fetchPrewMatch } from "../redux/slices/prevMatchesSlice";
 export const MainLayout = ({
   children,
@@ -19,7 +16,6 @@ export const MainLayout = ({
   viewport = "width=device-width, initial-scale=1",
 }) => {
   const token = typeof window !== "undefined" && localStorage.getItem("token");
-  const isAuth = useSelector((state) => state.user.isAuth);
   const dispatch = useDispatch();
 
   async function getMe() {
@@ -37,16 +33,11 @@ export const MainLayout = ({
   }
 
   React.useEffect(() => {
-    getMe();
-    dispatch(fetchMatches())
-  }, [isAuth]);
+    if (token) {
+      getMe();
+    }
+  }, []);
 
-
-  React.useEffect(() => {
-    // dispatch(fetchLeagues())
-    // dispatch(fetchMatchesHockey())
-    dispatch(fetchPrewMatch())
-  }, [])
   return (
     <>
       <Head>
